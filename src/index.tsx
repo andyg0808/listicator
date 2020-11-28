@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { DragDropContext } from "react-beautiful-dnd";
+import { Provider } from "react-redux";
 
 function dragHandler(result, provided) {
   console.log(result, provided);
@@ -11,9 +12,11 @@ function dragHandler(result, provided) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <DragDropContext onDragEnd={dragHandler}>
-      <App />
-    </DragDropContext>
+    <Provider store={store}>
+      <DragDropContext onDragEnd={dragHandler}>
+        <App />
+      </DragDropContext>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
