@@ -1,3 +1,31 @@
+/*
+   Actions:
+   - reorder
+   -
+
+   Datatypes:
+   - Recipe
+   has list<Order>
+   - Menu
+   has list<Recipe>
+   Menu -> Trip
+   - Ingredient
+   has name
+   uniquely identified somehow
+   needs properties
+   has sequence<Store> for store preference order
+   - Order
+   has quantity
+   has Ingredient
+   has Unit
+   - Trip
+   has collection<Order>
+   Trip -> list<ShoppingList>
+   - ShoppingList
+   has sequence<Order>
+   has Store
+ */
+
 export interface Recipe {
   ingredients: Array<Order>;
 }
