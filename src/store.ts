@@ -9,7 +9,6 @@ import {
 } from "./types";
 
 export interface RootState {
-  lists: Array<ShoppingList>;
   menu_list: MenuList;
 }
 
@@ -18,10 +17,7 @@ const trader_joes: Store = {
   item_order: [],
 };
 
-function rootReducer(
-  state: RootState = { lists: [], menu_list: { items: [] } },
-  action
-) {
+function rootReducer(state: RootState = { menu_list: { items: [] } }, action) {
   return state;
 }
 
@@ -36,9 +32,11 @@ const list: ShoppingList = {
   store: trader_joes,
 };
 
+const preloadedState: RootState = { menu_list: { items } };
+
 const store = configureStore({
   reducer: rootReducer,
-  preloadedState: { lists: [list], menu_list: { items } },
+  preloadedState,
 });
 
 export default store;
