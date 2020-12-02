@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Provider } from "react-redux";
+import store from "./store";
 
 function dragHandler(result, provided) {
   console.log(result, provided);

@@ -1492,6 +1492,16 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
+"@reduxjs/toolkit@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.4.0.tgz#ee2e2384cc3d1d76780d844b9c2da3580d32710d"
+  integrity sha512-hkxQwVx4BNVRsYdxjNF6cAseRmtrkpSlcgJRr3kLUcHPIAMZAmMJkXmHh/eUEGTMqPzsYpJLM7NN2w9fxQDuGw==
+  dependencies:
+    immer "^7.0.3"
+    redux "^4.0.0"
+    redux-thunk "^2.3.0"
+    reselect "^4.0.0"
+
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.3.tgz#80de384edfbd7bfc9101164910f86078151a3eca"
@@ -3422,7 +3432,12 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.20.0:
+command-exists@1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/command-exists/-/command-exists-1.2.6.tgz#577f8e5feb0cb0f159cd557a51a9be1bdd76e09e"
+  integrity sha512-Qst/zUUNmS/z3WziPxyqjrcz09pm+2Knbs5mAZL4VAE0sSrNY1/w8+/YxeHcoBTsO6iojA6BW7eFf27Eg2MRuw==
+
+commander@^2.11.0, commander@^2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -5787,6 +5802,11 @@ immer@7.0.9:
   resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.9.tgz#28e7552c21d39dd76feccd2b800b7bc86ee4a62e"
   integrity sha512-Vs/gxoM4DqNAYR7pugIxi0Xc8XAun/uy7AQu4fLLqaTBHxjOP9pJ266Q9MWA/ly4z6rAFZbvViOtihxUZ7O28A==
 
+immer@^7.0.3:
+  version "7.0.15"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.15.tgz#dc3bc6db87401659d2e737c67a21b227c484a4ad"
+  integrity sha512-yM7jo9+hvYgvdCQdqvhCNRRio0SCXc8xDPzA25SvKWa7b1WVPjLwQs1VYU5JPXjcJPTqAa5NP5dqpORGYBQ2AA==
+
 import-cwd@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/import-cwd/-/import-cwd-2.1.0.tgz#aa6cf36e722761285cb371ec6519f53e2435b0a9"
@@ -7904,6 +7924,11 @@ os-browserify@^0.3.0:
   resolved "https://registry.yarnpkg.com/os-browserify/-/os-browserify-0.3.0.tgz#854373c7f5c2315914fc9bfc6bd8238fdda1ec27"
   integrity sha1-hUNzx/XCMVkU/Jv8a9gjj92h7Cc=
 
+p-debounce@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/p-debounce/-/p-debounce-1.0.0.tgz#cb7f2cbeefd87a09eba861e112b67527e621e2fd"
+  integrity sha1-y38svu/YegnrqGHhErZ1J+Yh4v0=
+
 p-each-series@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-each-series/-/p-each-series-2.2.0.tgz#105ab0357ce72b202a8a8b94933672657b5e2a9a"
@@ -9416,6 +9441,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+redux-thunk@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
+  integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
+
 redux@^4.0.0, redux@^4.0.4:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
@@ -9590,6 +9620,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+reselect@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
+  integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"
@@ -10615,6 +10650,14 @@ temp-dir@^1.0.0:
   resolved "https://registry.yarnpkg.com/temp-dir/-/temp-dir-1.0.0.tgz#0a7c0ea26d3a39afa7e0ebea9c1fc0bc4daa011d"
   integrity sha1-CnwOom06Oa+n4OvqnB/AvE2qAR0=
 
+tempy@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/tempy/-/tempy-0.2.1.tgz#9038e4dbd1c201b74472214179bc2c6f7776e54c"
+  integrity sha512-LB83o9bfZGrntdqPuRdanIVCPReam9SOZKW0fOy5I9X3A854GGWi0tjCqoXEk84XIEYBc/x9Hq3EFop/H5wJaw==
+  dependencies:
+    temp-dir "^1.0.0"
+    unique-string "^1.0.0"
+
 tempy@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/tempy/-/tempy-0.3.0.tgz#6f6c5b295695a16130996ad5ab01a8bd726e8bf8"
@@ -10928,6 +10971,19 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
+typescript-language-server@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/typescript-language-server/-/typescript-language-server-0.4.0.tgz#9b4aee8e001a69fcd152459a6cc1a08283db9193"
+  integrity sha512-K8jNOmDFn+QfrCh8ujby2pGDs5rpjYZQn+zvQnf42rxG4IHbfw5CHoMvbGkWPK/J5Gw8/l5K3i03kVZC2IBElg==
+  dependencies:
+    command-exists "1.2.6"
+    commander "^2.11.0"
+    fs-extra "^7.0.0"
+    p-debounce "^1.0.0"
+    tempy "^0.2.1"
+    vscode-languageserver "^5.3.0-next"
+    vscode-uri "^1.0.5"
+
 typescript@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.2.tgz#6369ef22516fe5e10304aae5a5c4862db55380e9"
@@ -11189,6 +11245,42 @@ vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vscode-jsonrpc@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/vscode-jsonrpc/-/vscode-jsonrpc-5.0.1.tgz#9bab9c330d89f43fc8c1e8702b5c36e058a01794"
+  integrity sha512-JvONPptw3GAQGXlVV2utDcHx0BiY34FupW/kI6mZ5x06ER5DdPG/tXWMVHjTNULF5uKPOUUD0SaXg5QaubJL0A==
+
+vscode-languageserver-protocol@^3.15.0-next.8:
+  version "3.15.3"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-protocol/-/vscode-languageserver-protocol-3.15.3.tgz#3fa9a0702d742cf7883cb6182a6212fcd0a1d8bb"
+  integrity sha512-zrMuwHOAQRhjDSnflWdJG+O2ztMWss8GqUUB8dXLR/FPenwkiBNkMIJJYfSN6sgskvsF0rHAoBowNQfbyZnnvw==
+  dependencies:
+    vscode-jsonrpc "^5.0.1"
+    vscode-languageserver-types "3.15.1"
+
+vscode-languageserver-types@3.15.1:
+  version "3.15.1"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.15.1.tgz#17be71d78d2f6236d414f0001ce1ef4d23e6b6de"
+  integrity sha512-+a9MPUQrNGRrGU630OGbYVQ+11iOIovjCkqxajPa9w57Sd5ruK8WQNsslzpa0x/QJqC8kRc2DUxWjIFwoNm4ZQ==
+
+vscode-languageserver@^5.3.0-next:
+  version "5.3.0-next.10"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver/-/vscode-languageserver-5.3.0-next.10.tgz#995fe8b57fc4eb9fea0d11762d3a803de4278995"
+  integrity sha512-QL7Fe1FT6PdLtVzwJeZ78pTic4eZbzLRy7yAQgPb9xalqqgZESR0+yDZPwJrM3E7PzOmwHBceYcJR54eQZ7Kng==
+  dependencies:
+    vscode-languageserver-protocol "^3.15.0-next.8"
+    vscode-textbuffer "^1.0.0"
+
+vscode-textbuffer@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vscode-textbuffer/-/vscode-textbuffer-1.0.0.tgz#1faee638c8e0e4131c8d5c353993a1874acda086"
+  integrity sha512-zPaHo4urgpwsm+PrJWfNakolRpryNja18SUip/qIIsfhuEqEIPEXMxHOlFPjvDC4JgTaimkncNW7UMXRJTY6ow==
+
+vscode-uri@^1.0.5:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-1.0.8.tgz#9769aaececae4026fb6e22359cb38946580ded59"
+  integrity sha512-obtSWTlbJ+a+TFRYGaUumtVwb+InIUVI0Lu0VBUAPmj2cU5JutEXg3xUE0c2J5Tcy7h2DEKVJBFi+Y9ZSFzzPQ==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
