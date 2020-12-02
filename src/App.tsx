@@ -11,6 +11,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
+import { Ingredient, Store, ShoppingOrder, ShoppingList, Order } from "./types";
+import { RootState } from "./store";
 
 const listId = "dragId";
 
@@ -32,20 +34,24 @@ function ListEntry({ name, idx }) {
 }
 
 function App() {
-  const list = useSelector((store) => store);
-  console.log(list);
+  const lists = useSelector((store: RootState) => store.lists);
+  console.log(lists);
   return (
     <div className="App">
-      <Droppable droppableId={listId}>
-        {(provided, snapshot) => (
-          <List ref={provided.innerRef} {...provided.droppableProps}>
-            {list.items.map((item, idx) => {
-              return <ListEntry name={item.ingredient.name} idx={idx} />;
-            })}
-            {provided.placeholder}
-          </List>
-        )}
-      </Droppable>
+      {lists.map((list) => {
+        return (
+          <Droppable droppableId={list.store.name}>
+            {(provided, snapshot) => (
+              <List ref={provided.innerRef} {...provided.droppableProps}>
+                {list.items.map((item, idx) => {
+                  return <ListEntry name={item.ingredient.name} idx={idx} />;
+                })}
+                {provided.placeholder}
+              </List>
+            )}
+          </Droppable>
+        );
+      })}
     </div>
   );
 }
