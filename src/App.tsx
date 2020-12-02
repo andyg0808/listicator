@@ -18,8 +18,11 @@ import {
   ShoppingList,
   Order,
   Trip,
+  MenuList,
 } from "./types";
 import { RootState } from "./store";
+
+import { groupBy } from "ramda";
 
 const listId = "dragId";
 
@@ -40,10 +43,10 @@ function ListEntry({ name, idx }) {
   );
 }
 
-function ListSorter({ lists }: { lists: Array<ShoppingList> }) {
+function ListSorter({ trip }: { trip: Trip }) {
   return (
     <React.Fragment>
-      {lists.map((list: ShoppingList) => {
+      {trip.lists.map((list: ShoppingList) => {
         return (
           <Droppable droppableId={list.store.name}>
             {(provided, snapshot) => (
@@ -61,15 +64,33 @@ function ListSorter({ lists }: { lists: Array<ShoppingList> }) {
   );
 }
 
-function listsFromTrip(trip: Trip): Array<ShoppingList> {}
+function tripFromMenuList(menuList: MenuList): Trip {
+  const stores: { [index: string]: Array<Order> } = groupBy(
+    (item) => "Trader Joe's",
+    menuList.items
+  );
+  const store: Store = { name: "Trader Joe's", item_order: [] };
+  const lists: Array<ShoppingList> = Object.entries(stores).map(
+    ([storeid, items]: [string, Array<Order>]): ShoppingList => {
+      return {
+        items: items,
+        store: store,
+      };
+    }
+  );
+
+  return {
+    lists,
+  };
+}
 
 function App() {
-  const trip = useSelector((store: RootState) => store.trip);
-  const lists = listsFromTrip(trip);
-  console.log(lists);
+  const menuList = useSelector((store: RootState) => store.menu_list);
+  const trip = tripFromMenuList(menuList);
+  console.log(trip);
   return (
     <div className="App">
-      <ListSorter lists={lists} />;
+      <ListSorter trip={trip} />
     </div>
   );
 }

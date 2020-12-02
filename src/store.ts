@@ -1,9 +1,16 @@
 import { configureStore, createAction } from "@reduxjs/toolkit";
-import { Ingredient, Store, ShoppingOrder, ShoppingList, Order } from "./types";
+import {
+  Ingredient,
+  Store,
+  ShoppingOrder,
+  ShoppingList,
+  Order,
+  MenuList,
+} from "./types";
 
 export interface RootState {
   lists: Array<ShoppingList>;
-  trip: Trip;
+  menu_list: MenuList;
 }
 
 const trader_joes: Store = {
@@ -11,7 +18,10 @@ const trader_joes: Store = {
   item_order: [],
 };
 
-function rootReducer(state: RootState = { lists: [] }, action) {
+function rootReducer(
+  state: RootState = { lists: [], menu_list: { items: [] } },
+  action
+) {
   return state;
 }
 
@@ -28,7 +38,7 @@ const list: ShoppingList = {
 
 const store = configureStore({
   reducer: rootReducer,
-  preloadedState: { lists: [list] },
+  preloadedState: { lists: [list], menu_list: { items } },
 });
 
 export default store;

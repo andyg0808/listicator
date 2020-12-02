@@ -46,6 +46,10 @@ export interface Ingredient {
   name: string;
 }
 
+export interface MenuList {
+  items: Array<Order>;
+}
+
 export interface StorePreferenceList {
   item: Ingredient;
   stores: Array<Store>;
@@ -57,8 +61,7 @@ export interface Store {
 }
 
 export interface Trip {
-  items: Array<Order>;
-  // lists: Set<ShoppingList>;
+  lists: Array<ShoppingList>;
 }
 
 export interface ShoppingList {
