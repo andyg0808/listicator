@@ -57,7 +57,8 @@ export interface Store {
 }
 
 export interface Trip {
-  lists: Set<ShoppingList>;
+  items: Array<Order>;
+  // lists: Set<ShoppingList>;
 }
 
 export interface ShoppingList {

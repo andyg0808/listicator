@@ -3,6 +3,7 @@ import { Ingredient, Store, ShoppingOrder, ShoppingList, Order } from "./types";
 
 export interface RootState {
   lists: Array<ShoppingList>;
+  trip: Trip;
 }
 
 const trader_joes: Store = {

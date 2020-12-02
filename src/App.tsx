@@ -11,7 +11,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-import { Ingredient, Store, ShoppingOrder, ShoppingList, Order } from "./types";
+import {
+  Ingredient,
+  Store,
+  ShoppingOrder,
+  ShoppingList,
+  Order,
+  Trip,
+} from "./types";
 import { RootState } from "./store";
 
 const listId = "dragId";
@@ -33,12 +40,10 @@ function ListEntry({ name, idx }) {
   );
 }
 
-function App() {
-  const lists = useSelector((store: RootState) => store.lists);
-  console.log(lists);
+function ListSorter({ lists }: { lists: Array<ShoppingList> }) {
   return (
-    <div className="App">
-      {lists.map((list) => {
+    <React.Fragment>
+      {lists.map((list: ShoppingList) => {
         return (
           <Droppable droppableId={list.store.name}>
             {(provided, snapshot) => (
@@ -52,6 +57,19 @@ function App() {
           </Droppable>
         );
       })}
+    </React.Fragment>
+  );
+}
+
+function listsFromTrip(trip: Trip): Array<ShoppingList> {}
+
+function App() {
+  const trip = useSelector((store: RootState) => store.trip);
+  const lists = listsFromTrip(trip);
+  console.log(lists);
+  return (
+    <div className="App">
+      <ListSorter lists={lists} />;
     </div>
   );
 }
