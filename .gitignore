@@ -25,3 +25,10 @@ yarn-error.log*
 
 # Emacs autosave files
 .#*
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
