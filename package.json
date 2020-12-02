@@ -49,7 +49,9 @@
     ]
   },
   "devDependencies": {
+    "eslint-config-react-app": "^6.0.0",
     "prettier": "2.2.0",
-    "eslint-config-react-app": "^6.0.0"
+    "react-refresh": "^0.9.0",
+    "webpack": "^5.9.0"
   }
 }
