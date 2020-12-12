@@ -4,8 +4,8 @@ const fracMapping = new Map([
   ["½", 1 / 2],
 ]);
 const regexMapping = [
-  ["cups?", "cup"],
-  ["teaspoons?", "teaspoon"],
+  ["cups?|c\\.", "cup"],
+  ["teaspoons?|tsp\\.", "teaspoon"],
   ["tablespoons?", "tablespoon"],
   ["ounces?", "ounce"],
 ];
