@@ -22,9 +22,9 @@ export function parse(data: string): Recipe {
       const ingredient = { name };
       const amount_parse = ingredient_parse[1];
       console.log("amount", amount_parse);
-      const quantity = amount_parse?.[0]
-      const unit = amount_parse?.[2]?.value;
-      const amount = { quantity: 0, unit };
+      const quantity = amount_parse?.[0] || null;
+      const unit = amount_parse?.[2]?.[0]?.value || null;
+      const amount = { quantity, unit };
       return {
         ingredient,
         amount,

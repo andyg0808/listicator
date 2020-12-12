@@ -7,7 +7,7 @@ const regexMapping = [
   ["cups?", "cup"],
   ["teaspoons?", "teaspoon"],
   ["tablespoons?", "tablespoon"],
-  ["ounce", "ounce"],
+  ["ounces?", "ounce"],
 ];
 
 const unitsRegex = new RegExp(
