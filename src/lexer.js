@@ -31,6 +31,7 @@ module.exports = moo.compile({
   fraction: { match: /[¼½]/, value: (v) => fracMapping.get(v) },
   slash: /[/]/,
   dash: /-/,
+  heading: /[A-Za-z ]+:\n/,
   ws: { match: /\s+/, lineBreaks: true },
   unit: { match: unitsRegex, value: matchUnit },
   ingredient: { match: /.+\n?/, lineBreaks: true, value: (v) => v.trim() },

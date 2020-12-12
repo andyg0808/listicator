@@ -7,7 +7,10 @@
 
 @lexer lexer
 
-main -> ingredient:+
+main -> line:+
+line -> 
+    ingredient {% i => i[0]%}
+  | %heading {% i => null %}
 ingredient -> _:? (mixed_number _ (%unit _):?):? %ingredient
 fraction -> 
     number "/" number  {% ([left, _, right]) => left/right %}
