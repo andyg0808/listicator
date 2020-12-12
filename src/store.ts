@@ -6,10 +6,12 @@ import {
   ShoppingList,
   Order,
   MenuList,
+  Menu,
 } from "./types";
 
 export interface RootState {
   menu_list: MenuList;
+  menus: Menu[];
 }
 
 const trader_joes: Store = {
@@ -20,8 +22,6 @@ const trader_joes: Store = {
 function rootReducer(state: RootState = { menu_list: { items: [] } }, action) {
   return state;
 }
-
-// export type RootState = ReturnType<typeof rootReducer>;
 
 const items: Array<Order> = [
   { ingredient: { name: "Sourdough bread" }, quantity: 2, unit: "C" },

@@ -16,9 +16,11 @@ import {
   Store,
   ShoppingOrder,
   ShoppingList,
+  TotalOrder,
   Order,
   Trip,
   MenuList,
+  Menu,
 } from "./types";
 import { RootState } from "./store";
 
@@ -65,13 +67,13 @@ function ListSorter({ trip }: { trip: Trip }) {
 }
 
 function tripFromMenuList(menuList: MenuList): Trip {
-  const stores: { [index: string]: Array<Order> } = groupBy(
+  const stores: { [index: string]: Array<TotalOrder> } = groupBy(
     (item) => "Trader Joe's",
     menuList.items
   );
-  const store: Store = { name: "Trader Joe's", item_order: [] };
+  const store: Store = { name: "Trader Joe's" };
   const lists: Array<ShoppingList> = Object.entries(stores).map(
-    ([storeid, items]: [string, Array<Order>]): ShoppingList => {
+    ([storeid, items]: [string, Array<TotalOrder>]): ShoppingList => {
       return {
         items: items,
         store: store,
@@ -84,8 +86,17 @@ function tripFromMenuList(menuList: MenuList): Trip {
   };
 }
 
+function menuListFromMenu(menu: Menu): MenuList {
+  const items = menu.recipes.flatMap((recipe) => recipe.ingredients);
+  const totalItems = groupBy((order) => order.ingredient.name, items);
+  return {
+    items: totalItems,
+  };
+}
+
 function App() {
-  const menuList = useSelector((store: RootState) => store.menu_list);
+  const menus = useSelector((store: RootState) => store.menus);
+  const menuList = menuListFromMenus(menus);
   const trip = tripFromMenuList(menuList);
   console.log(trip);
   return (
