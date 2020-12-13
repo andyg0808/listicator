@@ -8,6 +8,7 @@ const regexMapping = [
   ["teaspoons?|tsp\\.", "teaspoon"],
   ["[tT]ablespoons?|tbsp\\.", "tablespoon"],
   ["ounces?", "ounce"],
+  ["g", "gram"],
 ];
 
 const unitsRegex = new RegExp(
