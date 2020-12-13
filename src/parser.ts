@@ -16,12 +16,14 @@ export function parse(data: string): Recipe {
     throw new Error("Invalid length");
   }
 
+  log("results", results);
+
   const ingredients = results[0]
     .filter((i) => i !== null)
     .map(
       (ingredient_parse): Order => {
         // console.log("ingredient", ingredient_parse);
-        log(ingredient_parse);
+        log("ingredient", ingredient_parse);
         const name = ingredient_parse[2].value;
         const ingredient = { name };
         const amount_parse = ingredient_parse[1];

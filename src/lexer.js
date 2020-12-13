@@ -6,7 +6,7 @@ const fracMapping = new Map([
 const regexMapping = [
   ["cups?|c\\.", "cup"],
   ["teaspoons?|tsp\\.", "teaspoon"],
-  ["tablespoons?", "tablespoon"],
+  ["[tT]ablespoons?|tbsp\\.", "tablespoon"],
   ["ounces?", "ounce"],
 ];
 
@@ -26,31 +26,17 @@ function matchUnit(value) {
   }
 }
 
+const fractionRegex = new RegExp(
+  "[" + Array.from(fracMapping.keys()).join() + "]"
+);
+
 module.exports = moo.compile({
   number: { match: /[0-9]+/, value: (v) => Number(v) },
-  fraction: { match: /[¼½]/, value: (v) => fracMapping.get(v) },
-  slash: /[/]/,
+  fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
+  slash: /[/⁄]/,
   dash: /-/,
   heading: /[A-Za-z ]+:\n/,
   ws: { match: /\s+/, lineBreaks: true },
   unit: { match: unitsRegex, value: matchUnit },
   ingredient: { match: /.+\n?/, lineBreaks: true, value: (v) => v.trim() },
 });
-
-function* filterLexer() {
-  console.log("start");
-  for (const lex of lexer) {
-    console.log(lex);
-    if (lex.type === "ws") {
-      continue;
-    }
-    yield lex;
-  }
-}
-
-const filtered = filterLexer();
-
-filtered.has = (name) => lexer.has(name);
-filtered.save = () => lexer.save();
-filtered.reset = (chunk, info) => lexer.reset(chunk, info);
-filtered.formatError = (token) => lexer.formatError(token);

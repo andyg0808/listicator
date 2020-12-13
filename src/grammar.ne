@@ -1,4 +1,3 @@
-@builtin "number.ne"
 @preprocessor typescript
 
 @{%
@@ -13,8 +12,8 @@ line ->
   | %heading {% i => null %}
 ingredient -> _:? (mixed_number _ (%unit _):?):? %ingredient
 fraction -> 
-    number "/" number  {% ([left, _, right]) => left/right %}
-  | %fraction {% f => f.value %}
+    number %slash number  {% ([left, _, right]) => left/right %}
+  | %fraction {% f => f[0].value %}
 mixed_number -> 
     number (%dash|_):? fraction  {% ([number, _, fraction]) => number + fraction %}
   | fraction {% m => m[0] %}

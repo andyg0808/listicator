@@ -13,6 +13,6 @@ const logger = winston.createLogger({
   ],
 });
 
-export function log(value) {
-  logger.info(value);
+export function log(key, value) {
+  logger.info({ key, value });
 }
