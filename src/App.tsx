@@ -87,23 +87,23 @@ function tripFromMenuList(menuList: MenuList): Trip {
 }
 
 function menuListFromMenu(menu: Menu): MenuList {
-  const items = menu.recipes.flatMap((recipe) => recipe.ingredients);
-  const totalItems = groupBy((order) => order.ingredient.name, items);
+  /* const items = menu.recipes.flatMap((recipe) => recipe.ingredients); */
+  /* const totalItems = groupBy((order) => order.ingredient.name, items); */
   return {
-    items: totalItems,
+    items: [],
   };
 }
 
 function App() {
-  const menus = useSelector((store: RootState) => store.menus);
-  const menuList = menuListFromMenus(menus);
-  const trip = tripFromMenuList(menuList);
-  console.log(trip);
-  return (
-    <div className="App">
-      <ListSorter trip={trip} />
-    </div>
-  );
+  /* const menus = useSelector((store: RootState) => store.menus); */
+  /* const menuList = menuListFromMenu(menus); */
+  /* const trip = tripFromMenuList(menuList); */
+  /* console.log(trip); */
+  /* return ( */
+  /*   <div className="App"> */
+  /*     <ListSorter trip={trip} /> */
+  /*   </div> */
+  /* ); */
 }
 
 export default App;
