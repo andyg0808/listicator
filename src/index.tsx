@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+import ParserViewer from "./ParserViewer";
 import reportWebVitals from "./reportWebVitals";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Provider } from "react-redux";
@@ -15,7 +16,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <DragDropContext onDragEnd={dragHandler}>
-        <App />
+        <ParserViewer />
       </DragDropContext>
     </Provider>
   </React.StrictMode>,

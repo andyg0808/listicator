@@ -12,8 +12,8 @@ export function parse(data: string): Recipe {
   const results = parser.results[0];
   // console.log(JSON.stringify(parser.results, null, "  "));
   // console.log("results", results);
-  if (results.length == 0) {
-    throw new Error("Invalid length");
+  if (!results || results.length == 0) {
+    return { ingredients: [] };
   }
 
   log("results", results);
