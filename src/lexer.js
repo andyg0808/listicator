@@ -9,15 +9,20 @@ const regexMapping = [
   ["cups?|c\\.", "cup"],
   ["teaspoons?|tsp\\.|tsp\\b", "teaspoon"],
   ["[tT]ablespoons?|tbsp\\.|tbsp\\b", "tablespoon"],
-  ["pounds?", "pound"],
-  ["ounces?", "ounce"],
+  ["pounds?|lb\\b", "pound"],
+  ["ounces?|oz\\b", "ounce"],
   ["g\\b", "gram"],
   ["x\\b", "count"],
   ["ml\\b", "milliliter"],
   ["litres?", "liter"],
   ["handful", "handful"],
   ["sprigs?", "sprig"],
+  ["bunch\\b", "bunch"],
   ["ears?\\b", "ear"],
+  ["cloves?\\b", "clove"],
+  ["links?", "link"],
+  ["cans?|tin\\b", "can"],
+  ["chunk", "chunk"],
 ];
 
 const unitsRegex = new RegExp(
