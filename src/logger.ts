@@ -14,6 +14,6 @@
 //});
 
 export function log(key, value) {
-  //logger.info({ key, value });
-  console.log(key, value);
+  // logger.info({ key, value });
+  // console.log(key, value);
 }
