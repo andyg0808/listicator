@@ -52,12 +52,19 @@ const ingredient = {
   },
 };
 
+const delimiter = (next) => {
+  return {
+    delimiter: { match: /[!]/, next },
+  };
+};
+
 module.exports = moo.states({
   main: {
     number: { match: /[0-9.]+/, value: (v) => Number(v) },
     fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
     slash: /[/⁄]/,
     dash: /-/,
+    ...delimiter("unit"),
     heading: /[A-Za-z ]+:\n/,
     ...universal,
     ...unit,
@@ -66,6 +73,7 @@ module.exports = moo.states({
   unit: {
     ...universal,
     ...unit,
+    ...delimiter("ingredient"),
   },
   ingredient: {
     ...universal,
