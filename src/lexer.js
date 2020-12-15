@@ -68,6 +68,7 @@ module.exports = moo.states({
   },
   ingredient: {
     ...universal,
+    of: /\bof\b/,
     ...ingredient,
   },
 });
