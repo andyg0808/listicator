@@ -30,7 +30,9 @@ export default function ParserViewer() {
   const [url, setUrl] = React.useState("");
   const [err, setErr] = React.useState<string | null>(null);
   const [saved, setSaved] = React.useState<boolean>(false);
+  console.log("Parsing");
   const recipe = safeParse(text);
+  console.log("done");
 
   function reset() {
     setText("");
