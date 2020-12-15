@@ -22,6 +22,7 @@ const regexMapping = [
   ["cloves?\\b", "clove"],
   ["links?", "link"],
   ["cans?|tin\\b", "can"],
+  ["jar", "jar"],
   ["chunk", "chunk"],
 ];
 
