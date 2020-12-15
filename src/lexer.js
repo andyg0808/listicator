@@ -81,6 +81,7 @@ module.exports = moo.states({
     fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
     slash: /[/⁄]/,
     dash: /-/,
+    to: /\bto\b/,
     ...delimiter("unit"),
     heading: /[A-Za-z ]+:\n/,
     ...universal,
