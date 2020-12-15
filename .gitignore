@@ -34,3 +34,7 @@ yarn-error.log*
 .pnp.*
 
 *.log
+
+examples
+expected
+urls
