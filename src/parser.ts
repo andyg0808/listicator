@@ -24,12 +24,10 @@ export function parse(data: string): Recipe {
       (ingredient_parse): Order => {
         // console.log("ingredient", ingredient_parse);
         log("ingredient", ingredient_parse);
-        const name = ingredient_parse[2].value;
+        const name = ingredient_parse[2];
         const ingredient = { name };
-        const amount_parse = ingredient_parse[1];
-        // console.log("amount", amount_parse);
-        const quantity = amount_parse?.[0] || null;
-        const unit = amount_parse?.[2]?.[0] || null;
+        const quantity = ingredient_parse[0];
+        const unit = ingredient_parse[1];
         const amount = { quantity, unit };
         return {
           ingredient,
