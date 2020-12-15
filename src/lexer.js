@@ -19,9 +19,11 @@ const regexMapping = [
   ["sprigs?", "sprig"],
   ["bunch\\b", "bunch"],
   ["ears?\\b", "ear"],
+  ["heads?\\b", "head"],
   ["cloves?\\b", "clove"],
   ["links?", "link"],
-  ["cans?|tin\\b", "can"],
+  ["cans?", "can"],
+  ["tins?\\b", "tin"],
   ["jar", "jar"],
   ["chunk", "chunk"],
 ];
