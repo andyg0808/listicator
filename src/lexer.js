@@ -7,12 +7,14 @@ const regexMapping = [
   ["cups?|c\\.", "cup"],
   ["teaspoons?|tsp\\.|tsp\\b", "teaspoon"],
   ["[tT]ablespoons?|tbsp\\.|tbsp\\b", "tablespoon"],
+  ["pounds?", "pound"],
   ["ounces?", "ounce"],
   ["g\\b", "gram"],
   ["x\\b", "count"],
   ["ml\\b", "milliliter"],
   ["litres?", "liter"],
   ["handful", "handful"],
+  ["sprigs?", "sprig"],
 ];
 
 const unitsRegex = new RegExp(
