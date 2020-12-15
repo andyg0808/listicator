@@ -18,6 +18,9 @@ function safeParse(text: string): Recipe {
     return parse(text.trim());
   } catch (e) {
     console.log(e);
+    console.log(JSON.stringify(e, null, "  "));
+    const lines = text.trim().split(/\n/);
+    console.log(lines[e.token.line]);
     return { ingredients: [] };
   }
 }
