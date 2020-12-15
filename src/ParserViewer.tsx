@@ -11,14 +11,24 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 
 import { parse } from "./parser";
-import { Order } from "./types";
+import { Order, Recipe } from "./types";
+
+function safeParse(text: string): Recipe {
+  try {
+    return parse(text.trim());
+  } catch (e) {
+    console.log(e);
+    return { ingredients: [] };
+  }
+}
 
 export default function ParserViewer() {
   const [text, setText] = React.useState("");
   const [url, setUrl] = React.useState("");
   const [err, setErr] = React.useState<string | null>(null);
   const [saved, setSaved] = React.useState<boolean>(false);
-  const recipe = parse(text.trim());
+  const recipe = safeParse(text);
+
   function reset() {
     setText("");
     setUrl("");
