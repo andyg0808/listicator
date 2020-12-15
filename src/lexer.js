@@ -32,13 +32,40 @@ const fractionRegex = new RegExp(
   "[" + Array.from(fracMapping.keys()).join() + "]"
 );
 
-module.exports = moo.compile({
-  number: { match: /[0-9]+/, value: (v) => Number(v) },
-  fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
-  slash: /[/⁄]/,
-  dash: /-/,
-  heading: /[A-Za-z ]+:\n/,
+const universal = {
   ws: { match: /\s+/, lineBreaks: true },
-  unit: { match: unitsRegex, value: matchUnit },
-  ingredient: { match: /.+\n?/, lineBreaks: true, value: (v) => v.trim() },
+};
+
+const unit = {
+  unit: { match: unitsRegex, value: matchUnit, next: "ingredient" },
+};
+
+const ingredient = {
+  ingredient: {
+    match: /.+\n?/,
+    lineBreaks: true,
+    value: (v) => v.trim(),
+    next: "main",
+  },
+};
+
+module.exports = moo.states({
+  main: {
+    number: { match: /[0-9]+/, value: (v) => Number(v) },
+    fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
+    slash: /[/⁄]/,
+    dash: /-/,
+    heading: /[A-Za-z ]+:\n/,
+    ...universal,
+    ...unit,
+    ...ingredient,
+  },
+  unit: {
+    ...universal,
+    ...unit,
+  },
+  ingredient: {
+    ...universal,
+    ...ingredient,
+  },
 });
