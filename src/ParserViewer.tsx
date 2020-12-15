@@ -67,8 +67,17 @@ export default function ParserViewer() {
           Example saved.
         </Alert>
       )}
-      <TextareaAutosize onChange={(e) => setText(e.target.value)} />
-      <TextField onChange={(e) => setUrl(e.target.value)} label="Url" />
+      <TextareaAutosize
+        onChange={(e) => setText(e.target.value)}
+        onBlur={(e) => setText(e.target.value)}
+        value={text}
+      />
+      <TextField
+        onChange={(e) => setUrl(e.target.value)}
+        onBlur={(e) => setUrl(e.target.value)}
+        label="Url"
+        value={url}
+      />
       <Table>
         <TableHead>
           <TableRow>
