@@ -12,7 +12,8 @@ line ->
   | %heading {% i => null %}
 ingredient -> 
     %ingredient {% i => [null, null, i[0].value] %}
-  | mixed_number _:? (unit (_ %of):? _):? %ingredient {% i => [i[0] || null, i[2]?.[0] || null, i[3].value] %}
+  | mixed_number _:? %ingredient {% i => [i[0] || null, null, i[2].value] %}
+  | mixed_number _:? unit (_ %of):? _ %ingredient {% i => [i[0] || null, i[2] || null, i[5].value] %}
 unit -> 
     %unit {% n => n[0].value %}
   | %forced_unit {% n => n[0].value %}
