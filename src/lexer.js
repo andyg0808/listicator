@@ -52,9 +52,11 @@ const ingredient = {
   },
 };
 
+const delimiterChar = "!";
+
 const delimiter = (next) => {
   return {
-    delimiter: { match: /[!]/, next },
+    delimiter: { match: delimiterChar, next },
   };
 };
 
@@ -74,6 +76,11 @@ module.exports = moo.states({
     ...universal,
     ...unit,
     ...delimiter("ingredient"),
+    forced_unit: {
+      match: new RegExp(`[^${delimiterChar}]*${delimiterChar}`),
+      value: (v) => v.substring(0, v.length - 1),
+      next: "ingredient",
+    },
   },
   ingredient: {
     ...universal,

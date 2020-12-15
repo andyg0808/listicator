@@ -10,7 +10,10 @@ main -> line:+
 line -> 
     ingredient {% i => i[0]%}
   | %heading {% i => null %}
-ingredient -> _:? (mixed_number _:? (%unit (_ %of):? _):?):? %ingredient
+ingredient -> _:? (mixed_number _:? (unit (_ %of):? _):?):? %ingredient
+unit -> 
+    %unit {% n => n[0] %}
+  | %forced_unit {% n => n[0] %}
 fraction -> 
     number %slash number  {% ([left, _, right]) => left/right %}
   | %fraction {% f => f[0].value %}
