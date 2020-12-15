@@ -12,6 +12,7 @@ const regexMapping = [
   ["x\\b", "count"],
   ["ml\\b", "milliliter"],
   ["litres?", "liter"],
+  ["handful", "handful"],
 ];
 
 const unitsRegex = new RegExp(
