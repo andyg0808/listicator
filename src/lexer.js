@@ -50,7 +50,7 @@ const universal = {
 };
 
 const ounces = {
-  ounces: { match: /\d+-ounce/, next: "unit" },
+  ounces: { match: /\d+-(?:ounce|oz)/, next: "unit" },
 };
 
 const unit = {
