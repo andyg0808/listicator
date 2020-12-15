@@ -2,8 +2,10 @@ const moo = require("moo");
 const fracMapping = new Map([
   ["¼", 1 / 4],
   ["½", 1 / 2],
+  ["⅓", 1 / 3],
 ]);
 const regexMapping = [
+  ["pints?", "pint"],
   ["cups?|c\\.", "cup"],
   ["teaspoons?|tsp\\.|tsp\\b", "teaspoon"],
   ["[tT]ablespoons?|tbsp\\.|tbsp\\b", "tablespoon"],
@@ -15,6 +17,7 @@ const regexMapping = [
   ["litres?", "liter"],
   ["handful", "handful"],
   ["sprigs?", "sprig"],
+  ["ears?\\b", "ear"],
 ];
 
 const unitsRegex = new RegExp(
