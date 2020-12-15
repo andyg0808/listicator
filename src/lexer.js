@@ -5,11 +5,13 @@ const fracMapping = new Map([
 ]);
 const regexMapping = [
   ["cups?|c\\.", "cup"],
-  ["teaspoons?|tsp\\.", "teaspoon"],
-  ["[tT]ablespoons?|tbsp\\.", "tablespoon"],
+  ["teaspoons?|tsp\\.|tsp\\b", "teaspoon"],
+  ["[tT]ablespoons?|tbsp\\.|tbsp\\b", "tablespoon"],
   ["ounces?", "ounce"],
   ["g\\b", "gram"],
+  ["x\\b", "count"],
   ["ml\\b", "milliliter"],
+  ["litres?", "liter"],
 ];
 
 const unitsRegex = new RegExp(
@@ -51,7 +53,7 @@ const ingredient = {
 
 module.exports = moo.states({
   main: {
-    number: { match: /[0-9]+/, value: (v) => Number(v) },
+    number: { match: /[0-9.]+/, value: (v) => Number(v) },
     fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
     slash: /[/⁄]/,
     dash: /-/,
