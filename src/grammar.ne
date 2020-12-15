@@ -12,8 +12,9 @@ line ->
   | %heading {% i => null %}
 ingredient -> _:? (mixed_number _:? (unit (_ %of):? _):?):? %ingredient
 unit -> 
-    %unit {% n => n[0] %}
-  | %forced_unit {% n => n[0] %}
+    %unit {% n => n[0].value %}
+  | %forced_unit {% n => n[0].value %}
+  | %ounces _ unit {% n => n[0].value + " " + n[2] %}
 fraction -> 
     number %slash number  {% ([left, _, right]) => left/right %}
   | %fraction {% f => f[0].value %}

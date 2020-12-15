@@ -44,6 +44,10 @@ const universal = {
   ws: { match: /\s+/, lineBreaks: true },
 };
 
+const ounces = {
+  ounces: { match: /\d+-ounce/, next: "unit" },
+};
+
 const unit = {
   unit: { match: unitsRegex, value: matchUnit, next: "ingredient" },
 };
@@ -67,6 +71,7 @@ const delimiter = (next) => {
 
 module.exports = moo.states({
   main: {
+    ...ounces,
     number: { match: /[0-9.]+/, value: (v) => Number(v) },
     fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
     slash: /[/⁄]/,
@@ -78,6 +83,7 @@ module.exports = moo.states({
     ...ingredient,
   },
   unit: {
+    ...ounces,
     ...universal,
     ...unit,
     ...delimiter("ingredient"),
