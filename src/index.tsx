@@ -17,6 +17,7 @@ ReactDOM.render(
     <Provider store={store}>
       <DragDropContext onDragEnd={dragHandler}>
         <ParserViewer />
+        <App />
       </DragDropContext>
     </Provider>
   </React.StrictMode>,

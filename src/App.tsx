@@ -13,20 +13,29 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import {
   Ingredient,
-  Store,
-  ShoppingOrder,
-  ShoppingList,
-  TotalOrder,
-  Order,
-  Trip,
-  MenuList,
   Menu,
+  MenuList,
+  Order,
+  Recipe,
+  ShoppingList,
+  ShoppingOrder,
+  Store,
+  TotalOrder,
+  Trip,
 } from "./types";
 import { RootState } from "./store";
+
+import { tripFromMenuList, menuListFromMenu } from "./transforms";
 
 import { groupBy } from "ramda";
 
 const listId = "dragId";
+
+function storeToMenu(recipes: Recipe[]): Menu {
+  return {
+    recipes,
+  };
+}
 
 function ListEntry({ name, idx }) {
   return (
@@ -66,44 +75,18 @@ function ListSorter({ trip }: { trip: Trip }) {
   );
 }
 
-function tripFromMenuList(menuList: MenuList): Trip {
-  const stores: { [index: string]: Array<TotalOrder> } = groupBy(
-    (item) => "Trader Joe's",
-    menuList.items
-  );
-  const store: Store = { name: "Trader Joe's" };
-  const lists: Array<ShoppingList> = Object.entries(stores).map(
-    ([storeid, items]: [string, Array<TotalOrder>]): ShoppingList => {
-      return {
-        items: items,
-        store: store,
-      };
-    }
-  );
-
-  return {
-    lists,
-  };
-}
-
-function menuListFromMenu(menu: Menu): MenuList {
-  /* const items = menu.recipes.flatMap((recipe) => recipe.ingredients); */
-  /* const totalItems = groupBy((order) => order.ingredient.name, items); */
-  return {
-    items: [],
-  };
-}
-
 function App() {
-  /* const menus = useSelector((store: RootState) => store.menus); */
-  /* const menuList = menuListFromMenu(menus); */
-  /* const trip = tripFromMenuList(menuList); */
-  /* console.log(trip); */
-  /* return ( */
-  /*   <div className="App"> */
-  /*     <ListSorter trip={trip} /> */
-  /*   </div> */
-  /* ); */
+  const recipes = useSelector((store: RootState) => store.recipes);
+  const menu = storeToMenu(recipes);
+  const menuList = menuListFromMenu(menu);
+  const trip = tripFromMenuList(menuList);
+  console.log(trip);
+  return (
+    <div className="App">
+      <h2>List</h2>
+      <ListSorter trip={trip} />
+    </div>
+  );
 }
 
 export default App;

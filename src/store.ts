@@ -1,5 +1,8 @@
-import { configureStore, createAction } from "@reduxjs/toolkit";
+import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+
 import {
+  Recipe,
   Ingredient,
   Menu,
   MenuList,
@@ -10,21 +13,9 @@ import {
   TotalOrder,
 } from "./types";
 
-export interface RootState {
-  menu_list: MenuList;
-  menus: Menu[];
-}
-
 const trader_joes: Store = {
   name: "Trader Joe's",
 };
-
-function rootReducer(
-  state: RootState = { menu_list: { items: [] }, menus: [] },
-  action
-) {
-  return state;
-}
 
 const items: Array<TotalOrder> = [
   {
@@ -38,11 +29,28 @@ const list: ShoppingList = {
   store: trader_joes,
 };
 
-const preloadedState: RootState = { menu_list: { items }, menus: [] };
+const initialRecipes: Recipe[] = [];
+
+const recipeSlice = createSlice({
+  name: "recipes",
+  initialState: [] as Recipe[],
+  reducers: {
+    addRecipe(state, action: PayloadAction<Recipe>) {
+      state.push(action.payload);
+    },
+  },
+});
+
+export const { addRecipe } = recipeSlice.actions;
+
+const rootReducer = combineReducers({
+  recipes: recipeSlice.reducer,
+});
 
 const store = configureStore({
   reducer: rootReducer,
-  preloadedState,
 });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

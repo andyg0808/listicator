@@ -9,7 +9,9 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+import { useDispatch } from "react-redux";
 
+import { addRecipe } from "./store";
 import { parse } from "./parser";
 import { Order, Recipe } from "./types";
 
@@ -32,6 +34,7 @@ export default function ParserViewer() {
   const [url, setUrl] = React.useState("");
   const [err, setErr] = React.useState<string | null>(null);
   const [saved, setSaved] = React.useState<boolean>(false);
+  const dispatch = useDispatch();
   console.log("Parsing");
   const recipe = safeParse(text);
   console.log("done");
@@ -70,6 +73,10 @@ export default function ParserViewer() {
         setSaved(false);
       }
     });
+  }
+
+  function saveToStore() {
+    dispatch(addRecipe(recipe));
   }
 
   return (
@@ -115,6 +122,7 @@ export default function ParserViewer() {
       </Table>
       <Button onClick={sendToServer}>Save</Button>
       <Button onClick={reset}>Reset</Button>
+      <Button onClick={saveToStore}>Store</Button>
     </Container>
   );
 }
