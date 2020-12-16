@@ -36,7 +36,6 @@ export function menuListFromMenu(menu: Menu): MenuList {
     (order) => order.ingredient.name,
     items
   );
-  console.log(totalItems);
   const orders: TotalOrder[] = Object.entries(totalItems).map(
     ([name, values]): TotalOrder => {
       return {
