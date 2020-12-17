@@ -79,6 +79,14 @@ export default function ParserViewer() {
     dispatch(addRecipe(recipe));
   }
 
+  function saveToLocalStorage() {
+    console.log("stored", text);
+    window.localStorage.setItem("listicator", text);
+  }
+  function loadFromLocalStorage() {
+    setText(window.localStorage.getItem("listicator") || "");
+  }
+
   return (
     <Container>
       {err && (
@@ -123,6 +131,8 @@ export default function ParserViewer() {
       <Button onClick={sendToServer}>Save</Button>
       <Button onClick={reset}>Reset</Button>
       <Button onClick={saveToStore}>Store</Button>
+      <Button onClick={saveToLocalStorage}>LocalStorage: Save</Button>
+      <Button onClick={loadFromLocalStorage}>LocalStorage: Load</Button>
     </Container>
   );
 }

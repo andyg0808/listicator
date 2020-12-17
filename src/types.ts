@@ -109,17 +109,24 @@ export interface ShoppingList {
   store: Store;
 }
 
+export type IngredientId = number
+export type StoreId = number
+
+/**
+ * The order of ingredients in some store
+ */
+export type StorePreferenceMap = Record<IngredientId, StoreId>
+
 /**
  * The preference order for each store which sells this ingredient.
  */
+export type ShoppingOrderMap = Record<StoreId, Record<IngredientId, number>>
+
 export interface StorePreferenceList {
   item: Ingredient;
   stores: Array<Store>;
 }
 
-/**
- * The order of ingredients in some store
- */
 export interface ShoppingOrder {
   store: Store;
   items: Array<Ingredient>;

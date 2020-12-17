@@ -1,5 +1,6 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
+import { move } from "ramda";
 
 import {
   Recipe,
@@ -11,6 +12,7 @@ import {
   ShoppingOrder,
   Store,
   TotalOrder,
+  ShoppingOrderMap,
 } from "./types";
 
 const trader_joes: Store = {
@@ -40,6 +42,39 @@ const recipeSlice = createSlice({
     },
   },
 });
+
+export interface ReorderEvent {
+  name: string;
+  from: number;
+  to: number;
+}
+
+const shoppingOrderSlice = createSlice({
+  name: "shoppingOrder",
+  initialState: {} as Record<string, ShoppingOrder>,
+  reducers: {
+    reorder(state, action: PayloadAction<ReorderEvent>) {
+      const payload = action.payload;
+      const order = state[payload.name];
+      if (!order) {
+        throw new Error("Move on unknown list");
+      }
+      const item = order.items[payload.from];
+      order.items = order.items.reduce((acc, current, idx) => {
+        if (idx === payload.from) {
+          return;
+        }
+        if (idx === payload.to) {
+          acc.push(item);
+        }
+        acc.push(current);
+      });
+      //order.items = move(payload.from, payload.to, order.items);
+    },
+  },
+});
+
+export const { reorder } = shoppingOrderSlice.actions;
 
 export const { addRecipe } = recipeSlice.actions;
 

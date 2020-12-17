@@ -39,7 +39,7 @@ function storeToMenu(recipes: Recipe[]): Menu {
 
 function ListEntry({ name, idx }) {
   return (
-    <Draggable draggableId={`${name}-${idx}`} index={idx}>
+    <Draggable draggableId={name} index={idx}>
       {(provided, snapshot) => (
         <ListItem
           ref={provided.innerRef}
