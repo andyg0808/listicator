@@ -25,17 +25,11 @@ import {
 } from "./types";
 import { RootState } from "./store";
 
-import { tripFromMenuList, menuListFromMenu } from "./transforms";
+import { recipesToTrip } from "./transforms";
 
 import { groupBy } from "ramda";
 
 const listId = "dragId";
-
-function storeToMenu(recipes: Recipe[]): Menu {
-  return {
-    recipes,
-  };
-}
 
 function ListEntry({ name, idx }) {
   return (
@@ -76,10 +70,7 @@ function ListSorter({ trip }: { trip: Trip }) {
 }
 
 function App() {
-  const recipes = useSelector((store: RootState) => store.recipes);
-  const menu = storeToMenu(recipes);
-  const menuList = menuListFromMenu(menu);
-  const trip = tripFromMenuList(menuList);
+  const trip = useSelector((store: RootState) => recipesToTrip(store.recipes));
   console.log(trip);
   return (
     <div className="App">

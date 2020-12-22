@@ -2,6 +2,7 @@ import {
   Ingredient,
   Menu,
   MenuList,
+  Recipe,
   Order,
   ShoppingList,
   Store,
@@ -47,4 +48,10 @@ export function menuListFromMenu(menu: Menu): MenuList {
   return {
     items: orders,
   };
+}
+
+export function recipesToTrip(recipes: Recipe[]): Trip {
+  const menu = { recipes };
+  const menuList = menuListFromMenu(menu);
+  return tripFromMenuList(menuList);
 }
