@@ -15,6 +15,8 @@ import {
   ShoppingOrderMap,
 } from "./types";
 
+import { moveItemsDown } from "./sequence"
+
 const trader_joes: Store = {
   name: "Trader Joe's",
 };
@@ -61,6 +63,7 @@ const shoppingOrderSlice = createSlice({
       } else {
         state[payload.store] = {[payload.name]: payload.to}
       }
+      state[payload.store] = moveItemsDown(state[payload.store], payload.to)
     },
   },
 });
