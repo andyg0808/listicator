@@ -16,7 +16,8 @@ function DragDispatcher({ children }) {
     const { source, destination } = result;
     dispatch(
       reorder({
-        name: destination.droppableId,
+        name: result.draggableId,
+        store: destination.droppableId,
         from: source.index,
         to: destination.index,
       })

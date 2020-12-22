@@ -45,31 +45,22 @@ const recipeSlice = createSlice({
 
 export interface ReorderEvent {
   name: string;
+  store: string;
   from: number;
   to: number;
 }
 
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrder",
-  initialState: {} as Record<string, ShoppingOrder>,
+  initialState: {} as Record<string, Record<string, number>>,
   reducers: {
     reorder(state, action: PayloadAction<ReorderEvent>) {
       const payload = action.payload;
-      const order = state[payload.name];
-      if (!order) {
-        throw new Error("Move on unknown list");
+      if (state[payload.store]) {
+          state[payload.store][payload.name] = payload.to;
+      } else {
+        state[payload.store] = {[payload.name]: payload.to}
       }
-      const item = order.items[payload.from];
-      order.items = order.items.reduce((acc, current, idx) => {
-        if (idx === payload.from) {
-          return;
-        }
-        if (idx === payload.to) {
-          acc.push(item);
-        }
-        acc.push(current);
-      });
-      //order.items = move(payload.from, payload.to, order.items);
     },
   },
 });
@@ -80,6 +71,7 @@ export const { addRecipe } = recipeSlice.actions;
 
 const rootReducer = combineReducers({
   recipes: recipeSlice.reducer,
+  shoppingOrder: shoppingOrderSlice.reducer,
 });
 
 const store = configureStore({

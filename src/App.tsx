@@ -10,6 +10,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import { sortBy } from "ramda";
 
 import {
   Ingredient,
@@ -49,15 +50,27 @@ function ListEntry({ name, idx }) {
 }
 
 function ListSorter({ trip }: { trip: Trip }) {
+  const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
   return (
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
+        const order = sortOrder[list.store.name] || {};
+        const sortedItems = sortBy(
+          (i) => order[i.ingredient.name] || -1,
+          list.items
+        );
         return (
           <Droppable droppableId={list.store.name}>
             {(provided, snapshot) => (
               <List ref={provided.innerRef} {...provided.droppableProps}>
-                {list.items.map((item, idx) => {
-                  return <ListEntry name={item.ingredient.name} idx={idx} />;
+                {sortedItems.map((item, idx) => {
+                  return (
+                    <ListEntry
+                      name={item.ingredient.name}
+                      key={item.ingredient.name}
+                      idx={idx}
+                    />
+                  );
                 })}
                 {provided.placeholder}
               </List>
