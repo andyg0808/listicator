@@ -4,36 +4,14 @@ import "./index.css";
 import App from "./App";
 import ParserViewer from "./ParserViewer";
 import reportWebVitals from "./reportWebVitals";
-import { DragDropContext } from "react-beautiful-dnd";
-import { Provider, useDispatch } from "react-redux";
-import store, { reorder, ReorderEvent } from "./store";
-
-function DragDispatcher({ children }) {
-  const dispatch = useDispatch();
-
-  function dragHandler(result, provided) {
-    console.log(result, provided);
-    const { source, destination } = result;
-    dispatch(
-      reorder({
-        name: result.draggableId,
-        store: destination.droppableId,
-        from: source.index,
-        to: destination.index,
-      })
-    );
-  }
-
-  return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
-}
+import { Provider } from "react-redux";
+import store from "./store";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <DragDispatcher>
         <ParserViewer />
         <App />
-      </DragDispatcher>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

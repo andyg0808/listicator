@@ -1,5 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { DragDropContext } from "react-beautiful-dnd";
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -24,7 +25,7 @@ import {
   TotalOrder,
   Trip,
 } from "./types";
-import { RootState } from "./store";
+import { RootState, reorder, ReorderEvent } from "./store";
 
 import { recipesToTrip } from "./transforms";
 
@@ -54,17 +55,11 @@ function ListSorter({ trip }: { trip: Trip }) {
   return (
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
-        const order = sortOrder[list.store.name] || {};
-        let index = 0;
-        const sortedItems = sortBy((i) => {
-          const i = order[i.ingredient.name] || index;
-          index++;
-        }, list.items);
         return (
           <Droppable droppableId={list.store.name}>
             {(provided, snapshot) => (
               <List ref={provided.innerRef} {...provided.droppableProps}>
-                {sortedItems.map((item, idx) => {
+                {list.items.map((item, idx) => {
                   return (
                     <ListEntry
                       name={item.ingredient.name}
@@ -83,14 +78,35 @@ function ListSorter({ trip }: { trip: Trip }) {
   );
 }
 
+function DragDispatcher({ children }) {
+  const dispatch = useDispatch();
+
+  function dragHandler(result, provided) {
+    console.log("drag result", result, provided);
+    const { source, destination } = result;
+    dispatch(
+      reorder({
+        name: result.draggableId,
+        store: destination.droppableId,
+        from: source.index,
+        to: destination.index,
+      })
+    );
+  }
+
+  return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
+}
+
 function App() {
   const trip = useSelector((store: RootState) => recipesToTrip(store.recipes));
   console.log(trip);
   return (
-    <div className="App">
-      <h2>List</h2>
-      <ListSorter trip={trip} />
-    </div>
+    <DragDispatcher>
+      <div className="App">
+        <h2>List</h2>
+        <ListSorter trip={trip} />
+      </div>
+    </DragDispatcher>
   );
 }
 
