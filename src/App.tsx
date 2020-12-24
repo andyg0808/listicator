@@ -55,10 +55,11 @@ function ListSorter({ trip }: { trip: Trip }) {
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
         const order = sortOrder[list.store.name] || {};
-        const sortedItems = sortBy(
-          (i) => order[i.ingredient.name] || -1,
-          list.items
-        );
+        let index = 0;
+        const sortedItems = sortBy((i) => {
+          const i = order[i.ingredient.name] || index;
+          index++;
+        }, list.items);
         return (
           <Droppable droppableId={list.store.name}>
             {(provided, snapshot) => (
