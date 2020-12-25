@@ -1,3 +1,4 @@
+import * as R from "ramda";
 /*
    Actions:
    - reorder
@@ -101,6 +102,8 @@ export interface Trip {
   lists: Array<ShoppingList>;
 }
 
+export const updateTripLists = R.over(R.lensProp("lists"));
+
 /**
  * The list of items to get at a store
  */
@@ -108,6 +111,8 @@ export interface ShoppingList {
   items: Array<TotalOrder>;
   store: Store;
 }
+
+export const updateShoppingListItems = R.over(R.lensProp("items"));
 
 export type IngredientId = number;
 export type StoreId = number;

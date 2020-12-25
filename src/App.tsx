@@ -11,10 +11,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { sortBy } from "ramda";
+import * as R from "ramda";
+import * as T from "./types";
 
 import {
-  Ingredient,
   Menu,
   MenuList,
   Order,
@@ -51,7 +51,6 @@ function ListEntry({ name, idx }) {
 }
 
 function ListSorter({ trip }: { trip: Trip }) {
-  const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
   return (
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
@@ -99,6 +98,18 @@ function DragDispatcher({ children }) {
 
 function App() {
   const trip = useSelector((store: RootState) => recipesToTrip(store.recipes));
+  const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
+  function getSortPosition(i: T.Ingredient, s: T.Store): number {
+    return sortOrder[s.name]?.[i.name] || -1;
+  }
+  const sortListItems = (l: ShoppingList): ShoppingList => {
+    const update = R.sortBy((i: TotalOrder) =>
+      getSortPosition(i.ingredient, l.store)
+    );
+    return T.updateShoppingListItems(update, l);
+  };
+  const updateTrip = (t) => T.updateTripLists(R.map(sortListItems), t);
+  const sortedTrip = updateTrip(trip);
   console.log(trip);
   return (
     <DragDispatcher>
