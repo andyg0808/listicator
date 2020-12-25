@@ -77,18 +77,30 @@ function ListSorter({ trip }: { trip: Trip }) {
   );
 }
 
-function DragDispatcher({ children }) {
+function DragDispatcher({ children, trip }) {
   const dispatch = useDispatch();
+  const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
+  const listIndex = Object.fromEntries(
+    trip.lists.map((l: ShoppingList) => [l.store.name, l])
+  );
 
   function dragHandler(result, provided) {
     console.log("drag result", result, provided);
     const { source, destination } = result;
-    dispatch(
+    const store = destination.droppableId;
+    const fromIdx = source.index;
+    const toIdx = destination.index;
+    const list: ShoppingList = listIndex[store];
+    const items: TotalOrder[] = list.items;
+    console.log(store);
+    console.log(fromIdx, list.items[fromIdx]);
+    const startOrder = dispatch(
       reorder({
         name: result.draggableId,
-        store: destination.droppableId,
-        from: source.index,
-        to: destination.index,
+        store,
+        fromIdx,
+        toIdx,
+        displayOrder: items.map((o) => o.ingredient.name),
       })
     );
   }
@@ -112,7 +124,7 @@ function App() {
   const sortedTrip = updateTrip(trip);
   console.log(trip);
   return (
-    <DragDispatcher>
+    <DragDispatcher trip={trip}>
       <div className="App">
         <h2>List</h2>
         <ListSorter trip={trip} />

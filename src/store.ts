@@ -48,22 +48,62 @@ const recipeSlice = createSlice({
 export interface ReorderEvent {
   name: string;
   store: string;
-  from: number;
-  to: number;
+  fromIdx: number;
+    toIdx: number;
+    displayOrder: string[];
+}
+
+type OrderMapping = Record<string, number>
+function moveDown(mapping: OrderMapping, event: ReorderEvent) {
+    console.log("Move down", event)
+    console.log(mapping)
+    const {fromIdx, toIdx, displayOrder} = event
+    const pushedItems: string[] =
+      fromIdx < toIdx
+        ? displayOrder.slice(fromIdx + 1, toIdx + 1)
+        : displayOrder.slice(toIdx, fromIdx);
+    let lastIdx = -1
+    pushedItems.forEach(i => {
+        if (mapping[i]) {
+            lastIdx = mapping[i]
+            // Reduce the index by 1, because all the items between
+            // need to move up
+            mapping[i] = mapping[i]-1
+        }
+    })
+    if (lastIdx != -1) {
+        mapping[event.name] = lastIdx
+    } else {
+        mapping[event.name] = toIdx
+    }
+}
+function moveUp(mapping: OrderMapping, event: ReorderEvent) {
+    console.log("Move up", event)
 }
 
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrder",
   initialState: {} as Record<string, Record<string, number>>,
   reducers: {
-    reorder(state, action: PayloadAction<ReorderEvent>) {
-      const payload = action.payload;
-      if (state[payload.store]) {
-          state[payload.store][payload.name] = payload.to;
-      } else {
-        state[payload.store] = {[payload.name]: payload.to}
-      }
-      state[payload.store] = moveItemsDown(state[payload.store], payload.to)
+      reorder(state, action: PayloadAction<ReorderEvent>) {
+          const payload = action.payload;
+          const store = payload.store;
+          const mapping = state[store]
+          if (!mapping) {
+              state[store] = {[payload.name]: payload.toIdx}
+              return
+          }
+          if (payload.fromIdx < payload.toIdx) {
+              moveDown(mapping, payload)
+          } else {
+              moveUp(mapping, payload)
+          }
+      // if (state[payload.store]) {
+      //     state[payload.store][payload.name] = payload.to;
+      // } else {
+      //   state[payload.store] = {[payload.name]: payload.to}
+      // }
+      // state[payload.store] = moveItemsDown(state[payload.store], payload.to)
     },
   },
 });
