@@ -62,8 +62,8 @@ export interface TotalOrder {
  * A class to represent an amount of an ingredient
  */
 export interface Amount {
-  quantity: number|null;
-  unit: Unit|null;
+  quantity: number | null;
+  unit: Unit | null;
 }
 
 /**
@@ -109,18 +109,18 @@ export interface ShoppingList {
   store: Store;
 }
 
-export type IngredientId = number
-export type StoreId = number
+export type IngredientId = number;
+export type StoreId = number;
 
 /**
  * The order of ingredients in some store
  */
-export type StorePreferenceMap = Record<IngredientId, StoreId>
+export type StorePreferenceMap = Record<IngredientId, StoreId>;
 
 /**
  * The preference order for each store which sells this ingredient.
  */
-export type ShoppingOrderMap = Record<StoreId, Record<IngredientId, number>>
+export type ShoppingOrderMap = Record<StoreId, Record<IngredientId, number>>;
 
 export interface StorePreferenceList {
   item: Ingredient;
