@@ -84,7 +84,10 @@ export default function ParserViewer() {
     window.localStorage.setItem("listicator", text);
   }
   function loadFromLocalStorage() {
-    setText(window.localStorage.getItem("listicator") || "");
+    const text = window.localStorage.getItem("listicator") || "";
+    setText(text);
+    const recipe = safeParse(text);
+    dispatch(addRecipe(recipe));
   }
 
   return (
