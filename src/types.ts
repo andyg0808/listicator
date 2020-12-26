@@ -59,6 +59,8 @@ export interface TotalOrder {
   amount: Array<Amount>;
 }
 
+export const getIngredientName = (o: TotalOrder) => o?.ingredient?.name;
+
 /**
  * A class to represent an amount of an ingredient
  */
