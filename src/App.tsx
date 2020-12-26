@@ -55,7 +55,7 @@ function ListSorter({ trip }: { trip: Trip }) {
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
         return (
-          <Droppable droppableId={list.store.name}>
+            <Droppable droppableId={list.store.name} key={list.store.name}>
             {(provided, snapshot) => (
               <List ref={provided.innerRef} {...provided.droppableProps}>
                 {list.items.map((item, idx) => {
@@ -111,23 +111,58 @@ function DragDispatcher({ children, trip }) {
 function App() {
   const trip = useSelector((store: RootState) => recipesToTrip(store.recipes));
   const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
-  function getSortPosition(i: T.Ingredient, s: T.Store): number {
-    return sortOrder[s.name]?.[i.name] || -1;
-  }
   const sortListItems = (l: ShoppingList): ShoppingList => {
-    const update = R.sortBy((i: TotalOrder) =>
-      getSortPosition(i.ingredient, l.store)
+    const storeOrder = sortOrder[l.store.name];
+    // If no information is available about the ordering for the
+    // store, we can't usefully sort at all.
+    if (!storeOrder) {
+      return l;
+    }
+    const [positioned, remaining] = R.partition(
+      (i) => R.has(i.ingredient.name, storeOrder),
+      l.items
     );
-    return T.updateShoppingListItems(update, l);
+    const sortedPositioned = R.sortBy(
+      (i: TotalOrder) => storeOrder[i.ingredient.name],
+      positioned
+    );
+    function merge(
+      idx: number,
+      positioned: TotalOrder[],
+      remaining: TotalOrder[]
+    ): TotalOrder[] {
+      if (positioned.length == 0) {
+        return remaining;
+      } else if (remaining.length == 0) {
+        return positioned;
+      }
+
+      const name = T.getIngredientName(positioned[0]);
+      const position = storeOrder[name];
+
+      if (idx == position) {
+        return R.append(
+          positioned[0],
+          merge(idx + 1, positioned.slice(1), remaining)
+        );
+      } else {
+        return R.append(
+          remaining[0],
+          merge(idx + 1, positioned, remaining.slice(1))
+        );
+      }
+    }
+    const sorted = merge(0, sortedPositioned, remaining);
+    return R.assoc("items", sorted, l);
   };
   const updateTrip = (t) => T.updateTripLists(R.map(sortListItems), t);
   const sortedTrip = updateTrip(trip);
-  console.log(trip);
+  console.log("Sorted", sortedTrip);
   return (
     <DragDispatcher trip={trip}>
       <div className="App">
         <h2>List</h2>
-        <ListSorter trip={trip} />
+        <ListSorter trip={sortedTrip} />
       </div>
     </DragDispatcher>
   );

@@ -1,6 +1,6 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import { move } from "ramda";
+import * as R from "ramda";
 
 import {
   Recipe,
@@ -15,7 +15,7 @@ import {
   ShoppingOrderMap,
 } from "./types";
 
-import { moveItemsDown } from "./sequence"
+import { moveItemsDown } from "./sequence";
 
 const trader_joes: Store = {
   name: "Trader Joe's",
@@ -49,61 +49,62 @@ export interface ReorderEvent {
   name: string;
   store: string;
   fromIdx: number;
-    toIdx: number;
-    displayOrder: string[];
+  toIdx: number;
+  displayOrder: string[];
 }
 
-type OrderMapping = Record<string, number>
-function moveDown(mapping: OrderMapping, event: ReorderEvent) {
-    console.log("Move down", event)
-    console.log(mapping)
-    const {fromIdx, toIdx, displayOrder} = event
-    const pushedItems: string[] =
-      fromIdx < toIdx
-        ? displayOrder.slice(fromIdx + 1, toIdx + 1)
-        : displayOrder.slice(toIdx, fromIdx);
-    let lastIdx = -1
-    pushedItems.forEach(i => {
-        if (mapping[i]) {
-            lastIdx = mapping[i]
-            // Reduce the index by 1, because all the items between
-            // need to move up
-            mapping[i] = mapping[i]-1
-        }
-    })
-    if (lastIdx != -1) {
-        mapping[event.name] = lastIdx
-    } else {
-        mapping[event.name] = toIdx
-    }
+type OrderMapping = Record<string, number>;
+function moveDown(mapping: OrderMapping, event: ReorderEvent): OrderMapping {
+  console.log("Move down", event);
+  console.log(mapping);
+  const { fromIdx, toIdx, displayOrder } = event;
+  const pushedItems: string[] = displayOrder.slice(fromIdx + 1, toIdx + 1);
+  const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
+  const forwardedMapping = mappedItems.reduce((mapping, i) => {
+    return R.over(R.lensProp(i), (idx) => idx - 1, mapping);
+  }, mapping);
+  if (mappedItems) {
+    const targetIdx = mapping[mappedItems[mappedItems.length - 1]];
+    return R.assoc(event.name, targetIdx, forwardedMapping);
+  } else {
+    const targetIdx = toIdx;
+    return R.assoc(event.name, targetIdx, forwardedMapping);
+  }
 }
-function moveUp(mapping: OrderMapping, event: ReorderEvent) {
-    console.log("Move up", event)
+function moveUp(mapping: OrderMapping, event: ReorderEvent): OrderMapping {
+  console.log("Move up", event);
+  console.log(mapping);
+  const { fromIdx, toIdx, displayOrder } = event;
+  const pushedItems: string[] = displayOrder.slice(toIdx, fromIdx);
+  const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
+  const forwardedMapping = mappedItems.reduce((mapping, i) => {
+    return R.over(R.lensProp(i), (idx) => idx + 1, mapping);
+  }, mapping);
+  const targetIdx = mappedItems ? mapping[mappedItems[0]] : toIdx;
+  return R.assoc(event.name, targetIdx, forwardedMapping);
 }
 
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrder",
-  initialState: {} as Record<string, Record<string, number>>,
+  initialState: {} as Record<string, OrderMapping>,
   reducers: {
-      reorder(state, action: PayloadAction<ReorderEvent>) {
-          const payload = action.payload;
-          const store = payload.store;
-          const mapping = state[store]
+    reorder(state, action: PayloadAction<ReorderEvent>) {
+      const payload = action.payload;
+      const storeLens = R.lensProp(payload.store);
+      return R.over(
+        storeLens,
+        (mapping) => {
           if (!mapping) {
-              state[store] = {[payload.name]: payload.toIdx}
-              return
+            return { [payload.name]: payload.toIdx };
           }
           if (payload.fromIdx < payload.toIdx) {
-              moveDown(mapping, payload)
+            return moveDown(mapping, payload);
           } else {
-              moveUp(mapping, payload)
+            return moveUp(mapping, payload);
           }
-      // if (state[payload.store]) {
-      //     state[payload.store][payload.name] = payload.to;
-      // } else {
-      //   state[payload.store] = {[payload.name]: payload.to}
-      // }
-      // state[payload.store] = moveItemsDown(state[payload.store], payload.to)
+        },
+        state
+      );
     },
   },
 });
