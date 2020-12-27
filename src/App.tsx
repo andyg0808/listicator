@@ -25,7 +25,9 @@ import {
   TotalOrder,
   Trip,
 } from "./types";
-import { RootState, reorder, ReorderEvent } from "./store";
+import { RootState } from "./store";
+
+import { reorder, ReorderEvent, SortOrder } from "./shopping_order";
 
 import { recipesToTrip } from "./transforms";
 
@@ -55,7 +57,7 @@ function ListSorter({ trip }: { trip: Trip }) {
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
         return (
-            <Droppable droppableId={list.store.name} key={list.store.name}>
+          <Droppable droppableId={list.store.name} key={list.store.name}>
             {(provided, snapshot) => (
               <List ref={provided.innerRef} {...provided.droppableProps}>
                 {list.items.map((item, idx) => {
