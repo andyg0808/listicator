@@ -18,22 +18,6 @@ import {
 import { moveItemsDown } from "./sequence";
 import { reducer as shoppingOrderReducer } from "./shopping_order";
 
-const trader_joes: Store = {
-  name: "Trader Joe's",
-};
-
-const items: Array<TotalOrder> = [
-  {
-    ingredient: { name: "Sourdough bread" },
-    amount: [{ quantity: 2, unit: "C" }],
-  },
-  { ingredient: { name: "Spaghetti" }, amount: [{ quantity: 1, unit: "lb" }] },
-];
-const list: ShoppingList = {
-  items: items,
-  store: trader_joes,
-};
-
 const initialRecipes: Recipe[] = [];
 
 const recipeSlice = createSlice({
