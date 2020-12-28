@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import * as R from "ramda";
+import { TotalOrder, getIngredientName, ShoppingList } from "./types";
 
 export interface ReorderEvent {
   name: string;
@@ -20,13 +21,12 @@ function moveDown(mapping: OrderMapping, event: ReorderEvent): OrderMapping {
   const forwardedMapping = mappedItems.reduce((mapping, i) => {
     return R.over(R.lensProp(i), (idx) => idx - 1, mapping);
   }, mapping);
-  if (mappedItems) {
-    const targetIdx = mapping[mappedItems[mappedItems.length - 1]];
-    return R.assoc(event.name, targetIdx, forwardedMapping);
-  } else {
-    const targetIdx = toIdx;
-    return R.assoc(event.name, targetIdx, forwardedMapping);
-  }
+  // if (mappedItems) {
+  //   const targetIdx = mapping[mappedItems[mappedItems.length - 1]];
+  //   return R.assoc(event.name, targetIdx, forwardedMapping);
+  // } else {
+  return R.assoc(event.name, toIdx, forwardedMapping);
+  // }
 }
 
 export function moveUp(
@@ -73,3 +73,60 @@ const shoppingOrderSlice = createSlice({
 
 export const { reorder } = shoppingOrderSlice.actions;
 export const reducer = shoppingOrderSlice.reducer;
+
+export function sortByOrder(
+  sortOrder: SortOrder,
+  l: ShoppingList
+): ShoppingList {
+  const storeOrder = sortOrder[l.store.name];
+  // If no information is available about the ordering for the
+  // store, we can't usefully sort at all.
+  if (!storeOrder) {
+    return l;
+  }
+  const [positioned, remaining] = R.partition(
+    (i) => R.has(i.ingredient.name, storeOrder),
+    l.items
+  );
+
+  const sortedRemaining = R.sortBy(
+    (i: TotalOrder) => i.ingredient.name,
+    remaining
+  );
+
+  const sortedPositioned = R.sortBy(
+    (i: TotalOrder) => storeOrder[i.ingredient.name],
+    positioned
+  );
+
+  const sorted = merge(0, sortedPositioned, sortedRemaining, storeOrder);
+  return R.assoc("items", sorted, l);
+}
+
+export function merge(
+  idx: number,
+  positioned: TotalOrder[],
+  remaining: TotalOrder[],
+  storeOrder: OrderMapping
+): TotalOrder[] {
+  if (positioned.length == 0) {
+    return remaining;
+  } else if (remaining.length == 0) {
+    return positioned;
+  }
+
+  const name = getIngredientName(positioned[0]);
+  const position = storeOrder[name];
+
+  if (idx == position) {
+    return R.prepend(
+      positioned[0],
+      merge(idx + 1, positioned.slice(1), remaining, storeOrder)
+    );
+  } else {
+    return R.prepend(
+      remaining[0],
+      merge(idx + 1, positioned, remaining.slice(1), storeOrder)
+    );
+  }
+}
