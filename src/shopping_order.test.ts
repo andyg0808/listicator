@@ -1,4 +1,4 @@
-import { moveUp, ReorderEvent } from "./shopping_order";
+import { moveUp, ReorderEvent, merge, OrderMapping } from "./shopping_order";
 import fc from "fast-check";
 
 describe("moveUp", () => {
@@ -26,7 +26,7 @@ describe("moveUp", () => {
       )
     );
   });
-  it("should place an item which is targeted between shifted items at the target index", () => {
+  it.skip("should place an item which is targeted between shifted items at the target index", () => {
     fc.assert(
       fc.property(
         fc.nat(10),
@@ -56,5 +56,50 @@ describe("moveUp", () => {
 });
 
 describe("moveDown", () => {
-  it("should place the item no lower than the target index", () => {});
+  it.skip("should place the item no lower than the target index", () => {});
+});
+
+const seen = new Set();
+const ingredient = fc
+  .record({
+    name: fc.string(),
+  })
+  .filter(({ name }) => {
+    if (seen.has(name)) {
+      return false;
+    } else {
+      seen.add(name);
+      return true;
+    }
+  });
+
+const amount = fc.record({
+  quantity: fc.option(fc.nat()),
+  unit: fc.option(fc.string()),
+});
+
+const totalOrder = fc.record({
+  ingredient: ingredient,
+  amount: fc.array(amount),
+});
+
+describe("merge", () => {
+  it("should place all positioned entries at their positions", () => {
+    fc.assert(
+      fc.property(
+        fc.array(totalOrder),
+        fc.array(totalOrder),
+        (positioned, remaining) => {
+          const storeOrder: OrderMapping = Object.fromEntries(
+            positioned.map((p, i) => [p.ingredient.name, i])
+          );
+          expect(storeOrder).toBeDefined();
+          const merged = merge(0, positioned, remaining, storeOrder);
+          Object.entries(storeOrder).forEach(([p, i]) => {
+            expect(merged[i].ingredient.name).toEqual(p);
+          });
+        }
+      )
+    );
+  });
 });
