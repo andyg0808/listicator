@@ -64,22 +64,25 @@ function ListSorter({ trip }: { trip: Trip }) {
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
         return (
-          <Droppable droppableId={list.store.name} key={list.store.name}>
-            {(provided, snapshot) => (
-              <List ref={provided.innerRef} {...provided.droppableProps}>
-                {list.items.map((item, idx) => {
-                  return (
-                    <ListEntry
-                      name={item.ingredient.name}
-                      key={item.ingredient.name}
-                      idx={idx}
-                    />
-                  );
-                })}
-                {provided.placeholder}
-              </List>
-            )}
-          </Droppable>
+          <>
+            <h3>{list.store.name}</h3>
+            <Droppable droppableId={list.store.name} key={list.store.name}>
+              {(provided, snapshot) => (
+                <List ref={provided.innerRef} {...provided.droppableProps}>
+                  {list.items.map((item, idx) => {
+                    return (
+                      <ListEntry
+                        name={item.ingredient.name}
+                        key={item.ingredient.name}
+                        idx={idx}
+                      />
+                    );
+                  })}
+                  {provided.placeholder}
+                </List>
+              )}
+            </Droppable>
+          </>
         );
       })}
     </React.Fragment>
