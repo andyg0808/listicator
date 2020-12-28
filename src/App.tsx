@@ -12,7 +12,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import * as R from "ramda";
-import * as T from "./types";
 
 import {
   Menu,
@@ -24,10 +23,16 @@ import {
   Store,
   TotalOrder,
   Trip,
+  updateTripLists,
 } from "./types";
 import { RootState } from "./store";
 
-import { reorder, ReorderEvent, SortOrder } from "./shopping_order";
+import {
+  reorder,
+  ReorderEvent,
+  SortOrder,
+  sortByOrder,
+} from "./shopping_order";
 
 import { recipesToTrip } from "./transforms";
 
@@ -113,55 +118,13 @@ function DragDispatcher({ children, trip }) {
 function App() {
   const trip = useSelector((store: RootState) => recipesToTrip(store.recipes));
   const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
-  const sortListItems = (l: ShoppingList): ShoppingList => {
-    const storeOrder = sortOrder[l.store.name];
-    // If no information is available about the ordering for the
-    // store, we can't usefully sort at all.
-    if (!storeOrder) {
-      return l;
-    }
-    const [positioned, remaining] = R.partition(
-      (i) => R.has(i.ingredient.name, storeOrder),
-      l.items
-    );
-    const sortedPositioned = R.sortBy(
-      (i: TotalOrder) => storeOrder[i.ingredient.name],
-      positioned
-    );
-    function merge(
-      idx: number,
-      positioned: TotalOrder[],
-      remaining: TotalOrder[]
-    ): TotalOrder[] {
-      if (positioned.length == 0) {
-        return remaining;
-      } else if (remaining.length == 0) {
-        return positioned;
-      }
-
-      const name = T.getIngredientName(positioned[0]);
-      const position = storeOrder[name];
-
-      if (idx == position) {
-        return R.append(
-          positioned[0],
-          merge(idx + 1, positioned.slice(1), remaining)
-        );
-      } else {
-        return R.append(
-          remaining[0],
-          merge(idx + 1, positioned, remaining.slice(1))
-        );
-      }
-    }
-    const sorted = merge(0, sortedPositioned, remaining);
-    return R.assoc("items", sorted, l);
-  };
-  const updateTrip = (t) => T.updateTripLists(R.map(sortListItems), t);
-  const sortedTrip = updateTrip(trip);
+  const sortedTrip = updateTripLists(
+    R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
+    trip
+  );
   console.log("Sorted", sortedTrip);
   return (
-    <DragDispatcher trip={trip}>
+    <DragDispatcher trip={sortedTrip}>
       <div className="App">
         <h2>List</h2>
         <ListSorter trip={sortedTrip} />
