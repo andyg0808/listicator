@@ -19,7 +19,6 @@ import {
   Order,
   Recipe,
   ShoppingList,
-  ShoppingOrder,
   Store,
   TotalOrder,
   Trip,
@@ -32,7 +31,6 @@ import {
   ReorderEvent,
   save,
   SaveEvent,
-  SortOrder,
   sortByOrder,
 } from "./shopping_order";
 

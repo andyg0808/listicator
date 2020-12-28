@@ -9,7 +9,6 @@ import {
   MenuList,
   Order,
   ShoppingList,
-  ShoppingOrder,
   Store,
   TotalOrder,
   ShoppingOrderMap,

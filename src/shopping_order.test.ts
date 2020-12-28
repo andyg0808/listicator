@@ -90,7 +90,7 @@ describe("merge", () => {
         fc.array(totalOrder),
         fc.array(totalOrder),
         (positioned, remaining) => {
-          const storeOrder: OrderMapping = Object.fromEntries(
+          const storeOrder: StoreOrderMap = Object.fromEntries(
             positioned.map((p, i) => [p.ingredient.name, i])
           );
           expect(storeOrder).toBeDefined();

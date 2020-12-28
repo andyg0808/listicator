@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import * as R from "ramda";
-import { TotalOrder, getIngredientName, ShoppingList } from "./types";
+import {
+  TotalOrder,
+  getIngredientName,
+  ShoppingList,
+  StoreOrderMap,
+  ShoppingOrderMap,
+} from "./types";
 
 export interface ReorderEvent {
   name: string;
@@ -10,9 +16,7 @@ export interface ReorderEvent {
   displayOrder: string[];
 }
 
-export type OrderMapping = Record<string, number>;
-export type SortOrder = Record<string, OrderMapping>;
-function moveDown(mapping: OrderMapping, event: ReorderEvent): OrderMapping {
+function moveDown(mapping: StoreOrderMap, event: ReorderEvent): StoreOrderMap {
   console.log("Move down", event);
   console.log(mapping);
   const { fromIdx, toIdx, displayOrder } = event;
@@ -30,9 +34,9 @@ function moveDown(mapping: OrderMapping, event: ReorderEvent): OrderMapping {
 }
 
 export function moveUp(
-  mapping: OrderMapping,
+  mapping: StoreOrderMap,
   event: ReorderEvent
-): OrderMapping {
+): StoreOrderMap {
   console.log("Move up", event);
   console.log(mapping);
   const { fromIdx, toIdx, displayOrder } = event;
@@ -78,7 +82,7 @@ export function saveReducer(state, action: PayloadAction<SaveEvent>) {
 
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrder",
-  initialState: {} as SortOrder,
+  initialState: {} as ShoppingOrderMap,
   reducers: {
     reorder: reorderReducer,
     save: saveReducer,
@@ -89,7 +93,7 @@ export const { reorder, save } = shoppingOrderSlice.actions;
 export const reducer = shoppingOrderSlice.reducer;
 
 export function sortByOrder(
-  sortOrder: SortOrder,
+  sortOrder: ShoppingOrderMap,
   l: ShoppingList
 ): ShoppingList {
   const storeOrder = sortOrder[l.store.name];
@@ -121,7 +125,7 @@ export function merge(
   idx: number,
   positioned: TotalOrder[],
   remaining: TotalOrder[],
-  storeOrder: OrderMapping
+  storeOrder: StoreOrderMap
 ): TotalOrder[] {
   if (positioned.length == 0) {
     return remaining;
