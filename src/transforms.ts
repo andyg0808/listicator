@@ -8,20 +8,23 @@ import {
   Store,
   TotalOrder,
   Trip,
+  StorePreferenceMap,
 } from "./types";
 import { groupBy } from "ramda";
 
-export function tripFromMenuList(menuList: MenuList): Trip {
+export function tripFromMenuList(
+  menuList: MenuList,
+  storePreference: StorePreferenceMap
+): Trip {
   const stores: { [index: string]: Array<TotalOrder> } = groupBy(
-    (item) => "Trader Joe's",
+    (item) => storePreference[item.ingredient.name],
     menuList.items
   );
-  const store: Store = { name: "Trader Joe's" };
   const lists: Array<ShoppingList> = Object.entries(stores).map(
     ([storeid, items]: [string, Array<TotalOrder>]): ShoppingList => {
       return {
         items: items,
-        store: store,
+        store: { name: storeid },
       };
     }
   );
@@ -50,8 +53,11 @@ export function menuListFromMenu(menu: Menu): MenuList {
   };
 }
 
-export function recipesToTrip(recipes: Recipe[]): Trip {
+export function recipesToTrip(
+  recipes: Recipe[],
+  storePreference: StorePreferenceMap
+): Trip {
   const menu = { recipes };
   const menuList = menuListFromMenu(menu);
-  return tripFromMenuList(menuList);
+  return tripFromMenuList(menuList, storePreference);
 }

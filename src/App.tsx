@@ -119,7 +119,9 @@ function DragDispatcher({ children, trip }) {
 }
 
 function App() {
-  const trip = useSelector((store: RootState) => recipesToTrip(store.recipes));
+  const trip = useSelector((store: RootState) =>
+    recipesToTrip(store.recipes, store.storePreference)
+  );
   const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
   const sortedTrip = updateTripLists(
     R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
