@@ -63,15 +63,29 @@ export function reorderReducer(state, action: PayloadAction<ReorderEvent>) {
   );
 }
 
+export interface SaveEvent {
+  store: string;
+  displayOrder: string[];
+}
+export function saveReducer(state, action: PayloadAction<SaveEvent>) {
+  const payload = action.payload;
+  const storeLens = R.lensProp(payload.store);
+  const mapping = Object.fromEntries(
+    payload.displayOrder.map((p, i) => [p, i])
+  );
+  return R.set(storeLens, mapping, state);
+}
+
 const shoppingOrderSlice = createSlice({
   name: "shoppingOrder",
   initialState: {} as SortOrder,
   reducers: {
     reorder: reorderReducer,
+    save: saveReducer,
   },
 });
 
-export const { reorder } = shoppingOrderSlice.actions;
+export const { reorder, save } = shoppingOrderSlice.actions;
 export const reducer = shoppingOrderSlice.reducer;
 
 export function sortByOrder(

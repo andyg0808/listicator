@@ -30,6 +30,8 @@ import { RootState } from "./store";
 import {
   reorder,
   ReorderEvent,
+  save,
+  SaveEvent,
   SortOrder,
   sortByOrder,
 } from "./shopping_order";
@@ -122,6 +124,17 @@ function App() {
     R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
     trip
   );
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    sortedTrip.lists.forEach((list: ShoppingList) => {
+      dispatch(
+        save({
+          store: list.store.name,
+          displayOrder: list.items.map((order) => order.ingredient.name),
+        })
+      );
+    });
+  }, [trip]);
   console.log("Sorted", sortedTrip);
   return (
     <DragDispatcher trip={sortedTrip}>
