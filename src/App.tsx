@@ -19,9 +19,11 @@ import {
 } from "./types";
 import { RootState } from "./store";
 
+import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
+
+import { setStore } from "./store_preference";
+
 import { recipesToTrip } from "./transforms";
-
-
 
 function ListEntry({ name, idx }) {
   return (
@@ -40,10 +42,19 @@ function ListEntry({ name, idx }) {
   );
 }
 
-function ListSorter({ trip }: { trip: Trip }) {
+function ListSorter({ trip, stores }: { trip: Trip, stores: Store[] }) {
+  const storeList = R.union(
+    stores,
+    trip.lists.map((l) => l.store)
+  );
+  const indexedLists = R.indexBy((l) => l.store.name, trip.lists);
   return (
     <React.Fragment>
-      {trip.lists.map((list: ShoppingList) => {
+      {storeList.map((store: Store) => {
+        const list: ShoppingList = indexedLists[store.name] || {
+          items: [],
+          store,
+        };
         return (
           <React.Fragment key={store.name}>
             <h3>{list.store.name}</h3>
@@ -83,28 +94,52 @@ function DragDispatcher({ children, trip }) {
     const store = destination.droppableId;
     const fromIdx = source.index;
     const toIdx = destination.index;
-    const list: ShoppingList = listIndex[store];
-    const items: TotalOrder[] = list.items;
-    console.log(store);
-    console.log(fromIdx, list.items[fromIdx]);
-    const startOrder = dispatch(
-      reorder({
-        name: result.draggableId,
-        store,
-        fromIdx,
-        toIdx,
-        displayOrder: items.map((o) => o.ingredient.name),
-      })
-    );
+    const list: ShoppingList | undefined = listIndex[store];
+    const items: TotalOrder[] = list?.items || [];
+    const displayOrder = items.map((o) => o.ingredient.name);
+    if (source.droppableId === destination.droppableId) {
+      if (toIdx < 0) {
+        console.log("Moved to negative position", result);
+      }
+      dispatch(
+        reorder({
+          name: result.draggableId,
+          store,
+          fromIdx,
+          toIdx,
+          displayOrder,
+        })
+      );
+    } else {
+      dispatch(
+        insertItem({
+          name: result.draggableId,
+          store,
+          atIdx: toIdx,
+          displayOrder,
+        })
+      );
+      dispatch(
+        setStore({
+          item: result.draggableId,
+          store,
+        })
+      );
+    }
   }
 
   return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
 }
 
 function App() {
-  const trip = useSelector((store: RootState) =>
-    recipesToTrip(store.recipes, store.storePreference)
+  const recipes = useSelector((store: RootState) => store.recipes);
+  const storePreference = useSelector(
+    (store: RootState) => store.storePreference
   );
+  const trip = recipesToTrip(recipes, storePreference);
+  const stores = ["Trader Joe's", "Costco", "Food 4 Less"].map((store) => {
+    return { name: store };
+  });
   const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
   const sortedTrip = updateTripLists(
     R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
@@ -120,13 +155,13 @@ function App() {
         })
       );
     });
-  }, [trip]);
+  }, [recipes]);
   console.log("Sorted", sortedTrip);
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
         <h2>List</h2>
-        <ListSorter trip={sortedTrip} />
+        <ListSorter stores={stores} trip={sortedTrip} />
       </div>
     </DragDispatcher>
   );

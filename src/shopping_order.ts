@@ -8,6 +8,44 @@ import {
   ShoppingOrderMap,
 } from "./types";
 
+export interface InsertItemEvent {
+  name: string;
+  store: string;
+  atIdx: number;
+  displayOrder: string[];
+}
+
+function insertItemIntoMapping(
+  mapping: StoreOrderMap,
+  event: InsertItemEvent
+): StoreOrderMap {
+  const { atIdx, displayOrder } = event;
+  const pushedItems: string[] = displayOrder.slice(atIdx);
+  const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
+  const forwardedMapping = mappedItems.reduce((mapping, i) => {
+    return R.over(R.lensProp(i), (idx) => idx + 1, mapping);
+  }, mapping);
+  return R.assoc(event.name, atIdx, forwardedMapping);
+}
+
+export function insertItemReducer(
+  state,
+  action: PayloadAction<InsertItemEvent>
+) {
+  const payload = action.payload;
+  const storeLens = R.lensProp(payload.store);
+  return R.over(
+    storeLens,
+    (mapping) => {
+      if (!mapping) {
+        return { [payload.name]: payload.atIdx };
+      }
+      return insertItemIntoMapping(mapping, payload);
+    },
+    state
+  );
+}
+
 export interface ReorderEvent {
   name: string;
   store: string;
@@ -80,12 +118,13 @@ const shoppingOrderSlice = createSlice({
   name: "shoppingOrder",
   initialState: {} as ShoppingOrderMap,
   reducers: {
+    insertItem: insertItemReducer,
     reorder: reorderReducer,
     save: saveReducer,
   },
 });
 
-export const { reorder, save } = shoppingOrderSlice.actions;
+export const { insertItem, reorder, save } = shoppingOrderSlice.actions;
 export const reducer = shoppingOrderSlice.reducer;
 
 export function sortByOrder(
