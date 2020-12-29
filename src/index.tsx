@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import ParserViewer from "./ParserViewer";
+import LexerViewer from "./LexerViewer";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -12,6 +13,7 @@ ReactDOM.render(
     <Provider store={store}>
         <ParserViewer />
         <App />
+        <LexerViewer />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
