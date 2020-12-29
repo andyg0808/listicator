@@ -1,4 +1,4 @@
-const moo = require("moo");
+import moo from "moo";
 const fracMapping = new Map([
   ["¼", 1 / 4],
   ["½", 1 / 2],
@@ -77,7 +77,7 @@ const delimiter = (next) => {
   };
 };
 
-exports.lexer = moo.states({
+export const lexer = moo.states({
   main: {
     ...size,
     number: { match: /[0-9.]+/, value: (v) => Number(v) },
