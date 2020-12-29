@@ -11,6 +11,8 @@ import styled from "@emotion/styled";
 
 import { lexer } from "./lexer";
 
+import * as R from "ramda";
+
 const Blob = styled.pre``;
 export default function LexerViewer() {
   const [text, setText] = React.useState("");
@@ -25,6 +27,10 @@ export default function LexerViewer() {
     console.log(e);
     error = e;
   }
+
+  const lastTok = R.last(tokens);
+  const errTok = lastTok?.type === "lexError" ? lastTok : null;
+
   return (
     <Container>
       <TextareaAutosize
@@ -36,6 +42,18 @@ export default function LexerViewer() {
         <Blob>{JSON.stringify(t)}</Blob>
       ))}
       <Blob>{JSON.stringify(error)}</Blob>
+      {errTok && <DisplayError error={errTok} text={text} />}
     </Container>
+  );
+}
+
+function DisplayError({ error, text }) {
+  const [left, right] = R.splitAt(error.offset, text);
+  return (
+    <>
+      <h2>Error</h2>
+      <Blob style={{ color: "green" }}>{left}</Blob>
+      <Blob style={{ color: "red" }}>{right}</Blob>
+    </>
   );
 }
