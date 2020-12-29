@@ -45,7 +45,7 @@ function ListSorter({ trip }: { trip: Trip }) {
     <React.Fragment>
       {trip.lists.map((list: ShoppingList) => {
         return (
-          <>
+          <React.Fragment key={store.name}>
             <h3>{list.store.name}</h3>
             <Droppable droppableId={list.store.name} key={list.store.name}>
               {(provided, snapshot) => (
@@ -63,7 +63,7 @@ function ListSorter({ trip }: { trip: Trip }) {
                 </List>
               )}
             </Droppable>
-          </>
+          </React.Fragment>
         );
       })}
     </React.Fragment>
