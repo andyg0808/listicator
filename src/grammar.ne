@@ -27,5 +27,5 @@ mixed_number ->
     number (%dash|_):? fraction  {% ([number, _, fraction]) => number + fraction %}
   | fraction {% m => m[0] %}
   | number {% n => n[0] %}
-  _ -> (%ws|%delimiter):+ {% data => null %}
+_ -> (%ws|%delimiter):+ {% data => null %}
 number -> %number {% n => n[0].value %}
