@@ -1,7 +1,6 @@
 const nearley = require("nearley");
 const grammar = require("./grammar.js");
 const fs = require("fs");
-const lexer = require("./lexer.js");
 
 const input = fs.readFileSync("examples/martha-stewart", "utf-8");
 

@@ -77,7 +77,7 @@ const delimiter = (next) => {
   };
 };
 
-module.exports = moo.states({
+exports.lexer = moo.states({
   main: {
     ...size,
     number: { match: /[0-9.]+/, value: (v) => Number(v) },
