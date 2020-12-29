@@ -72,7 +72,6 @@ function ListSorter({ trip }: { trip: Trip }) {
 
 function DragDispatcher({ children, trip }) {
   const dispatch = useDispatch();
-  const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
   const listIndex = R.indexBy((l: ShoppingList) => l.store.name, trip.lists);
 
   function dragHandler(result, provided) {
