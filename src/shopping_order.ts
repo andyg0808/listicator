@@ -17,8 +17,6 @@ export interface ReorderEvent {
 }
 
 function moveDown(mapping: StoreOrderMap, event: ReorderEvent): StoreOrderMap {
-  console.log("Move down", event);
-  console.log(mapping);
   const { fromIdx, toIdx, displayOrder } = event;
   const pushedItems: string[] = displayOrder.slice(fromIdx + 1, toIdx + 1);
   const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
@@ -37,8 +35,6 @@ export function moveUp(
   mapping: StoreOrderMap,
   event: ReorderEvent
 ): StoreOrderMap {
-  console.log("Move up", event);
-  console.log(mapping);
   const { fromIdx, toIdx, displayOrder } = event;
   const pushedItems: string[] = displayOrder.slice(toIdx, fromIdx);
   const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
