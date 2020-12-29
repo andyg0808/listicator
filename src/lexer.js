@@ -50,6 +50,7 @@ const fractionRegex = new RegExp(
 
 const universal = {
   ws: { match: /\s+/, lineBreaks: true },
+  lexError: moo.error,
 };
 
 const size = {
