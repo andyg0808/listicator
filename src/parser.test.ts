@@ -50,6 +50,7 @@ function* getTestData(): Generator<[string, ExamplePair]> {
       },
     ];
   }
+  examples_dir.close();
 }
 
 const examples = Array.from(getTestData()); //.slice(0, 9);
