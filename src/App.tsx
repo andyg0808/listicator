@@ -21,9 +21,7 @@ import { RootState } from "./store";
 
 import { recipesToTrip } from "./transforms";
 
-import { groupBy } from "ramda";
 
-const listId = "dragId";
 
 function ListEntry({ name, idx }) {
   return (
