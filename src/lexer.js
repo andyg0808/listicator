@@ -10,7 +10,7 @@ const regexMapping = [
   ["teaspoons?|tsp\\.|tsp\\b", "teaspoon"],
   ["[tT]ablespoons?|tbsp\\.|tbsp\\b", "tablespoon"],
   ["pounds?|lb\\b", "pound"],
-  ["ounces?|oz\\b", "ounce"],
+  ["ounces?|oz\\.|oz\\b", "ounce"],
   ["g\\b", "gram"],
   ["x\\b", "count"],
   ["ml\\b", "milliliter"],
