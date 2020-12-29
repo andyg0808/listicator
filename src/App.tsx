@@ -77,6 +77,9 @@ function DragDispatcher({ children, trip }) {
   function dragHandler(result, provided) {
     console.log("drag result", result, provided);
     const { source, destination } = result;
+    if (destination === null) {
+      return;
+    }
     const store = destination.droppableId;
     const fromIdx = source.index;
     const toIdx = destination.index;
