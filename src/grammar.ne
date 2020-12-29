@@ -20,6 +20,7 @@ unit ->
     %unit {% n => n[0].value %}
   | %forced_unit {% n => n[0].value %}
   | %size _ unit {% n => n[0].value + " " + n[2] %}
+  | %size {% n => n[0].value %}
 fraction ->
     number %slash number  {% ([left, _, right]) => left/right %}
   | %fraction {% f => f[0].value %}
