@@ -2,22 +2,15 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 
-import logo from "./logo.svg";
 import "./App.css";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import * as R from "ramda";
 
 import {
-  Menu,
-  MenuList,
-  Order,
-  Recipe,
   ShoppingList,
   Store,
   TotalOrder,
@@ -25,14 +18,6 @@ import {
   updateTripLists,
 } from "./types";
 import { RootState } from "./store";
-
-import {
-  reorder,
-  ReorderEvent,
-  save,
-  SaveEvent,
-  sortByOrder,
-} from "./shopping_order";
 
 import { recipesToTrip } from "./transforms";
 
