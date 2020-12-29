@@ -53,7 +53,10 @@ const universal = {
 };
 
 const size = {
-  size: { match: /\d+-(?:ounce|oz)|\(\d+-(?:ounce|oz)\)/, next: "unit" },
+  size: {
+    match: /\d+-(?:ounce|oz)|\(\d+-(?:ounce|oz)\)|\d+-(?:pound|lb\.?)/,
+    next: "unit",
+  },
 };
 
 const unit = {
