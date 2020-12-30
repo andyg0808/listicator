@@ -56,7 +56,7 @@ function* getTestData(): Generator<[string, ExamplePair]> {
   examples_dir.close();
 }
 
-const examples = Array.from(getTestData()); //.slice(0, 9);
+const examples = Array.from(getTestData());
 
 test.each(examples)("parse %s", (name: string, example: ExamplePair) => {
   expect(parse(example.input.trim())).toEqual(example.expected);
