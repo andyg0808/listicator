@@ -133,3 +133,6 @@ export type StoreOrderMap = Record<IngredientId, number>;
  * The order of ingredients in stores
  */
 export type ShoppingOrderMap = Record<StoreId, StoreOrderMap>;
+
+export type RecipeTitle = string;
+export type MenuSelectionMap = Record<RecipeTitle, boolean>;
