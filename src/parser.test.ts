@@ -97,7 +97,7 @@ test("Delimiter should disambiguate parses", () => {
             {
               amount: {
                 quantity: unified_quantity,
-                unit: unit === "" ? null : matchUnit(unit),
+                unit: unit === "" ? null : unit,
               },
               ingredient: {
                 name: ingredient,
