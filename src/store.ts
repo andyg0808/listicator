@@ -17,6 +17,7 @@ import {
 import { moveItemsDown } from "./sequence";
 import { reducer as shoppingOrderReducer } from "./shopping_order";
 import { reducer as storePreferenceReducer } from "./store_preference";
+import { reducer as menuSelectionsReducer } from "./menu_selections";
 
 const initialRecipes: Recipe[] = [];
 
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   recipes: recipeSlice.reducer,
   shoppingOrder: shoppingOrderReducer,
   storePreference: storePreferenceReducer,
+  menuSelections: menuSelectionsReducer,
 });
 
 const store = configureStore({
