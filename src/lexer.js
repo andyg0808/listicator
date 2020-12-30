@@ -28,7 +28,7 @@ const regexMapping = [
   ["chunk", "chunk"],
 ];
 
-const unitsRegex = new RegExp(
+export const unitsRegex = new RegExp(
   regexMapping.map(([regex, _]) => regex).join("|")
 );
 const matcherMapping = regexMapping.map(([regex, unit]) => [
@@ -36,7 +36,7 @@ const matcherMapping = regexMapping.map(([regex, unit]) => [
   unit,
 ]);
 
-function matchUnit(value) {
+export function matchUnit(value) {
   for (const [regex, unit] of matcherMapping) {
     if (regex.test(value)) {
       return unit;

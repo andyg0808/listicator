@@ -1,4 +1,7 @@
+import fc from "fast-check";
+
 import { parse } from "./parser";
+import { matchUnit, unitsRegex } from "./lexer";
 import { Recipe, Order, Amount, Ingredient } from "./types";
 
 import fs from "fs";
@@ -57,4 +60,53 @@ const examples = Array.from(getTestData()); //.slice(0, 9);
 
 test.each(examples)("parse %s", (name: string, example: ExamplePair) => {
   expect(parse(example.input.trim())).toEqual(example.expected);
+});
+const fc_unit = fc
+  .string({ minLength: 1 })
+  .map((s) => s.trim())
+  .filter((s) => !s.includes("!") && s.length > 0 && !unitsRegex.test(s));
+const fc_quantity = fc.nat().map((n) => (n === 0 ? "" : n));
+const fc_amount = fc.record({
+  quantity: fc_quantity,
+  unit: fc_unit,
+});
+const fc_ingredient_name = fc
+  .string({ minLength: 2 })
+  .map((s) => s.trim())
+  .filter((s) => !s.includes("!") && s.length > 1);
+const fc_ingredient = fc.record({
+  name: fc_ingredient_name,
+});
+const fc_recipe = fc.record({
+  amount: fc_amount,
+  ingredient: fc_ingredient,
+});
+
+test("Delimiter should disambiguate parses", () => {
+  fc.assert(
+    fc.property(
+      fc_quantity,
+      fc_unit,
+      fc_ingredient_name,
+      (quantity, unit, ingredient) => {
+        const combined = `${quantity}!${unit}!${ingredient}\n`;
+        const unified_quantity =
+          quantity === "" && unit !== null ? 1 : quantity;
+        const expected: Recipe = {
+          ingredients: [
+            {
+              amount: {
+                quantity: unified_quantity,
+                unit: unit === "" ? null : matchUnit(unit),
+              },
+              ingredient: {
+                name: ingredient,
+              },
+            },
+          ],
+        };
+        expect(parse(combined)).toEqual(expected);
+      }
+    )
+  );
 });
