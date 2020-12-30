@@ -42,6 +42,7 @@ export function matchUnit(value) {
       return unit;
     }
   }
+  return value;
 }
 
 const fractionRegex = new RegExp(
