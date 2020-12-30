@@ -5,15 +5,17 @@ import App from "./App";
 import ParserViewer from "./ParserViewer";
 import LexerViewer from "./LexerViewer";
 import reportWebVitals from "./reportWebVitals";
+import RecipeList from "./RecipeList";
 import { Provider } from "react-redux";
 import store from "./store";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-        <ParserViewer />
-        <App />
-        <LexerViewer />
+      <ParserViewer />
+      <RecipeList />
+      <App />
+      <LexerViewer />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
