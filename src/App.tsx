@@ -132,7 +132,12 @@ function DragDispatcher({ children, trip }) {
 }
 
 function App() {
-  const recipes = useSelector((store: RootState) => store.recipes);
+  const allRecipes = useSelector((store: RootState) => store.recipes);
+  const selected = useSelector((store: RootState) => store.menuSelections);
+  const recipes = React.useMemo(
+    () => allRecipes.filter((r) => selected["title"]),
+    [allRecipes, selected]
+  );
   const storePreference = useSelector(
     (store: RootState) => store.storePreference
   );
