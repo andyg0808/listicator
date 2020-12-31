@@ -2,7 +2,7 @@ import { moveUp, ReorderEvent, merge, OrderMapping } from "./shopping_order";
 import fc from "fast-check";
 
 describe("moveUp", () => {
-  it("should place an item targeted above all indexed items at the target index", () => {
+  it("places the targeted item at the target index when in normal", () => {
     fc.assert(
       fc.property(
         fc.nat(10).filter((i) => i !== 3),
