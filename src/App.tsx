@@ -13,6 +13,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import * as R from "ramda";
 
 import {
+  Amount,
   ShoppingList,
   Store,
   TotalOrder,
@@ -27,7 +28,17 @@ import { setStore } from "./store_preference";
 
 import { recipesToTrip } from "./transforms";
 
-function ListEntry({ name, idx }) {
+function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
+  const amount = item.amount
+    .map((a: Amount) => {
+      const unit =
+        a.quantity && a.quantity > 1 && a.unit !== null
+          ? a.unit + "s"
+          : a.unit || "";
+      return `${a.quantity || ""} ${unit}`;
+    })
+    .join(" & ");
+  const name = item.ingredient.name;
   return (
     <Draggable draggableId={name} index={idx}>
       {(provided, snapshot) => (
@@ -37,7 +48,7 @@ function ListEntry({ name, idx }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {name}
+          {amount} {name}
         </ListItem>
       )}
     </Draggable>
@@ -70,7 +81,7 @@ function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
                   {list.items.map((item, idx) => {
                     return (
                       <ListEntry
-                        name={item.ingredient.name}
+                        item={item}
                         key={item.ingredient.name}
                         idx={idx}
                       />
