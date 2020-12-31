@@ -26,7 +26,7 @@ export default function RecipeList() {
   return (
     <List>
       {recipes.map((recipe) => {
-        const title = "title";
+        const title = recipe.title;
         return (
           <ListItem key={title}>
             <ListItemIcon>

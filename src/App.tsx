@@ -135,7 +135,7 @@ function App() {
   const allRecipes = useSelector((store: RootState) => store.recipes);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const recipes = React.useMemo(
-    () => allRecipes.filter((r) => selected["title"]),
+    () => allRecipes.filter((r) => selected[r.title]),
     [allRecipes, selected]
   );
   const storePreference = useSelector(
