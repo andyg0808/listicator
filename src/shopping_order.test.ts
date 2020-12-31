@@ -1,5 +1,79 @@
-import { moveUp, ReorderEvent, merge, OrderMapping } from "./shopping_order";
+import {
+  moveUp,
+  ReorderEvent,
+  merge,
+  OrderMapping,
+  InsertItemEvent,
+  insertItemIntoMapping,
+} from "./shopping_order";
 import fc from "fast-check";
+
+const mapping = {
+  zero: 0,
+  one: 1,
+  five: 5,
+  six: 6,
+  seven: 7,
+  ten: 10,
+  twelve: 12,
+  thirteen: 13,
+  fourteen: 14,
+  fifteen: 17,
+  sixteen: 18,
+  seventeen: 25,
+  eighteen: 30,
+  nineteen: 53,
+};
+const move_cases = [
+  [3, 3],
+  [5, 5],
+  [15, 15],
+  [16, 18],
+  [18, 26],
+  [20, 54],
+];
+
+const displayOrder = [
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+  "thirteen",
+  "fourteen",
+  "fifteen",
+  "sixteen",
+  "seventeen",
+  "eighteen",
+  "nineteen",
+];
+
+describe("insertItemIntoMapping", () => {
+  it.each(move_cases)(
+    "gives an item inserted at index %d the sort index %d",
+    (target, expected) => {
+      const event: InsertItemEvent = {
+        name: "inserted",
+        store: "n/a",
+        atIdx: target,
+        displayOrder,
+      };
+      const actual = insertItemIntoMapping(mapping, event);
+      // The item should have been inserted in the appropriate position
+      expect(actual).toHaveProperty("inserted", expected);
+      // A gap should prevent further elements being modified
+      expect(actual).toHaveProperty("nineteen", 53);
+    }
+  );
+});
 
 describe("moveUp", () => {
   it("places the targeted item at the target index when in normal", () => {
