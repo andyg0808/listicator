@@ -15,17 +15,32 @@ export interface InsertItemEvent {
   displayOrder: string[];
 }
 
-function insertItemIntoMapping(
+export function insertItemIntoMapping(
   mapping: StoreOrderMap,
   event: InsertItemEvent
 ): StoreOrderMap {
   const { atIdx, displayOrder } = event;
+
+  const previousItem: string | undefined = displayOrder[atIdx - 1];
+  const previousIdx: number | undefined = mapping[previousItem];
+  console.log(previousItem);
+  const targetIdx = previousIdx ? previousIdx + 1 : atIdx;
+
   const pushedItems: string[] = displayOrder.slice(atIdx);
   const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
-  const forwardedMapping = mappedItems.reduce((mapping, i) => {
-    return R.over(R.lensProp(i), (idx) => idx + 1, mapping);
-  }, mapping);
-  return R.assoc(event.name, atIdx, forwardedMapping);
+  const [_, forwardedMapping] = mappedItems.reduce(
+    (acc, i) => {
+      const [last, mapping] = acc;
+      const current = mapping[i];
+      if (current > last + 1) {
+        return [last, mapping];
+      }
+      return [current, R.over(R.lensProp(i), (idx) => idx + 1, mapping)];
+    },
+    [targetIdx, mapping]
+  );
+
+  return R.assoc(event.name, targetIdx, forwardedMapping);
 }
 
 export function insertItemReducer(
