@@ -28,7 +28,7 @@ export default function RecipeList() {
       {recipes.map((recipe) => {
         const title = "title";
         return (
-          <ListItem>
+          <ListItem key={title}>
             <ListItemIcon>
               <Checkbox
                 checked={checks[title] || false}
