@@ -42,7 +42,7 @@ function ListEntry({ name, idx }) {
   );
 }
 
-function ListSorter({ trip, stores }: { trip: Trip, stores: Store[] }) {
+function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
   const storeList = R.union(
     stores,
     trip.lists.map((l) => l.store)
