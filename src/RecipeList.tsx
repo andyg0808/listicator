@@ -31,7 +31,7 @@ export default function RecipeList() {
           <ListItem>
             <ListItemIcon>
               <Checkbox
-                checked={checks[title]}
+                checked={checks[title] || false}
                 onChange={(evt) => setCheck(title, evt.target.checked)}
               ></Checkbox>
             </ListItemIcon>
