@@ -8,11 +8,11 @@ import fs from "fs";
 
 interface ExamplePair {
   name: String;
-  expected: Recipe;
+  expected: Ingredient[];
   input: String;
 }
 
-function parseExpected(blob: string, src: string): Recipe {
+function parseExpected(blob: string, src: string): Ingredient {
   const items = blob.split("\n").map((line) => {
     const parts = line.split("|");
     if (parts.length < 3) {
@@ -30,9 +30,7 @@ function parseExpected(blob: string, src: string): Recipe {
       },
     };
   });
-  return {
-    ingredients: items.filter((i: Order | null): i is Order => i !== null),
-  };
+  return items.filter((i: Order | null): i is Order => i !== null);
 }
 
 function* getTestData(): Generator<[string, ExamplePair]> {
@@ -92,19 +90,17 @@ test("Delimiter should disambiguate parses", () => {
         const combined = `${quantity}!${unit}!${ingredient}\n`;
         const unified_quantity =
           quantity === "" && unit !== null ? 1 : quantity;
-        const expected: Recipe = {
-          ingredients: [
-            {
-              amount: {
-                quantity: unified_quantity,
-                unit: unit === "" ? null : unit,
-              },
-              ingredient: {
-                name: ingredient,
-              },
+        const expected: Ingredient[] = [
+          {
+            amount: {
+              quantity: unified_quantity,
+              unit: unit === "" ? null : unit,
             },
-          ],
-        };
+            ingredient: {
+              name: ingredient,
+            },
+          },
+        ];
         expect(parse(combined)).toEqual(expected);
       }
     )

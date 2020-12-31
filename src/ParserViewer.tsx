@@ -15,7 +15,7 @@ import { addRecipe } from "./store";
 import { parse } from "./parser";
 import { Order, Recipe } from "./types";
 
-function safeParse(text: string): Recipe {
+function safeParse(text: string): Order[] {
   try {
     return parse(text.trim());
   } catch (e) {
@@ -25,22 +25,24 @@ function safeParse(text: string): Recipe {
     const line = e.token?.line || 0;
     console.log(line, lines.length);
     console.log(lines.slice(line - 1, line + 2));
-    return { ingredients: [] };
+    return [];
   }
 }
 
 export default function ParserViewer() {
   const [text, setText] = React.useState("");
   const [url, setUrl] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const [err, setErr] = React.useState<string | null>(null);
   const [saved, setSaved] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   console.log("Parsing");
-  const recipe = safeParse(text);
+  const ingredients = safeParse(text);
   console.log("done");
 
   function reset() {
     setText("");
+    setTitle("");
     setUrl("");
     setErr(null);
     setSaved(false);
@@ -54,7 +56,7 @@ export default function ParserViewer() {
       body: JSON.stringify({
         url: url,
         example: text,
-        expected: recipe.ingredients
+        expected: ingredients
           .map(
             (i) =>
               `${i.amount.quantity ?? ""}|${i.amount.unit ?? ""}|${
@@ -76,17 +78,28 @@ export default function ParserViewer() {
   }
 
   function saveToStore() {
+    const recipe = {
+      ingredients,
+      title,
+    };
     dispatch(addRecipe(recipe));
   }
 
   function saveToLocalStorage() {
     console.log("stored", text);
-    window.localStorage.setItem("listicator", text);
+    window.localStorage.setItem("listicator", JSON.stringify([title, text]));
   }
   function loadFromLocalStorage() {
-    const text = window.localStorage.getItem("listicator") || "";
+    const [title, text] = JSON.parse(
+      window.localStorage.getItem("listicator") || ""
+    );
     setText(text);
-    const recipe = safeParse(text);
+    setTitle(title);
+    const ingredients = safeParse(text);
+    const recipe = {
+      ingredients,
+      title,
+    };
     dispatch(addRecipe(recipe));
   }
 
@@ -113,6 +126,12 @@ export default function ParserViewer() {
         label="Url"
         value={url}
       />
+      <TextField
+        onChange={(e) => setTitle(e.target.value)}
+        onBlur={(e) => setTitle(e.target.value)}
+        label="Title"
+        value={title}
+      />
       <Table>
         <TableHead>
           <TableRow>
@@ -122,7 +141,7 @@ export default function ParserViewer() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {recipe.ingredients.map((order: Order, i: number) => (
+          {ingredients.map((order: Order, i: number) => (
             <TableRow key={order.ingredient.name + i}>
               <TableCell>{order.amount.quantity}</TableCell>
               <TableCell>{order.amount.unit}</TableCell>

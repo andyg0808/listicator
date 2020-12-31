@@ -3,7 +3,7 @@ import nearley from "nearley";
 import grammar from "./grammar";
 import { log } from "./logger";
 
-export function parse(data: string): Recipe {
+export function parse(data: string): Array<Order> {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
   parser.feed(data);
   if (parser.results.length > 1) {
@@ -13,7 +13,7 @@ export function parse(data: string): Recipe {
   // console.log(JSON.stringify(parser.results, null, "  "));
   // console.log("results", results);
   if (!results || results.length == 0) {
-    return { ingredients: [] };
+    return [];
   }
 
   log("results", results);
@@ -35,7 +35,5 @@ export function parse(data: string): Recipe {
         };
       }
     );
-  return {
-    ingredients,
-  };
+  return ingredients;
 }

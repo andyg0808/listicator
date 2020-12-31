@@ -31,6 +31,7 @@ import * as R from "ramda";
  * A list of ingredients and amounts to make
  */
 export interface Recipe {
+  title: RecipeTitle;
   ingredients: Array<Order>;
 }
 
