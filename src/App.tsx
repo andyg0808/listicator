@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 
+import styled from "@emotion/styled";
+
 import "./App.css";
 
 import List from "@material-ui/core/List";
@@ -42,6 +44,10 @@ function ListEntry({ name, idx }) {
   );
 }
 
+const ListViewer = styled.div`
+  display: flex;
+`;
+
 function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
   const storeList = R.union(
     stores,
@@ -49,14 +55,14 @@ function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
   );
   const indexedLists = R.indexBy((l) => l.store.name, trip.lists);
   return (
-    <React.Fragment>
+    <ListViewer>
       {storeList.map((store: Store) => {
         const list: ShoppingList = indexedLists[store.name] || {
           items: [],
           store,
         };
         return (
-          <React.Fragment key={store.name}>
+          <div key={store.name}>
             <h3>{list.store.name}</h3>
             <Droppable droppableId={list.store.name} key={list.store.name}>
               {(provided, snapshot) => (
@@ -74,10 +80,10 @@ function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
                 </List>
               )}
             </Droppable>
-          </React.Fragment>
+          </div>
         );
       })}
-    </React.Fragment>
+    </ListViewer>
   );
 }
 
