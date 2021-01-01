@@ -71,17 +71,48 @@ export interface ReorderEvent {
 
 function moveDown(mapping: StoreOrderMap, event: ReorderEvent): StoreOrderMap {
   const { fromIdx, toIdx, displayOrder } = event;
+
+  // No need for the targetIdx logic here, because we're always
+  // moving the element that will become the previous one.
+
   const pushedItems: string[] = displayOrder.slice(fromIdx + 1, toIdx + 1);
   const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
-  const forwardedMapping = mappedItems.reduce((mapping, i) => {
-    return R.over(R.lensProp(i), (idx) => idx - 1, mapping);
-  }, mapping);
-  // if (mappedItems) {
-  //   const targetIdx = mapping[mappedItems[mappedItems.length - 1]];
-  //   return R.assoc(event.name, targetIdx, forwardedMapping);
-  // } else {
-  return R.assoc(event.name, toIdx, forwardedMapping);
-  // }
+  const [_, forwardedMapping] = mappedItems.reduceRight(
+    (acc, i) => {
+      const [last, mapping] = acc;
+      const current = mapping[i];
+      // if (current < last - 1) {
+      //   return [last, mapping];
+      // }
+      return [current, R.over(R.lensProp(i), (idx) => idx - 1, mapping)];
+    },
+    [toIdx, mapping]
+  );
+
+  const findTarget = () => {
+    const finalItem = R.last(mappedItems);
+    if (finalItem === undefined) {
+      return toIdx;
+    }
+    const finalIdx = mapping[finalItem];
+    return finalIdx < toIdx ? toIdx : finalIdx;
+  };
+  const targetIdx = findTarget();
+
+  return R.assoc(event.name, targetIdx, forwardedMapping);
+
+  // const { fromIdx, toIdx, displayOrder } = event;
+  // const pushedItems: string[] = displayOrder.slice(fromIdx + 1, toIdx + 1);
+  // const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
+  // const forwardedMapping = mappedItems.reduce((mapping, i) => {
+  //   return R.over(R.lensProp(i), (idx) => idx - 1, mapping);
+  // }, mapping);
+  // // if (mappedItems) {
+  // //   const targetIdx = mapping[mappedItems[mappedItems.length - 1]];
+  // //   return R.assoc(event.name, targetIdx, forwardedMapping);
+  // // } else {
+  // return R.assoc(event.name, toIdx, forwardedMapping);
+  // // }
 }
 
 function moveUp(mapping: StoreOrderMap, event: ReorderEvent): StoreOrderMap {
