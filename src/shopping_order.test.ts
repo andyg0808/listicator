@@ -157,7 +157,11 @@ describe("move", () => {
     fc.assert(
       fc.property(fc_state, ([mapping, event]) => {
         const updated = move(mapping, event);
-        expect(updated[event.name]).toEqual(event.toIdx);
+        if (event.fromIdx === event.toIdx) {
+          expect(updated[event.name]).toEqual(mapping[event.name]);
+        } else {
+          expect(updated[event.name]).toEqual(event.toIdx);
+        }
       })
     );
   });
