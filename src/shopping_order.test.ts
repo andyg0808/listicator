@@ -5,8 +5,10 @@ import {
   OrderMapping,
   InsertItemEvent,
   insertItemIntoMapping,
+  sortByOrder,
 } from "./shopping_order";
 import fc from "fast-check";
+import * as R from "ramda";
 
 const mapping = {
   zero: 0,
@@ -75,56 +77,88 @@ describe("insertItemIntoMapping", () => {
   );
 });
 
-describe("moveUp", () => {
-  it("places the targeted item at the target index when in normal", () => {
-    fc.assert(
-      fc.property(
-        fc.nat(10).filter((i) => i !== 3),
-        fc.array(
-          fc.string({ minLength: 1 }).filter((i) => !i.includes(".")),
-          { minLength: 12 }
-        ),
-        (a, displayOrder) => {
-          const existing = displayOrder[a];
-          const state = { [existing]: a };
-          const mover = displayOrder[a + 1];
-          const event: ReorderEvent = {
-            name: mover,
-            store: "ignored",
-            fromIdx: a + 1,
-            toIdx: 3,
-            displayOrder,
-          };
-          expect(moveUp(state, event)).toHaveProperty(mover, 3);
-        }
-      )
+function sortDisplayOrder(sortOrder: StoreOrderMap, displayOrder: string[]) {
+  const [positioned, remaining] = R.partition(
+    (i) => R.has(i, storeOrder),
+    displayOrder
+  );
+
+  remaining.sort();
+  positioned.sort();
+
+  return mergeDisplayOrder(0, positioned, remaining, sortOrder);
+}
+
+function mergeDisplayOrder(
+  idx: number,
+  positioned: string[],
+  remaining: string[],
+  storeOrder: StoreOrderMap
+): string[] {
+  if (positioned.length == 0) {
+    return remaining;
+  } else if (remaining.length == 0) {
+    return positioned;
+  }
+
+  const name = positioned[0];
+  const position = storeOrder[name];
+
+  if (idx == position) {
+    return R.prepend(
+      positioned[0],
+      merge(idx + 1, positioned.slice(1), remaining, storeOrder)
     );
-  });
-  it.skip("should place an item which is targeted between shifted items at the target index", () => {
+  } else {
+    return R.prepend(
+      remaining[0],
+      merge(idx + 1, positioned, remaining.slice(1), storeOrder)
+    );
+  }
+}
+
+function generatePositionInformation({
+  fromIdx,
+  toIdx,
+  displayed,
+  mappedIndexes,
+}) {
+  const mapping = Object.fromEntries(
+    R.zipWith((name, idx) => [name, idx], displayed, mappedIndexes)
+  );
+
+  const displayOrder = sortDisplayOrder(displayed);
+
+  const name = displayed[fromIdx];
+  const event: ReorderEvent = {
+    name: mover,
+    store: "n/a",
+    fromIdx: fromIdx,
+    toIdx: toIdx,
+    displayed,
+  };
+  return [mapping, event];
+}
+
+const fc_displayed = fc.set(fc.string());
+const fc_state = fc_displayed
+  .chain((displayed) =>
+    fc.record({
+      fromIdx: fc.nat(displayed.length - 1),
+      toIdx: fc.nat(displayed.length - 1),
+      displayed,
+      mappedIndexes: fc.set(fc.nat(), { maxLength: displayed.length }),
+    })
+  )
+  .map(generatePositionInformation);
+
+describe("moveUp", () => {
+  it("places the targeted item at the target index", () => {
     fc.assert(
-      fc.property(
-        fc.nat(10),
-        fc.array(
-          fc.string({ minLength: 1 }).filter((i) => !i.includes(".")),
-          { minLength: 12 }
-        ),
-        (a, displayOrder) => {
-          const mapping = Object.fromEntries(
-            displayOrder.map((el, i) => [el, i + 20])
-          );
-          const fromIdx = a + 1;
-          const mover = displayOrder[fromIdx];
-          const toIdx = a;
-          const event: ReorderEvent = {
-            name: mover,
-            store: "ignored",
-            fromIdx,
-            toIdx,
-            displayOrder,
-          };
-          expect(moveUp(mapping, event)).toHaveProperty(mover, 3);
-        }
-      )
+      fc.property(fc_state, ([mapping, event]) => {
+        const updated = moveUp(mapping, event);
+        expect(updated[event.name]).toEqual(event.toIdx);
+      })
     );
   });
 });
