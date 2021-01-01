@@ -127,7 +127,7 @@ function generatePositionInformation({
     R.zipWith((name, idx) => [name, idx], displayed, mappedIndexes)
   );
 
-  const displayOrder = sortDisplayOrder(displayed);
+  const displayOrder = sortDisplayOrder(mapping, displayed);
 
   const name = displayed[fromIdx];
   const event: ReorderEvent = {
