@@ -135,7 +135,7 @@ function generatePositionInformation({
     store: "n/a",
     fromIdx: fromIdx,
     toIdx: toIdx,
-    displayed,
+    displayOrder: displayed,
   };
   return [mapping, event];
 }
