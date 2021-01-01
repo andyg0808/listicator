@@ -84,10 +84,7 @@ function moveDown(mapping: StoreOrderMap, event: ReorderEvent): StoreOrderMap {
   // }
 }
 
-export function moveUp(
-  mapping: StoreOrderMap,
-  event: ReorderEvent
-): StoreOrderMap {
+function moveUp(mapping: StoreOrderMap, event: ReorderEvent): StoreOrderMap {
   const { fromIdx, toIdx, displayOrder } = event;
   const pushedItems: string[] = displayOrder.slice(toIdx, fromIdx);
   const mappedItems = R.filter((i) => R.has(i, mapping), pushedItems);
@@ -95,6 +92,16 @@ export function moveUp(
     return R.over(R.lensProp(i), (idx) => idx + 1, mapping);
   }, mapping);
   return R.assoc(event.name, toIdx, forwardedMapping);
+}
+
+export function move(mapping: StoreOrderMap, event: ReorderEvent) {
+  if (event.fromIdx === event.toIdx) {
+    return mapping;
+  } else if (event.fromIdx < event.toIdx) {
+    return moveDown(mapping, event);
+  } else {
+    return moveUp(mapping, event);
+  }
 }
 
 export function reorderReducer(state, action: PayloadAction<ReorderEvent>) {
@@ -106,11 +113,7 @@ export function reorderReducer(state, action: PayloadAction<ReorderEvent>) {
       if (!mapping) {
         return { [payload.name]: payload.toIdx };
       }
-      if (payload.fromIdx < payload.toIdx) {
-        return moveDown(mapping, payload);
-      } else {
-        return moveUp(mapping, payload);
-      }
+      return move(mapping, payload);
     },
     state
   );

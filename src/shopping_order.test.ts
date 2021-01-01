@@ -1,11 +1,11 @@
 import {
-  moveUp,
-  ReorderEvent,
-  merge,
-  OrderMapping,
-  InsertItemEvent,
-  insertItemIntoMapping,
+  move,
   sortByOrder,
+  InsertItemEvent,
+  OrderMapping,
+  ReorderEvent,
+  insertItemIntoMapping,
+  merge,
 } from "./shopping_order";
 import fc from "fast-check";
 import * as R from "ramda";
@@ -152,19 +152,15 @@ const fc_state = fc_displayed
   )
   .map(generatePositionInformation);
 
-describe("moveUp", () => {
+describe("move", () => {
   it("places the targeted item at the target index", () => {
     fc.assert(
       fc.property(fc_state, ([mapping, event]) => {
-        const updated = moveUp(mapping, event);
+        const updated = move(mapping, event);
         expect(updated[event.name]).toEqual(event.toIdx);
       })
     );
   });
-});
-
-describe("moveDown", () => {
-  it.skip("should place the item no lower than the target index", () => {});
 });
 
 const seen = new Set();
