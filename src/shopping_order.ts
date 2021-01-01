@@ -182,6 +182,7 @@ export function saveReducer(state, action: PayloadAction<SaveEvent>) {
   const mapping = Object.fromEntries(
     payload.displayOrder.map((p, i) => [p, i])
   );
+  return state;
   return R.set(storeLens, mapping, state);
 }
 
