@@ -143,7 +143,7 @@ export default function ParserViewer() {
         <TableBody>
           {ingredients.map((order: Order, i: number) => (
             <TableRow key={order.ingredient.name + i}>
-              <TableCell>{order.amount.quantity}</TableCell>
+              <TableCell>{order.amount.quantity?.toPrecision(2)}</TableCell>
               <TableCell>{order.amount.unit}</TableCell>
               <TableCell>{order.ingredient.name}</TableCell>
             </TableRow>
