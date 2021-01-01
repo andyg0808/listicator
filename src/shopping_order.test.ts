@@ -131,7 +131,7 @@ function generatePositionInformation({
 
   const name = displayed[fromIdx];
   const event: ReorderEvent = {
-    name: mover,
+    name,
     store: "n/a",
     fromIdx: fromIdx,
     toIdx: toIdx,
