@@ -79,7 +79,7 @@ describe("insertItemIntoMapping", () => {
 
 function sortDisplayOrder(sortOrder: StoreOrderMap, displayOrder: string[]) {
   const [positioned, remaining] = R.partition(
-    (i) => R.has(i, storeOrder),
+    (i) => R.has(i, sortOrder),
     displayOrder
   );
 
