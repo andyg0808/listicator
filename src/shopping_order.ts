@@ -23,7 +23,6 @@ export function insertItemIntoMapping(
 
   const previousItem: string | undefined = displayOrder[atIdx - 1];
   const previousIdx: number | undefined = mapping[previousItem];
-  console.log(previousItem);
   const targetIdx = previousIdx ? previousIdx + 1 : atIdx;
 
   const pushedItems: string[] = displayOrder.slice(atIdx);
