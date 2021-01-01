@@ -151,9 +151,10 @@ export function sortByOrder(
 ): ShoppingList {
   const storeOrder = sortOrder[l.store.name];
   // If no information is available about the ordering for the
-  // store, we can't usefully sort at all.
+  // store, we have to treat everything as being a "remaining"
   if (!storeOrder) {
-    return l;
+    const sorted = R.sortBy((i: TotalOrder) => i.ingredient.name, l.items);
+    return R.assoc("items", sorted, l);
   }
   const [positioned, remaining] = R.partition(
     (i) => R.has(i.ingredient.name, storeOrder),
