@@ -146,7 +146,7 @@ const fc_state = fc_displayed
     fc.record({
       fromIdx: fc.nat(displayed.length - 1),
       toIdx: fc.nat(displayed.length - 1),
-      displayed,
+      displayed: fc.constant(displayed),
       mappedIndexes: fc.set(fc.nat(), { maxLength: displayed.length }),
     })
   )
