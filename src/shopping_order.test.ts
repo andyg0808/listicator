@@ -140,7 +140,7 @@ function generatePositionInformation({
   return [mapping, event];
 }
 
-const fc_displayed = fc.set(fc.string());
+const fc_displayed = fc.set(fc.string(), { minLength: 1 });
 const fc_state = fc_displayed
   .chain((displayed) =>
     fc.record({
