@@ -17,6 +17,7 @@ const regexMapping = [
   ["ml\\b", "milliliter"],
   ["litres?", "liter"],
   ["handful", "handful"],
+  ["pinch", "pinch"],
   ["sprigs?", "sprig"],
   ["bunch\\b", "bunch"],
   ["ears?\\b", "ear"],
