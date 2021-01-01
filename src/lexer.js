@@ -3,6 +3,7 @@ const fracMapping = new Map([
   ["¼", 1 / 4],
   ["½", 1 / 2],
   ["⅓", 1 / 3],
+  ["⅔", 2 / 3],
 ]);
 const regexMapping = [
   ["pints?", "pint"],
