@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 import { useDispatch } from "react-redux";
 
-import { addRecipe } from "./store";
+import { addRecipe } from "./recipes";
 import { parse } from "./parser";
 import { Order, Recipe } from "./types";
 
