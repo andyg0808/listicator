@@ -29,6 +29,10 @@ const fetchFromLocalStore = () => {
   return JSON.parse(data) || undefined;
 };
 
+export function resetLocalStore() {
+  window.localStorage.removeItem("store");
+}
+
 const store = configureStore({
   reducer: rootReducer,
   middleware: [saveToLocalStore],
