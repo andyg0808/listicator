@@ -13,8 +13,26 @@ const rootReducer = combineReducers({
   menuSelections: menuSelectionsReducer,
 });
 
+const saveToLocalStore = (storeAPI) => (next) => (action) => {
+  const result = next(action);
+  const state = storeAPI.getState();
+  console.log("Saving to localstore", state);
+  window.localStorage.setItem("store", JSON.stringify(state));
+  return result;
+};
+
+const fetchFromLocalStore = () => {
+  const data = window.localStorage.getItem("store");
+  if (!data) {
+    return undefined;
+  }
+  return JSON.parse(data) || undefined;
+};
+
 const store = configureStore({
   reducer: rootReducer,
+  middleware: [saveToLocalStore],
+  preloadedState: fetchFromLocalStore(),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
