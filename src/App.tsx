@@ -155,7 +155,17 @@ function DragDispatcher({ children, trip }) {
 }
 
 function Unparse({ recipe }) {
-  return <pre>{unparse(recipe.ingredients)}</pre>;
+  const text = unparse(recipe.ingredients);
+  return (
+    <div>
+      <pre>{text}</pre>
+      <Editor
+        onUpdate={(...args) => {}}
+        defaultText={text}
+        defaultTitle={recipe.title}
+      />
+    </div>
+  );
 }
 
 function App() {
