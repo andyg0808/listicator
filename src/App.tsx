@@ -29,6 +29,8 @@ import { recipesToTrip } from "./transforms";
 import { send, recv } from "./sync";
 import { addRecipe } from "./recipes";
 
+import { Editor } from "./editor";
+
 function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
   const amount = item.amount
     .map((a: Amount) => {
@@ -201,6 +203,11 @@ function App() {
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
+        <Editor
+          onUpdate={(recipe) => dispatch(addRecipe(recipe))}
+          defaultTitle=""
+          defaultText=""
+        />
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <TextField
