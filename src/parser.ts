@@ -57,7 +57,7 @@ export function unparse(data: Order[]): string {
     .map((order) => {
       const { amount, ingredient } = order;
       const { quantity, unit } = amount;
-      return `${quantity}!${unit}!${ingredient.name}`;
+      return `${quantity || ""}!${unit || ""}!${ingredient.name}`;
     })
     .join("\n");
 }
