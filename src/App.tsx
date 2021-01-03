@@ -30,6 +30,7 @@ import { send, recv } from "./sync";
 import { addRecipe } from "./recipes";
 
 import { Editor } from "./editor";
+import RecipeList from "./RecipeList";
 
 function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
   const amount = item.amount
@@ -208,6 +209,7 @@ function App() {
           defaultTitle=""
           defaultText=""
         />
+        <RecipeList />
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <TextField
