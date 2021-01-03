@@ -8,10 +8,11 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
 
+const parserViewer = false;
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ParserViewer />
+      {parserViewer && <ParserViewer />}
       <App />
       <LexerViewer />
     </Provider>
