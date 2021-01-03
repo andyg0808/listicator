@@ -21,6 +21,7 @@ import {
   TotalOrder,
   Trip,
   updateTripLists,
+  Recipe,
 } from "./types";
 import { RootState, resetLocalStore } from "./store";
 import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
@@ -158,6 +159,7 @@ function Unparse({ recipe }) {
 }
 
 function App() {
+  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
   const allRecipes = useSelector((store: RootState) => store.recipes);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const recipes = React.useMemo(
@@ -209,11 +211,10 @@ function App() {
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
-        <Editor
-          onUpdate={(recipe) => dispatch(addRecipe(recipe))}
-          defaultTitle=""
-          defaultText=""
-        />
+        <Editor onUpdate={setRecipe} defaultTitle="" defaultText="" />
+        <Button onClick={() => recipe && dispatch(addRecipe(recipe))}>
+          Store
+        </Button>
         <RecipeList />
         <h2>Unparse</h2>
         <Unparse recipe={recipes[0] || { name: "", ingredients: [] }} />
