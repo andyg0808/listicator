@@ -31,6 +31,7 @@ import { addRecipe } from "./recipes";
 
 import { Editor } from "./editor";
 import RecipeList from "./RecipeList";
+import { unparse } from "./parser";
 
 function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
   const amount = item.amount
@@ -152,6 +153,10 @@ function DragDispatcher({ children, trip }) {
   return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
 }
 
+function Unparse({ recipe }) {
+  return <pre>{unparse(recipe.ingredients)}</pre>;
+}
+
 function App() {
   const allRecipes = useSelector((store: RootState) => store.recipes);
   const selected = useSelector((store: RootState) => store.menuSelections);
@@ -210,6 +215,8 @@ function App() {
           defaultText=""
         />
         <RecipeList />
+        <h2>Unparse</h2>
+        <Unparse recipe={recipes[0] || { name: "", ingredients: [] }} />
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <TextField

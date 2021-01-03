@@ -51,3 +51,13 @@ export function safeParse(text: string): Order[] {
     return [];
   }
 }
+
+export function unparse(data: Order[]): string {
+  return data
+    .map((order) => {
+      const { amount, ingredient } = order;
+      const { quantity, unit } = amount;
+      return `${quantity}!${unit}!${ingredient.name}`;
+    })
+    .join("\n");
+}
