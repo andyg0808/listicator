@@ -109,6 +109,7 @@ export const lexer = moo.states({
     },
   },
   ingredient: {
+    ...delimiter("ingredient"), // ignore leading delimiters
     ...universal,
     of: /\bof\b/,
     ...ingredient,
