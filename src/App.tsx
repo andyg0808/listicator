@@ -28,7 +28,7 @@ import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
 import { recipesToTrip } from "./transforms";
 import { send, recv } from "./sync";
-import { addRecipe, setRecipe } from "./recipes";
+import { addRecipe, setRecipe, deleteRecipe } from "./recipes";
 
 import { Editor } from "./editor";
 import RecipeList from "./RecipeList";
@@ -232,7 +232,10 @@ function App() {
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
         <RecipeAdder />
-        <RecipeList onEdit={startEditing} />
+        <RecipeList
+          onEdit={startEditing}
+          onDelete={(a) => a && dispatch(deleteRecipe(a))}
+        />
         <h2>Unparse</h2>
         {editing && (
           <Unparse

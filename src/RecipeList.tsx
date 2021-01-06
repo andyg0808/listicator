@@ -9,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import { RootState } from "./store";
 import { setMenuSelection } from "./menu_selections";
@@ -16,9 +17,10 @@ import { Recipe } from "./types";
 
 export interface RecipeListProps {
   onEdit: (t: Recipe) => void;
+  onDelete: (t: Recipe) => void;
 }
 
-export default function RecipeList({ onEdit }) {
+export default function RecipeList({ onEdit, onDelete }) {
   const dispatch = useDispatch();
   const recipes = useSelector((store: RootState) => store.recipes);
   const checks = useSelector((store: RootState) => store.menuSelections);
@@ -46,6 +48,9 @@ export default function RecipeList({ onEdit }) {
             <ListItemSecondaryAction>
               <IconButton onClick={() => onEdit(recipe)}>
                 <EditIcon />
+              </IconButton>
+              <IconButton onClick={() => onDelete(recipe)} edge="end">
+                <DeleteIcon />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>

@@ -18,8 +18,16 @@ const recipeSlice = createSlice({
       const idxLens = R.lensIndex(idx);
       return R.set(idxLens, recipe, state);
     },
+    deleteRecipe(state, action: PayloadAction<Recipe>) {
+      const recipe = action.payload;
+      const idx = R.findIndex((r) => r.title === recipe.title, state);
+      if (idx === -1) {
+        return state;
+      }
+      return R.remove(idx, 1, state);
+    },
   },
 });
 
-export const { addRecipe, setRecipe } = recipeSlice.actions;
+export const { addRecipe, setRecipe, deleteRecipe } = recipeSlice.actions;
 export const reducer = recipeSlice.reducer;
