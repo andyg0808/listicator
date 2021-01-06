@@ -156,11 +156,11 @@ function DragDispatcher({ children, trip }) {
 
 function Unparse({ recipe, onSave }) {
   const text = unparse(recipe.ingredients);
-  const [blob, setBlob] = React.useState(() => ({
+  const [blob, setBlob] = React.useState({
     text,
     title: recipe.title,
     ingredients: recipe.ingredients,
-  }));
+  });
   return (
     <div>
       <pre>{text}</pre>
