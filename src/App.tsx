@@ -154,16 +154,22 @@ function DragDispatcher({ children, trip }) {
   return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
 }
 
-function Unparse({ recipe }) {
+function Unparse({ recipe, onSave }) {
   const text = unparse(recipe.ingredients);
+  const [blob, setBlob] = React.useState(() => ({
+    text,
+    title: recipe.title,
+    ingredients: recipe.ingredients,
+  }));
   return (
     <div>
       <pre>{text}</pre>
       <Editor
-        onUpdate={(...args) => {}}
+        onUpdate={setBlob}
         defaultText={text}
         defaultTitle={recipe.title}
       />
+      <Button onClick={() => onSave(blob)}>Save</Button>
     </div>
   );
 }
@@ -218,6 +224,7 @@ function App() {
   React.useEffect(() => {
     recvData();
   });
+  const [editing, startEditing] = React.useState<Recipe | null>(null);
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
@@ -227,7 +234,11 @@ function App() {
         </Button>
         <RecipeList />
         <h2>Unparse</h2>
-        <Unparse recipe={recipes[0] || { name: "", ingredients: [] }} />
+        <Unparse
+          recipe={editing || { name: "", ingredients: [] }}
+          onSave={(a) => a && dispatch(addRecipe(a))}
+        />
+        <Button onClick={() => startEditing(recipes[0])}>Start editing</Button>
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <TextField
