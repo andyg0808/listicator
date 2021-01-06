@@ -154,7 +154,12 @@ function DragDispatcher({ children, trip }) {
   return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
 }
 
-function Unparse({ recipe, onSave }) {
+interface UnparseProps {
+  recipe: Recipe;
+  onSave: (r: Recipe) => void;
+}
+
+function Unparse({ recipe, onSave }: UnparseProps) {
   const text = unparse(recipe.ingredients);
   const [blob, setBlob] = React.useState({
     text,
