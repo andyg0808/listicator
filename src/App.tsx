@@ -175,7 +175,6 @@ function Unparse({ recipe, onSave }) {
 }
 
 function App() {
-  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
   const allRecipes = useSelector((store: RootState) => store.recipes);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const recipes = React.useMemo(
@@ -228,10 +227,7 @@ function App() {
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
-        <Editor onUpdate={setRecipe} defaultTitle="" defaultText="" />
-        <Button onClick={() => recipe && dispatch(addRecipe(recipe))}>
-          Store
-        </Button>
+        <RecipeAdder />
         <RecipeList />
         <h2>Unparse</h2>
         <Unparse
@@ -252,6 +248,19 @@ function App() {
         <Button onClick={resetLocalStore}>Delete everything</Button>
       </div>
     </DragDispatcher>
+  );
+}
+
+function RecipeAdder() {
+  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
+  const dispatch = useDispatch();
+  return (
+    <>
+      <Editor onUpdate={setRecipe} defaultTitle="" defaultText="" />
+      <Button onClick={() => recipe && dispatch(addRecipe(recipe))}>
+        Store
+      </Button>
+    </>
   );
 }
 
