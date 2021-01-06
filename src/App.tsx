@@ -2,27 +2,16 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 
-import styled from "@emotion/styled";
-
 import "./App.css";
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { ListSorter } from "./ListSorter";
+
 import * as R from "ramda";
 
-import {
-  Amount,
-  ShoppingList,
-  Store,
-  TotalOrder,
-  Trip,
-  updateTripLists,
-  Recipe,
-} from "./types";
+import { ShoppingList, TotalOrder, updateTripLists, Recipe } from "./types";
 import { RootState, resetLocalStore } from "./store";
 import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
@@ -34,82 +23,11 @@ import { Editor } from "./editor";
 import RecipeList from "./RecipeList";
 import { unparse } from "./parser";
 
-function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
-  const amount = item.amount
-    .map((a: Amount) => {
-      const unit =
-        a.quantity && a.quantity > 1 && a.unit !== null
-          ? a.unit + "s"
-          : a.unit || "";
-      return `${a.quantity || ""} ${unit}`;
-    })
-    .join(" & ");
-  const name = item.ingredient.name;
-  return (
-    <Draggable draggableId={name} index={idx}>
-      {(provided, snapshot) => (
-        <ListItem
-          ref={provided.innerRef}
-          button
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          {amount} {name}
-        </ListItem>
-      )}
-    </Draggable>
-  );
-}
-
-const ListViewer = styled.div`
-  display: flex;
-`;
-
-function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
-  const storeList = R.union(
-    stores,
-    trip.lists.map((l) => l.store)
-  );
-  const indexedLists = R.indexBy((l) => l.store.name, trip.lists);
-  return (
-    <ListViewer>
-      {storeList.map((store: Store) => {
-        const list: ShoppingList = indexedLists[store.name] || {
-          items: [],
-          store,
-        };
-        return (
-          <div key={store.name}>
-            <h3>{list.store.name}</h3>
-            <Droppable droppableId={list.store.name} key={list.store.name}>
-              {(provided, snapshot) => (
-                <List ref={provided.innerRef} {...provided.droppableProps}>
-                  {list.items.map((item, idx) => {
-                    return (
-                      <ListEntry
-                        item={item}
-                        key={item.ingredient.name}
-                        idx={idx}
-                      />
-                    );
-                  })}
-                  {provided.placeholder}
-                </List>
-              )}
-            </Droppable>
-          </div>
-        );
-      })}
-    </ListViewer>
-  );
-}
-
 function DragDispatcher({ children, trip }) {
   const dispatch = useDispatch();
   const listIndex = R.indexBy((l: ShoppingList) => l.store.name, trip.lists);
 
-  function dragHandler(result, provided) {
-    console.log("drag result", result, provided);
+  function dragHandler(result) {
     const { source, destination } = result;
     if (destination === null) {
       return;
