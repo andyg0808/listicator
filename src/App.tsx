@@ -161,7 +161,6 @@ function App() {
             onSave={(a: Recipe) => a && dispatch(setRecipe(a))}
           />
         )}
-        <Button onClick={() => startEditing(recipes[0])}>Start editing</Button>
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <TextField
