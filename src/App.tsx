@@ -168,7 +168,6 @@ function Unparse({ recipe, onSave }: UnparseProps) {
   });
   return (
     <div>
-      <pre>{text}</pre>
       <Editor
         onUpdate={setBlob}
         defaultText={text}
