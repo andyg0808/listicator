@@ -5,7 +5,6 @@ import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
 
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 
 import { ListSorter } from "./ListSorter";
 
@@ -16,9 +15,9 @@ import { RootState, resetLocalStore } from "./store";
 import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
 import { recipesToTrip } from "./transforms";
-import { send, recv } from "./sync";
 import { addRecipe, setRecipe, deleteRecipe } from "./recipes";
 
+import { Sync } from "./Sync";
 import { Editor } from "./editor";
 import RecipeList from "./RecipeList";
 import { unparse } from "./parser";
@@ -128,23 +127,6 @@ function App() {
   }, [recipes]);
   console.log("Sorted", sortedTrip);
 
-  const [targetId, setTargetId] = React.useState("");
-  const sendData = () => {
-    send(targetId, JSON.stringify(allRecipes));
-  };
-  const recvData = async () => {
-    const data = (await recv()) as string;
-    console.log("data", data);
-    const recipes = JSON.parse(data);
-    console.log("recipes", recipes);
-    recipes.forEach((recipe) => {
-      console.log("recipe", recipe);
-      dispatch(addRecipe(recipe));
-    });
-  };
-  React.useEffect(() => {
-    recvData();
-  });
   const [editing, startEditing] = React.useState<Recipe | null>(null);
   return (
     <DragDispatcher trip={sortedTrip}>
@@ -163,15 +145,7 @@ function App() {
         )}
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
-        <TextField
-          onChange={(e) => setTargetId(e.target.value)}
-          onBlur={(e) => setTargetId(e.target.value)}
-          label="Target ID"
-          value={targetId}
-        />
-        <Button onClick={sendData}>Send</Button>
-        <Button onClick={recvData}>Recv</Button>
-        <Button onClick={resetLocalStore}>Delete everything</Button>
+        <Sync recipes={allRecipes} />
       </div>
     </DragDispatcher>
   );
