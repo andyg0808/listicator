@@ -28,7 +28,7 @@ import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
 import { recipesToTrip } from "./transforms";
 import { send, recv } from "./sync";
-import { addRecipe } from "./recipes";
+import { addRecipe, setRecipe } from "./recipes";
 
 import { Editor } from "./editor";
 import RecipeList from "./RecipeList";
@@ -235,10 +235,12 @@ function App() {
         <RecipeAdder />
         <RecipeList />
         <h2>Unparse</h2>
-        <Unparse
-          recipe={editing || { name: "", ingredients: [] }}
-          onSave={(a) => a && dispatch(addRecipe(a))}
-        />
+        {editing && (
+          <Unparse
+            recipe={editing}
+            onSave={(a: Recipe) => a && dispatch(setRecipe(a))}
+          />
+        )}
         <Button onClick={() => startEditing(recipes[0])}>Start editing</Button>
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
