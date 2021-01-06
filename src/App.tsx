@@ -232,7 +232,7 @@ function App() {
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
         <RecipeAdder />
-        <RecipeList />
+        <RecipeList onEdit={startEditing} />
         <h2>Unparse</h2>
         {editing && (
           <Unparse

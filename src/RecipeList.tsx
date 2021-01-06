@@ -7,11 +7,18 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
 
 import { RootState } from "./store";
 import { setMenuSelection } from "./menu_selections";
+import { Recipe } from "./types";
 
-export default function RecipeList() {
+export interface RecipeListProps {
+  onEdit: (t: Recipe) => void;
+}
+
+export default function RecipeList({ onEdit }) {
   const dispatch = useDispatch();
   const recipes = useSelector((store: RootState) => store.recipes);
   const checks = useSelector((store: RootState) => store.menuSelections);
@@ -25,7 +32,7 @@ export default function RecipeList() {
   }
   return (
     <List>
-      {recipes.map((recipe) => {
+      {recipes.map((recipe: Recipe) => {
         const title = recipe.title;
         return (
           <ListItem key={title}>
@@ -36,6 +43,11 @@ export default function RecipeList() {
               ></Checkbox>
             </ListItemIcon>
             <ListItemText primary={title}></ListItemText>
+            <ListItemSecondaryAction>
+              <IconButton onClick={() => onEdit(recipe)}>
+                <EditIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
         );
       })}
