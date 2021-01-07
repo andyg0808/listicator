@@ -1,5 +1,5 @@
 import fc from "fast-check";
-import { StoreOrderMap, Order } from "./types";
+import { StoreOrderMap, Order, Amount } from "./types";
 import * as R from "ramda";
 import { merge } from "./shopping_order";
 import { unitsRegex } from "./lexer";
