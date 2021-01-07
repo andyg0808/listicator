@@ -7,6 +7,7 @@ import {
   insertItemIntoMapping,
   merge,
 } from "./shopping_order";
+import { totalOrder } from "./test_generators";
 import fc from "fast-check";
 import * as R from "ramda";
 
@@ -26,14 +27,6 @@ const mapping = {
   eighteen: 30,
   nineteen: 53,
 };
-const move_cases = [
-  [3, 3],
-  [5, 5],
-  [15, 15],
-  [16, 18],
-  [18, 26],
-  [20, 54],
-];
 
 const displayOrder = [
   "zero",
@@ -58,8 +51,17 @@ const displayOrder = [
   "nineteen",
 ];
 
+const insert_cases = [
+  [3, 3],
+  [5, 5],
+  [15, 15],
+  [16, 18],
+  [18, 26],
+  [20, 54],
+];
+
 describe("insertItemIntoMapping", () => {
-  it.each(move_cases)(
+  it.each(insert_cases)(
     "gives an item inserted at index %d the sort index %d",
     (target, expected) => {
       const event: InsertItemEvent = {
@@ -77,118 +79,52 @@ describe("insertItemIntoMapping", () => {
   );
 });
 
-function sortDisplayOrder(sortOrder: StoreOrderMap, displayOrder: string[]) {
-  const [positioned, remaining] = R.partition(
-    (i) => R.has(i, sortOrder),
-    displayOrder
-  );
-
-  remaining.sort();
-  positioned.sort();
-
-  return mergeDisplayOrder(0, positioned, remaining, sortOrder);
-}
-
-function mergeDisplayOrder(
-  idx: number,
-  positioned: string[],
-  remaining: string[],
-  storeOrder: StoreOrderMap
-): string[] {
-  if (positioned.length == 0) {
-    return remaining;
-  } else if (remaining.length == 0) {
-    return positioned;
-  }
-
-  const name = positioned[0];
-  const position = storeOrder[name];
-
-  if (idx == position) {
-    return R.prepend(
-      positioned[0],
-      merge(idx + 1, positioned.slice(1), remaining, storeOrder)
-    );
-  } else {
-    return R.prepend(
-      remaining[0],
-      merge(idx + 1, positioned, remaining.slice(1), storeOrder)
-    );
-  }
-}
-
-function generatePositionInformation({
-  fromIdx,
-  toIdx,
-  displayed,
-  mappedIndexes,
-}) {
-  const mapping = Object.fromEntries(
-    R.zipWith((name, idx) => [name, idx], displayed, mappedIndexes)
-  );
-
-  const displayOrder = sortDisplayOrder(mapping, displayed);
-
-  const name = displayed[fromIdx];
-  const event: ReorderEvent = {
-    name,
-    store: "n/a",
-    fromIdx: fromIdx,
-    toIdx: toIdx,
-    displayOrder: displayed,
-  };
-  return [mapping, event];
-}
-
-const fc_displayed = fc.set(fc.string(), { minLength: 1 });
-const fc_state = fc_displayed
-  .chain((displayed) =>
-    fc.record({
-      fromIdx: fc.nat(displayed.length - 1),
-      toIdx: fc.nat(displayed.length - 1),
-      displayed: fc.constant(displayed),
-      mappedIndexes: fc.set(fc.nat(), { maxLength: displayed.length }),
-    })
-  )
-  .map(generatePositionInformation);
-
 describe("move", () => {
-  it("places the targeted item at the target index", () => {
-    fc.assert(
-      fc.property(fc_state, ([mapping, event]) => {
-        const updated = move(mapping, event);
-        if (event.fromIdx === event.toIdx) {
-          expect(updated[event.name]).toEqual(mapping[event.name]);
-        } else {
-          expect(updated[event.name]).toEqual(event.toIdx);
-        }
-      })
-    );
-  });
-});
-
-const seen = new Set();
-const ingredient = fc
-  .record({
-    name: fc.string(),
-  })
-  .filter(({ name }) => {
-    if (seen.has(name)) {
-      return false;
-    } else {
-      seen.add(name);
-      return true;
+  const move_down_cases = [
+    [0, 3, 3, "one", 0],
+    [1, 3, 3, "zero", 0],
+    [3, 4, 4, "one", 1],
+    [11, 14, 14, "fifteen", 17],
+    [11, 15, 17, "fifteen", 16],
+    [0, 19, 53, "six", 5],
+  ];
+  it.each(move_down_cases)(
+    "moves %d down to %d",
+    (fromIdx, toIdx, expected, other, otherExpected) => {
+      const name = displayOrder[fromIdx];
+      const event: ReorderEvent = {
+        name,
+        store: "n/a",
+        fromIdx,
+        toIdx,
+        displayOrder,
+      };
+      const actual = move(mapping, event);
+      expect(actual).toHaveProperty(name, expected);
+      expect(actual).toHaveProperty(other, otherExpected);
     }
-  });
-
-const amount = fc.record({
-  quantity: fc.option(fc.nat()),
-  unit: fc.option(fc.string()),
-});
-
-const totalOrder = fc.record({
-  ingredient: ingredient,
-  amount: fc.array(amount),
+  );
+  const move_up_cases = [
+    [19, 0, 0, "fifteen", 18],
+    [16, 2, 2, "thirteen", 14],
+    [18, 17, 19, "seventeen", 26],
+  ];
+  it.each(move_up_cases)(
+    "moves %d up to %d",
+    (fromIdx, toIdx, expected, other, otherExpected) => {
+      const name = displayOrder[fromIdx];
+      const event: ReorderEvent = {
+        name,
+        store: "n/a",
+        fromIdx,
+        toIdx,
+        displayOrder,
+      };
+      const actual = move(mapping, event);
+      expect(actual).toHaveProperty(name, expected);
+      expect(actual).toHaveProperty(other, otherExpected);
+    }
+  );
 });
 
 describe("merge", () => {
