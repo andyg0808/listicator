@@ -8,11 +8,11 @@ import fs from "fs";
 
 interface ExamplePair {
   name: String;
-  expected: Ingredient[];
+  expected: Order[];
   input: String;
 }
 
-function parseExpected(blob: string, src: string): Ingredient {
+function parseExpected(blob: string, src: string): Order[] {
   const items = blob.split("\n").map((line) => {
     const parts = line.split("|");
     if (parts.length < 3) {
@@ -89,8 +89,8 @@ test("Delimiter should disambiguate parses", () => {
       (quantity, unit, ingredient) => {
         const combined = `${quantity}!${unit}!${ingredient}\n`;
         const unified_quantity =
-          quantity === "" && unit !== null ? 1 : quantity;
-        const expected: Ingredient[] = [
+          quantity === "" && unit !== null ? 1 : (quantity as number);
+        const expected: Order[] = [
           {
             amount: {
               quantity: unified_quantity,

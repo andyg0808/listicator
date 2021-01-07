@@ -1,15 +1,13 @@
 import {
   move,
-  sortByOrder,
   InsertItemEvent,
-  OrderMapping,
   ReorderEvent,
   insertItemIntoMapping,
   merge,
 } from "./shopping_order";
+import { StoreOrderMap } from "./types";
 import { totalOrder } from "./test_generators";
 import fc from "fast-check";
-import * as R from "ramda";
 
 const mapping = {
   zero: 0,
@@ -95,13 +93,13 @@ describe("move", () => {
       const event: ReorderEvent = {
         name,
         store: "n/a",
-        fromIdx,
-        toIdx,
+        fromIdx: fromIdx as number,
+        toIdx: toIdx as number,
         displayOrder,
       };
       const actual = move(mapping, event);
       expect(actual).toHaveProperty(name, expected);
-      expect(actual).toHaveProperty(other, otherExpected);
+      expect(actual).toHaveProperty(other as string, otherExpected);
     }
   );
   const move_up_cases = [
@@ -116,13 +114,13 @@ describe("move", () => {
       const event: ReorderEvent = {
         name,
         store: "n/a",
-        fromIdx,
-        toIdx,
+        fromIdx: fromIdx as number,
+        toIdx: toIdx as number,
         displayOrder,
       };
       const actual = move(mapping, event);
       expect(actual).toHaveProperty(name, expected);
-      expect(actual).toHaveProperty(other, otherExpected);
+      expect(actual).toHaveProperty(other as string, otherExpected);
     }
   );
 });
