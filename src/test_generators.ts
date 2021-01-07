@@ -1,10 +1,14 @@
 import fc from "fast-check";
+import { StoreOrderMap } from "./types";
+import * as R from "ramda";
+import { merge } from "./shopping_order";
 
+const fc_order_string = fc.string().filter((s) => !s.includes("!"));
 
 const seen = new Set();
-const ingredient = fc
+export const fc_ingredient = fc
   .record({
-    name: fc.string(),
+    name: fc_order_string,
   })
   .filter(({ name }) => {
     if (seen.has(name)) {
@@ -15,12 +19,19 @@ const ingredient = fc
     }
   });
 
-const amount = fc.record({
-  quantity: fc.option(fc.nat()),
-  unit: fc.option(fc.string()),
+export const fc_quantity = fc.option(fc.nat().map((n) => n + 1));
+
+export const fc_amount = fc.record({
+  quantity: fc_quantity,
+  unit: fc.option(fc_order_string),
+});
+
+export const fc_order = fc.record({
+  ingredient: fc_ingredient,
+  amount: fc_amount,
 });
 
 export const totalOrder = fc.record({
-  ingredient: ingredient,
-  amount: fc.array(amount),
+  ingredient: fc_ingredient,
+  amount: fc.array(fc_amount),
 });
