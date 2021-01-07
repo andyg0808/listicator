@@ -1,7 +1,6 @@
 import fc from "fast-check";
 
 import { parse } from "./parser";
-import { matchUnit, unitsRegex } from "./lexer";
 import { Recipe, Order, Amount, Ingredient } from "./types";
 import { fc_ingredient_name, fc_unit } from "./test_generators";
 
