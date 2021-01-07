@@ -3,7 +3,7 @@ import fc from "fast-check";
 import { parse } from "./parser";
 import { matchUnit, unitsRegex } from "./lexer";
 import { Recipe, Order, Amount, Ingredient } from "./types";
-import { fc_ingredient_name } from "./test_generators";
+import { fc_ingredient_name, fc_unit } from "./test_generators";
 
 import fs from "fs";
 
@@ -60,10 +60,6 @@ const examples = Array.from(getTestData());
 test.each(examples)("parse %s", (name: string, example: ExamplePair) => {
   expect(parse(example.input.trim())).toEqual(example.expected);
 });
-const fc_unit = fc
-  .string({ minLength: 1 })
-  .map((s) => s.trim())
-  .filter((s) => !s.includes("!") && s.length > 0 && !unitsRegex.test(s));
 const fc_quantity = fc.nat().map((n) => (n === 0 ? "" : n));
 test("Delimiter should disambiguate parses", () => {
   fc.assert(
