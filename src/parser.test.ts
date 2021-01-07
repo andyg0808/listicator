@@ -3,6 +3,7 @@ import fc from "fast-check";
 import { parse } from "./parser";
 import { matchUnit, unitsRegex } from "./lexer";
 import { Recipe, Order, Amount, Ingredient } from "./types";
+import { fc_ingredient_name } from "./test_generators";
 
 import fs from "fs";
 
@@ -68,10 +69,6 @@ const fc_amount = fc.record({
   quantity: fc_quantity,
   unit: fc_unit,
 });
-const fc_ingredient_name = fc
-  .string({ minLength: 2 })
-  .map((s) => s.trim())
-  .filter((s) => !s.includes("!") && s.length > 1);
 const fc_ingredient = fc.record({
   name: fc_ingredient_name,
 });

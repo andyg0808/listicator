@@ -4,6 +4,10 @@ import * as R from "ramda";
 import { merge } from "./shopping_order";
 
 const fc_order_string = fc.string().filter((s) => !s.includes("!"));
+export const fc_ingredient_name = fc
+  .string({ minLength: 1 })
+  .map((s) => s.trim())
+  .filter((s) => !s.includes("!") && s.length > 1);
 
 const seen = new Set();
 export const fc_ingredient = fc
