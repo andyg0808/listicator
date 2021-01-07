@@ -74,9 +74,10 @@ function DragDispatcher({ children, trip }) {
 interface UnparseProps {
   recipe: Recipe;
   onSave: (r: Recipe) => void;
+  onCancel: () => void;
 }
 
-function Unparse({ recipe, onSave }: UnparseProps) {
+function Unparse({ recipe, onSave, onCancel }: UnparseProps) {
   const text = unparse(recipe.ingredients);
   const [blob, setBlob] = React.useState({
     text,
@@ -91,6 +92,7 @@ function Unparse({ recipe, onSave }: UnparseProps) {
         defaultTitle={recipe.title}
       />
       <Button onClick={() => onSave(blob)}>Save</Button>
+      <Button onClick={() => onCancel()}>Cancel</Button>
     </div>
   );
 }
@@ -144,7 +146,13 @@ function App() {
           onDelete={(a) => a && dispatch(deleteRecipe(a))}
         />
         <h2>Unparse</h2>
-        {editing && <Unparse recipe={editing} onSave={saveHandler} />}
+        {editing && (
+          <Unparse
+            recipe={editing}
+            onSave={saveHandler}
+            onCancel={closeEditor}
+          />
+        )}
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <Sync recipes={allRecipes} />
