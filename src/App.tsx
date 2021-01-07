@@ -137,6 +137,11 @@ function App() {
     }
     closeEditor();
   };
+  const startRecipe = () =>
+    startEditing({
+      title: "",
+      ingredients: [],
+    });
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
@@ -153,6 +158,7 @@ function App() {
             onCancel={closeEditor}
           />
         )}
+        <Button onClick={startRecipe}>Add recipe</Button>
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <Sync recipes={allRecipes} />
