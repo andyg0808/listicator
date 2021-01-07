@@ -9,7 +9,6 @@ export const fc_unit = fc
   .map((s) => s.trim())
   .filter((s) => !s.includes("!") && s.length > 0 && !unitsRegex.test(s));
 
-const fc_order_string = fc.string().filter((s) => !s.includes("!"));
 export const fc_ingredient_name = fc
   .string({ minLength: 1 })
   .map((s) => s.trim())
@@ -18,7 +17,7 @@ export const fc_ingredient_name = fc
 const seen = new Set();
 export const fc_ingredient = fc
   .record({
-    name: fc_order_string,
+    name: fc_ingredient_name,
   })
   .filter(({ name }) => {
     if (seen.has(name)) {
@@ -33,7 +32,7 @@ export const fc_quantity = fc.option(fc.nat().map((n) => n + 1));
 
 export const fc_amount = fc.record({
   quantity: fc_quantity,
-  unit: fc.option(fc_order_string),
+  unit: fc.option(fc_unit),
 });
 
 export const fc_order = fc.record({
