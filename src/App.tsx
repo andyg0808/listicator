@@ -128,6 +128,13 @@ function App() {
   console.log("Sorted", sortedTrip);
 
   const [editing, startEditing] = React.useState<Recipe | null>(null);
+  const closeEditor = () => startEditing(null);
+  const saveHandler = (a: Recipe) => {
+    if (a) {
+      dispatch(setRecipe(a));
+    }
+    closeEditor();
+  };
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
@@ -137,12 +144,7 @@ function App() {
           onDelete={(a) => a && dispatch(deleteRecipe(a))}
         />
         <h2>Unparse</h2>
-        {editing && (
-          <Unparse
-            recipe={editing}
-            onSave={(a: Recipe) => a && dispatch(setRecipe(a))}
-          />
-        )}
+        {editing && <Unparse recipe={editing} onSave={saveHandler} />}
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <Sync recipes={allRecipes} />
