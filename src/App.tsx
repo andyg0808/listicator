@@ -71,13 +71,13 @@ function DragDispatcher({ children, trip }) {
   return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
 }
 
-interface UnparseProps {
+interface RecipeEditorProps {
   recipe: Recipe;
   onSave: (r: Recipe) => void;
   onCancel: () => void;
 }
 
-function Unparse({ recipe, onSave, onCancel }: UnparseProps) {
+function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
   const text = unparse(recipe.ingredients);
   const [blob, setBlob] = React.useState({
     text,
@@ -149,9 +149,9 @@ function App() {
           onEdit={startEditing}
           onDelete={(a) => a && dispatch(deleteRecipe(a))}
         />
-        <h2>Unparse</h2>
+        <h2>Editor</h2>
         {editing && (
-          <Unparse
+          <RecipeEditor
             recipe={editing}
             onSave={saveHandler}
             onCancel={closeEditor}
