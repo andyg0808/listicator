@@ -2,6 +2,7 @@ import { Recipe, Order, Amount } from "./types";
 import nearley from "nearley";
 import grammar from "./grammar";
 import { log } from "./logger";
+import * as R from "ramda";
 
 export function parse(data: string): Array<Order> {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
@@ -57,7 +58,34 @@ export function unparse(data: Order[]): string {
     .map((order) => {
       const { amount, ingredient } = order;
       const { quantity, unit } = amount;
-      return `${quantity || ""}!${unit || ""}!${ingredient.name}`;
+      const check = (render) => {
+        try {
+          return R.equals(parse(render)[0], order);
+        } catch (e) {
+          return false;
+        }
+      };
+
+      const quantityStr = quantity === null ? "" : quantity;
+      const unitStr = unit === null ? "" : unit;
+      const ingredientStr = ingredient.name;
+
+      let render = (unit
+        ? `${quantityStr} ${unitStr} ${ingredientStr}`
+        : `${quantityStr} ${ingredientStr}`
+      ).trim();
+      if (check(render)) {
+        return render;
+      }
+      render = `${quantityStr}!${unitStr} ${ingredientStr}`;
+      if (check(render)) {
+        return render;
+      }
+      render = `${quantityStr} ${unitStr}!${ingredientStr}`;
+      if (check(render)) {
+        return render;
+      }
+      return `${quantityStr}!${unitStr}!${ingredientStr}`;
     })
     .join("\n");
 }
