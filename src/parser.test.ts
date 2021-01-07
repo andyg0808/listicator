@@ -65,18 +65,6 @@ const fc_unit = fc
   .map((s) => s.trim())
   .filter((s) => !s.includes("!") && s.length > 0 && !unitsRegex.test(s));
 const fc_quantity = fc.nat().map((n) => (n === 0 ? "" : n));
-const fc_amount = fc.record({
-  quantity: fc_quantity,
-  unit: fc_unit,
-});
-const fc_ingredient = fc.record({
-  name: fc_ingredient_name,
-});
-const fc_recipe = fc.record({
-  amount: fc_amount,
-  ingredient: fc_ingredient,
-});
-
 test("Delimiter should disambiguate parses", () => {
   fc.assert(
     fc.property(
