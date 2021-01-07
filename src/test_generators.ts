@@ -1,5 +1,5 @@
 import fc from "fast-check";
-import { StoreOrderMap } from "./types";
+import { StoreOrderMap, Order } from "./types";
 import * as R from "ramda";
 import { merge } from "./shopping_order";
 import { unitsRegex } from "./lexer";
@@ -45,3 +45,14 @@ export const totalOrder = fc.record({
   ingredient: fc_ingredient,
   amount: fc.array(fc_amount),
 });
+
+function normalizeAmount(amount: Amount): Amount {
+  return {
+    quantity:
+      amount.unit !== null && amount.quantity === null ? 1 : amount.quantity,
+    unit: amount.unit,
+  };
+}
+export function normalizeOrder(order: Order) {
+  return R.over(R.lensProp("amount"), normalizeAmount, order);
+}
