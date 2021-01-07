@@ -145,7 +145,6 @@ function App() {
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
-        <RecipeAdder />
         <RecipeList
           onEdit={startEditing}
           onDelete={(a) => a && dispatch(deleteRecipe(a))}
@@ -164,19 +163,6 @@ function App() {
         <Sync recipes={allRecipes} />
       </div>
     </DragDispatcher>
-  );
-}
-
-function RecipeAdder() {
-  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
-  const dispatch = useDispatch();
-  return (
-    <>
-      <Editor onUpdate={setRecipe} defaultTitle="" defaultText="" />
-      <Button onClick={() => recipe && dispatch(addRecipe(recipe))}>
-        Store
-      </Button>
-    </>
   );
 }
 
