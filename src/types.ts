@@ -137,3 +137,4 @@ export type ShoppingOrderMap = Record<StoreId, StoreOrderMap>;
 
 export type RecipeTitle = string;
 export type MenuSelectionMap = Record<RecipeTitle, boolean>;
+export type MenuQuantityMap = Record<RecipeTitle, number>;

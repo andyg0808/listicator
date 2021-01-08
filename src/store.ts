@@ -4,6 +4,7 @@ import { combineReducers } from "redux";
 import { reducer as shoppingOrderReducer } from "./shopping_order";
 import { reducer as storePreferenceReducer } from "./store_preference";
 import { reducer as menuSelectionsReducer } from "./menu_selections";
+import { reducer as menuQuantityReducer } from "./menu_quantities";
 import { reducer as recipeReducer } from "./recipes";
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   shoppingOrder: shoppingOrderReducer,
   storePreference: storePreferenceReducer,
   menuSelections: menuSelectionsReducer,
+  menuQuantities: menuQuantityReducer,
 });
 
 const saveToLocalStore = (storeAPI) => (next) => (action) => {

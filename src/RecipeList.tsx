@@ -8,11 +8,13 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { RootState } from "./store";
 import { setMenuSelection } from "./menu_selections";
+import { setMenuQuantity } from "./menu_quantities";
 import { Recipe } from "./types";
 
 export interface RecipeListProps {
@@ -24,11 +26,20 @@ export default function RecipeList({ onEdit, onDelete }) {
   const dispatch = useDispatch();
   const recipes = useSelector((store: RootState) => store.recipes);
   const checks = useSelector((store: RootState) => store.menuSelections);
+  const quantities = useSelector((store: RootState) => store.menuQuantities);
   function setCheck(name: string, checked: boolean) {
     dispatch(
       setMenuSelection({
         name,
         include: checked,
+      })
+    );
+  }
+  function setQuantity(name: string, quantity: number) {
+    dispatch(
+      setMenuQuantity({
+        name,
+        quantity,
       })
     );
   }
@@ -46,6 +57,16 @@ export default function RecipeList({ onEdit, onDelete }) {
             </ListItemIcon>
             <ListItemText primary={title}></ListItemText>
             <ListItemSecondaryAction>
+              {checks[title] && (
+                <TextField
+                  type="number"
+                  label="Quantity"
+                  value={quantities[title] || 1}
+                  onChange={(evt) =>
+                    setQuantity(title, Number(evt.target.value))
+                  }
+                />
+              )}
               <IconButton onClick={() => onEdit(recipe)}>
                 <EditIcon />
               </IconButton>

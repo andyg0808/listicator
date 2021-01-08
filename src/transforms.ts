@@ -9,14 +9,15 @@ import {
   TotalOrder,
   Trip,
   StorePreferenceMap,
+  MenuQuantityMap,
 } from "./types";
-import { groupBy } from "ramda";
+import * as R from "ramda";
 
 export function tripFromMenuList(
   menuList: MenuList,
   storePreference: StorePreferenceMap
 ): Trip {
-  const stores: { [index: string]: Array<TotalOrder> } = groupBy(
+  const stores: { [index: string]: Array<TotalOrder> } = R.groupBy(
     (item) => storePreference[item.ingredient.name],
     menuList.items
   );
@@ -36,7 +37,7 @@ export function tripFromMenuList(
 
 export function menuListFromMenu(menu: Menu): MenuList {
   const items = menu.recipes.flatMap((recipe) => recipe.ingredients);
-  const totalItems: Record<string, Order[]> = groupBy(
+  const totalItems: Record<string, Order[]> = R.groupBy(
     (order) => order.ingredient.name,
     items
   );
@@ -60,4 +61,20 @@ export function recipesToTrip(
   const menu = { recipes };
   const menuList = menuListFromMenu(menu);
   return tripFromMenuList(menuList, storePreference);
+}
+
+export function multiply(quantities: MenuQuantityMap, recipes: Recipe[]) {
+  return recipes.map((r: Recipe) => {
+    const mult = quantities[r.title] || 1;
+    return R.over(
+      R.lensProp("ingredients"),
+      R.map(
+        R.over(
+          R.lensPath(["amount", "quantity"]),
+          (qty: number) => qty * mult || 1
+        )
+      ),
+      r
+    );
+  });
 }

@@ -14,7 +14,7 @@ import { ShoppingList, TotalOrder, updateTripLists, Recipe } from "./types";
 import { RootState, resetLocalStore } from "./store";
 import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
-import { recipesToTrip } from "./transforms";
+import { recipesToTrip, multiply } from "./transforms";
 import { addRecipe, setRecipe, deleteRecipe } from "./recipes";
 
 import { Sync } from "./Sync";
@@ -100,9 +100,10 @@ function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
 function App() {
   const allRecipes = useSelector((store: RootState) => store.recipes);
   const selected = useSelector((store: RootState) => store.menuSelections);
+  const quantities = useSelector((store: RootState) => store.menuQuantities);
   const recipes = React.useMemo(
-    () => allRecipes.filter((r) => selected[r.title]),
-    [allRecipes, selected]
+    () => multiply(quantities, allRecipes).filter((r) => selected[r.title]),
+    [allRecipes, selected, quantities]
   );
   const storePreference = useSelector(
     (store: RootState) => store.storePreference
