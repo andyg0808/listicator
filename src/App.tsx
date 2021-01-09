@@ -12,7 +12,7 @@ import * as R from "ramda";
 
 import { ShoppingList, TotalOrder, updateTripLists, Recipe } from "./types";
 import { RootState, resetLocalStore } from "./store";
-import { insertItem, reorder, save, sortByOrder } from "./shopping_order";
+import { insertItem, reorder, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
 import { recipesToTrip, multiply } from "./transforms";
 import { addRecipe, setRecipe, deleteRecipe } from "./recipes";
@@ -118,16 +118,6 @@ function App() {
     trip
   );
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    sortedTrip.lists.forEach((list: ShoppingList) => {
-      dispatch(
-        save({
-          store: list.store.name,
-          displayOrder: list.items.map((order) => order.ingredient.name),
-        })
-      );
-    });
-  }, [recipes]);
   console.log("Sorted", sortedTrip);
 
   const [editing, startEditing] = React.useState<Recipe | null>(null);
