@@ -7,6 +7,7 @@ import "./App.css";
 import Button from "@material-ui/core/Button";
 
 import { ListSorter } from "./ListSorter";
+import { RecipeEditor } from "./AddRecipe";
 
 import * as R from "ramda";
 
@@ -69,32 +70,6 @@ function DragDispatcher({ children, trip }) {
   }
 
   return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
-}
-
-interface RecipeEditorProps {
-  recipe: Recipe;
-  onSave: (r: Recipe) => void;
-  onCancel: () => void;
-}
-
-function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
-  const text = unparse(recipe.ingredients);
-  const [blob, setBlob] = React.useState({
-    text,
-    title: recipe.title,
-    ingredients: recipe.ingredients,
-  });
-  return (
-    <div>
-      <Editor
-        onUpdate={setBlob}
-        defaultText={text}
-        defaultTitle={recipe.title}
-      />
-      <Button onClick={() => onSave(blob)}>Save</Button>
-      <Button onClick={() => onCancel()}>Cancel</Button>
-    </div>
-  );
 }
 
 function App() {
