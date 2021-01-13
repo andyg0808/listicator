@@ -1,4 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
+import { jsx } from "@emotion/react";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 
@@ -6,6 +8,8 @@ import "./App.css";
 
 import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 
 import { ListSorter } from "./ListSorter";
 import { RecipeEditor } from "./AddRecipe";
@@ -116,7 +120,6 @@ function App() {
           onEdit={startEditing}
           onDelete={(a) => a && dispatch(deleteRecipe(a))}
         />
-        <h2>Editor</h2>
         <Drawer anchor="bottom" open={Boolean(editing)} onClose={closeEditor}>
           {editing && (
             <RecipeEditor
@@ -126,7 +129,13 @@ function App() {
             />
           )}
         </Drawer>
-        <Button onClick={startRecipe}>Add recipe</Button>
+        <Fab
+          color="primary"
+          onClick={startRecipe}
+          css={{ position: "fixed", bottom: "0px", right: "0px" }}
+        >
+          <AddIcon />
+        </Fab>
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <Sync recipes={allRecipes} />
