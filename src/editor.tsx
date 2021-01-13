@@ -1,4 +1,5 @@
 import React from "react";
+import Box from "@material-ui/core/Box";
 import Table from "@material-ui/core/Table";
 import Container from "@material-ui/core/Container";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,6 +10,8 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+
+import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
 
 import { addRecipe } from "./recipes";
@@ -38,6 +41,10 @@ export function Viewer({ ingredients }) {
   );
 }
 
+const EditField = styled(TextareaAutosize)`
+  min-height: 50vh;
+`;
+
 export interface EditorInterface {
   onUpdate: (recipe: Recipe) => void;
   defaultTitle: string;
@@ -62,19 +69,19 @@ export function Editor({ onUpdate, defaultTitle, defaultText }) {
   }
 
   return (
-    <div>
+    <Box display="flex" flexDirection="column">
       <TextField
         onChange={(e) => titleUpdate(e.target.value)}
         onBlur={(e) => titleUpdate(e.target.value)}
         label="Title"
         value={title}
       />
-      <TextareaAutosize
+      <EditField
         onChange={(e) => textUpdate(e.target.value)}
         onBlur={(e) => textUpdate(e.target.value)}
         value={text}
       />
       <Viewer ingredients={ingredients} />
-    </div>
+    </Box>
   );
 }

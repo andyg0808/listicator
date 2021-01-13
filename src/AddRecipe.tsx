@@ -1,5 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import { Editor } from "./editor";
 import { Recipe } from "./types";
 import { unparse } from "./parser";
@@ -18,14 +20,16 @@ export function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
     ingredients: recipe.ingredients,
   });
   return (
-    <div>
+    <Paper>
       <Editor
         onUpdate={setBlob}
         defaultText={text}
         defaultTitle={recipe.title}
       />
-      <Button onClick={() => onSave(blob)}>Save</Button>
       <Button onClick={() => onCancel()}>Cancel</Button>
-    </div>
+      <Button color="primary" onClick={() => onSave(blob)}>
+        Save
+      </Button>
+    </Paper>
   );
 }

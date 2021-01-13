@@ -5,6 +5,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import "./App.css";
 
 import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
 
 import { ListSorter } from "./ListSorter";
 import { RecipeEditor } from "./AddRecipe";
@@ -116,13 +117,15 @@ function App() {
           onDelete={(a) => a && dispatch(deleteRecipe(a))}
         />
         <h2>Editor</h2>
-        {editing && (
-          <RecipeEditor
-            recipe={editing}
-            onSave={saveHandler}
-            onCancel={closeEditor}
-          />
-        )}
+        <Drawer anchor="bottom" open={Boolean(editing)} onClose={closeEditor}>
+          {editing && (
+            <RecipeEditor
+              recipe={editing}
+              onSave={saveHandler}
+              onCancel={closeEditor}
+            />
+          )}
+        </Drawer>
         <Button onClick={startRecipe}>Add recipe</Button>
         <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
