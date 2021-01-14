@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { jsx } from "@emotion/react";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 
@@ -132,7 +131,7 @@ function App() {
         <Fab
           color="primary"
           onClick={startRecipe}
-          css={{ position: "fixed", bottom: "0px", right: "0px" }}
+          css={{ position: "fixed", bottom: "0px", right: "0px", zIndex: 10 }}
         >
           <AddIcon />
         </Fab>
