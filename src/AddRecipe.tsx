@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
@@ -20,7 +21,7 @@ export function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
     ingredients: recipe.ingredients,
   });
   return (
-    <Paper>
+    <Paper css={{ padding: "0 3vw" }}>
       <Editor
         onUpdate={setBlob}
         defaultText={text}
