@@ -6,6 +6,7 @@ import { reducer as storePreferenceReducer } from "./store_preference";
 import { reducer as menuSelectionsReducer } from "./menu_selections";
 import { reducer as menuQuantityReducer } from "./menu_quantities";
 import { reducer as recipeReducer } from "./recipes";
+import { reducer as peerReducer } from "./sync_store";
 
 const rootReducer = combineReducers({
   recipes: recipeReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   storePreference: storePreferenceReducer,
   menuSelections: menuSelectionsReducer,
   menuQuantities: menuQuantityReducer,
+  syncStore: peerReducer,
 });
 
 const saveToLocalStore = (storeAPI) => (next) => (action) => {
