@@ -14,7 +14,7 @@ ReactDOM.render(
     <Provider store={store}>
       {parserViewer && <ParserViewer />}
       <App />
-      <LexerViewer />
+      {parserViewer && <LexerViewer />}
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

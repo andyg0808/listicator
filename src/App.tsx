@@ -135,7 +135,6 @@ function App() {
         >
           <AddIcon />
         </Fab>
-        <h2>List</h2>
         <ListSorter stores={stores} trip={sortedTrip} />
         <Sync recipes={allRecipes} />
       </div>
