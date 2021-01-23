@@ -131,7 +131,7 @@ function App() {
         <Fab
           color="primary"
           onClick={startRecipe}
-          css={{ position: "fixed", bottom: "0px", right: "0px", zIndex: 10 }}
+          css={{ position: "fixed", bottom: "15px", right: "15px", zIndex: 10 }}
         >
           <AddIcon />
         </Fab>
