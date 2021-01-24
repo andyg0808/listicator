@@ -97,7 +97,7 @@ function App() {
     trip
   );
   const dispatch = useDispatch();
-  console.log("Sorted", sortedTrip);
+  // console.log("Sorted", sortedTrip);
 
   const [editing, startEditing] = React.useState<Recipe | null>(null);
   const closeEditor = () => startEditing(null);

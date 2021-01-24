@@ -43,12 +43,12 @@ export function safeParse(text: string): Order[] {
   try {
     return parse(text.trim());
   } catch (e) {
-    console.log(e);
-    console.log(JSON.stringify(e, null, "  "));
+    // console.log(e);
+    // console.log(JSON.stringify(e, null, "  "));
     const lines = text.trim().split(/\n/);
     const line = e.token?.line || 0;
-    console.log(line, lines.length);
-    console.log(lines.slice(line - 1, line + 2));
+    // console.log(line, lines.length);
+    // console.log(lines.slice(line - 1, line + 2));
     return [];
   }
 }

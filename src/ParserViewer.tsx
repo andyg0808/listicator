@@ -22,9 +22,9 @@ export default function ParserViewer() {
   const [err, setErr] = React.useState<string | null>(null);
   const [saved, setSaved] = React.useState<boolean>(false);
   const dispatch = useDispatch();
-  console.log("Parsing");
+  // console.log("Parsing");
   const ingredients = safeParse(text);
-  console.log("done");
+  // console.log("done");
 
   function reset() {
     setText("");
@@ -72,7 +72,7 @@ export default function ParserViewer() {
   }
 
   function saveToLocalStorage() {
-    console.log("stored", text);
+    // console.log("stored", text);
     window.localStorage.setItem("listicator", JSON.stringify([title, text]));
   }
   function loadFromLocalStorage() {

@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
 const saveToLocalStore = (storeAPI) => (next) => (action) => {
   const result = next(action);
   const state = storeAPI.getState();
-  console.log("Saving to localstore", state);
+  // console.log("Saving to localstore", state);
   window.localStorage.setItem("store", JSON.stringify(state));
   return result;
 };
