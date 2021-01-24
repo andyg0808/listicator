@@ -1,4 +1,6 @@
 import React from "react";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -8,13 +10,26 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#e50900",
+    },
+    secondary: {
+      main: "#ffb700",
+    },
+  },
+});
+
 const parserViewer = false;
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      {parserViewer && <ParserViewer />}
-      <App />
-      {parserViewer && <LexerViewer />}
+      <ThemeProvider theme={theme}>
+        {parserViewer && <ParserViewer />}
+        <App />
+        {parserViewer && <LexerViewer />}
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
