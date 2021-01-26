@@ -77,6 +77,7 @@ function DragDispatcher({ children, trip }) {
 }
 
 function App() {
+  const [sync, setSync] = React.useState(false);
   const allRecipes = useSelector((store: RootState) => store.recipes);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const quantities = useSelector((store: RootState) => store.menuQuantities);
@@ -136,7 +137,7 @@ function App() {
           <AddIcon />
         </Fab>
         <ListSorter stores={stores} trip={sortedTrip} />
-        <Sync recipes={allRecipes} />
+        {sync && <Sync recipes={allRecipes} />}
       </div>
     </DragDispatcher>
   );
