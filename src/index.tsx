@@ -8,6 +8,7 @@ import ParserViewer from "./ParserViewer";
 import LexerViewer from "./LexerViewer";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
+import { SnackbarProvider } from "notistack";
 import store from "./store";
 
 const theme = createMuiTheme({
@@ -26,9 +27,11 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        {parserViewer && <ParserViewer />}
-        <App />
-        {parserViewer && <LexerViewer />}
+        <SnackbarProvider maxSnack={1}>
+          {parserViewer && <ParserViewer />}
+          <App />
+          {parserViewer && <LexerViewer />}
+        </SnackbarProvider>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

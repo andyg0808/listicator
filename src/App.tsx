@@ -20,12 +20,13 @@ import { RootState, resetLocalStore, recipeSelector } from "./store";
 import { insertItem, reorder, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
 import { recipesToTrip, multiply } from "./transforms";
-import { addRecipe, setRecipe, deleteRecipe } from "./recipes";
+import { addRecipe, setRecipe } from "./recipes";
 
 import { Sync } from "./Sync";
 import { Editor } from "./editor";
 import RecipeList from "./RecipeList";
 import { unparse } from "./parser";
+import { useDeleteRecipe } from "./undo";
 
 function DragDispatcher({ children, trip }) {
   const dispatch = useDispatch();
@@ -98,7 +99,6 @@ function App() {
     trip
   );
   const dispatch = useDispatch();
-  // console.log("Sorted", sortedTrip);
 
   const [editing, startEditing] = React.useState<Recipe | null>(null);
   const closeEditor = () => startEditing(null);
@@ -113,13 +113,12 @@ function App() {
       title: "",
       ingredients: [],
     });
+
+  const onDeleteRecipe = useDeleteRecipe();
   return (
     <DragDispatcher trip={sortedTrip}>
       <div className="App">
-        <RecipeList
-          onEdit={startEditing}
-          onDelete={(a) => a && dispatch(deleteRecipe(a))}
-        />
+        <RecipeList onEdit={startEditing} onDelete={onDeleteRecipe} />
         <Drawer anchor="bottom" open={Boolean(editing)} onClose={closeEditor}>
           {editing && (
             <RecipeEditor
