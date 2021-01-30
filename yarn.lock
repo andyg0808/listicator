@@ -9796,6 +9796,7 @@ fsevents@~2.1.2:
     react-refresh: ^0.9.0
     react-scripts: ^4.0.1
     redux: ^4.0.5
+    redux-undo: ^1.0.1
     ts-jest: ^26.4.4
     ts-node: ^9.1.1
     typescript: ^4.1.3
@@ -13018,6 +13019,13 @@ fsevents@~2.1.2:
   version: 2.3.0
   resolution: "redux-thunk@npm:2.3.0"
   checksum: 2d7210b88cef244384ab15bfe0c0f79a7d5a2fe059825da121121ec75378b175860695fafd5265386a0fd4b86212cc49e5972825f7bc9f803ad8753229f0258b
+  languageName: node
+  linkType: hard
+
+"redux-undo@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "redux-undo@npm:1.0.1"
+  checksum: b126e54f92314fe952f2b0cd925f4e4da8a4f59188a042e4106a10375458e207ac8e85df2ab2ffecc500fc7849b010cb629ef51cfbd8d2c9449669c437bd79bb
   languageName: node
   linkType: hard
 

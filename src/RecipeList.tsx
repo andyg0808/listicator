@@ -13,7 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import { RootState } from "./store";
+import { RootState, recipeSelector } from "./store";
 import { setMenuSelection } from "./menu_selections";
 import { setMenuQuantity } from "./menu_quantities";
 import { Recipe } from "./types";
@@ -25,7 +25,7 @@ export interface RecipeListProps {
 
 export default function RecipeList({ onEdit, onDelete }) {
   const dispatch = useDispatch();
-  const recipes = useSelector((store: RootState) => store.recipes);
+  const recipes = useSelector(recipeSelector);
   const checks = useSelector((store: RootState) => store.menuSelections);
   const quantities = useSelector((store: RootState) => store.menuQuantities);
   function setCheck(name: string, checked: boolean) {

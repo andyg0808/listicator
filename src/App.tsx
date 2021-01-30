@@ -16,7 +16,7 @@ import { RecipeEditor } from "./AddRecipe";
 import * as R from "ramda";
 
 import { ShoppingList, TotalOrder, updateTripLists, Recipe } from "./types";
-import { RootState, resetLocalStore } from "./store";
+import { RootState, resetLocalStore, recipeSelector } from "./store";
 import { insertItem, reorder, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
 import { recipesToTrip, multiply } from "./transforms";
@@ -78,7 +78,7 @@ function DragDispatcher({ children, trip }) {
 
 function App() {
   const [sync, setSync] = React.useState(false);
-  const allRecipes = useSelector((store: RootState) => store.recipes);
+  const allRecipes = useSelector(recipeSelector);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const quantities = useSelector((store: RootState) => store.menuQuantities);
   const recipes = React.useMemo(
