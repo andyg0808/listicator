@@ -89,7 +89,7 @@ function App() {
   const storePreference = useSelector(
     (store: RootState) => store.storePreference
   );
-  const trip = recipesToTrip(recipes, storePreference);
+  const trip = recipesToTrip(recipes, storePreference, "Undecided");
   const stores = ["Trader Joe's", "Costco", "Food 4 Less"].map((store) => {
     return { name: store };
   });

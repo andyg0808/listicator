@@ -15,10 +15,11 @@ import * as R from "ramda";
 
 export function tripFromMenuList(
   menuList: MenuList,
-  storePreference: StorePreferenceMap
+  storePreference: StorePreferenceMap,
+  defaultStore: string
 ): Trip {
   const stores: { [index: string]: Array<TotalOrder> } = R.groupBy(
-    (item) => storePreference[item.ingredient.name],
+    (item) => storePreference[item.ingredient.name] || defaultStore,
     menuList.items
   );
   const lists: Array<ShoppingList> = Object.entries(stores).map(
@@ -56,11 +57,12 @@ export function menuListFromMenu(menu: Menu): MenuList {
 
 export function recipesToTrip(
   recipes: Recipe[],
-  storePreference: StorePreferenceMap
+  storePreference: StorePreferenceMap,
+  defaultStore: string
 ): Trip {
   const menu = { recipes };
   const menuList = menuListFromMenu(menu);
-  return tripFromMenuList(menuList, storePreference);
+  return tripFromMenuList(menuList, storePreference, defaultStore);
 }
 
 export function multiply(quantities: MenuQuantityMap, recipes: Recipe[]) {
