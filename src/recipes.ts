@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Recipe } from "./types";
 import * as R from "ramda";
+import { recipe } from "./init_recipes";
 
 const recipeSlice = createSlice({
   name: "recipes",
-  initialState: [] as Recipe[],
+  initialState: [recipe] as Recipe[],
   reducers: {
     addRecipe(state, action: PayloadAction<Recipe>) {
       state.push(action.payload);
