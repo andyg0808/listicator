@@ -1,7 +1,6 @@
 import { Recipe, Order, Amount } from "./types";
 import nearley from "nearley";
 import grammar from "./grammar";
-import { log } from "./logger";
 import * as R from "ramda";
 
 export function parse(data: string): Array<Order> {
@@ -11,20 +10,14 @@ export function parse(data: string): Array<Order> {
     throw new Error("Ambiguous parse");
   }
   const results = parser.results[0];
-  // console.log(JSON.stringify(parser.results, null, "  "));
-  // console.log("results", results);
   if (!results || results.length == 0) {
     return [];
   }
-
-  log("results", results);
 
   const ingredients = results[0]
     .filter((i) => i !== null)
     .map(
       (ingredient_parse): Order => {
-        // console.log("ingredient", ingredient_parse);
-        log("ingredient", ingredient_parse);
         const name = ingredient_parse[2];
         const ingredient = { name };
         const quantity = ingredient_parse[0];
@@ -43,13 +36,26 @@ export function safeParse(text: string): Order[] {
   try {
     return parse(text.trim());
   } catch (e) {
-    // console.log(e);
-    // console.log(JSON.stringify(e, null, "  "));
     const lines = text.trim().split(/\n/);
     const line = e.token?.line || 0;
-    // console.log(line, lines.length);
-    // console.log(lines.slice(line - 1, line + 2));
     return [];
+  }
+}
+
+export interface ParseError {
+  offset: number;
+  lineBreaks: number;
+  line: number;
+  col: number;
+}
+
+export function errorParse(text: string): ParseError | null {
+  try {
+    console.log("parse result", parse(text.trim()));
+    return null;
+  } catch (e) {
+    console.log("ERROR CAUGHT!", e.token);
+    return e.token;
   }
 }
 
