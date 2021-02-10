@@ -9789,6 +9789,13 @@ fsevents@~2.1.2:
     notistack: ^1.0.3
     peerjs: ^1.3.1
     prettier: ^2.2.1
+    prosemirror-commands: ^1.1.5
+    prosemirror-keymap: ^1.1.4
+    prosemirror-model: ^1.13.1
+    prosemirror-schema-basic: ^1.1.2
+    prosemirror-state: ^1.3.4
+    prosemirror-transform: ^1.2.9
+    prosemirror-view: ^1.17.3
     ramda: ^0.27.1
     react: ^17.0.1
     react-beautiful-dnd: ^13.0.0
@@ -11030,6 +11037,13 @@ fsevents@~2.1.2:
     type-check: ^0.4.0
     word-wrap: ^1.2.3
   checksum: bdf5683f986d00e173e6034837b7b6a9e68c7e1a37d7684b240adf1758db9076cfb04c9f64be29327881bb06c5017afb8b65012c5f02d07b180e9f6f42595ffd
+  languageName: node
+  linkType: hard
+
+"orderedmap@npm:^1.1.0":
+  version: 1.1.1
+  resolution: "orderedmap@npm:1.1.1"
+  checksum: d4e485755304ded3ac35edaa485cf8b1f90a02232ef32ab47bb62ea64a5716da2312672ef697113fa3b51a7911215a836fe31a7518702f6c45685b58910e313f
   languageName: node
   linkType: hard
 
@@ -12456,6 +12470,75 @@ fsevents@~2.1.2:
     object-assign: ^4.1.1
     react-is: ^16.8.1
   checksum: a440dd406c5cf53bf39f3e898d2c65178511d34ca3c8c789b30c177992408b9e4273969726b274719aa69ccce5ab34b2fd8caa60b90f23cd2e910cdcf682de52
+  languageName: node
+  linkType: hard
+
+"prosemirror-commands@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "prosemirror-commands@npm:1.1.5"
+  dependencies:
+    prosemirror-model: ^1.0.0
+    prosemirror-state: ^1.0.0
+    prosemirror-transform: ^1.0.0
+  checksum: e5cd22dfbc5086500ee2552f82dc47864ce6773d83e9b810d88b2d248e93d1952a6795d0b04ef9b3f3a3280f41ee2ab91b7c3712cb7333e46dbcc045d174978d
+  languageName: node
+  linkType: hard
+
+"prosemirror-keymap@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "prosemirror-keymap@npm:1.1.4"
+  dependencies:
+    prosemirror-state: ^1.0.0
+    w3c-keyname: ^2.2.0
+  checksum: 761162efd171e179d5ba4f51a1483406fd72ec5a147939417a1d641f42dd740ee0740bf9ac8840e00e11e82bfebeb5e0479c95123ba3bf0d2ca0830a83a7d06d
+  languageName: node
+  linkType: hard
+
+"prosemirror-model@npm:^1.0.0, prosemirror-model@npm:^1.1.0, prosemirror-model@npm:^1.13.1, prosemirror-model@npm:^1.2.0":
+  version: 1.13.1
+  resolution: "prosemirror-model@npm:1.13.1"
+  dependencies:
+    orderedmap: ^1.1.0
+  checksum: c11b2114044db5b6d399b40bf71f96cc68df730f6b3983d2db12b531150d94d0ab40f99357a371fb28469248b94c12cacf6e05c5e63db7980c9fb015cd0c811d
+  languageName: node
+  linkType: hard
+
+"prosemirror-schema-basic@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "prosemirror-schema-basic@npm:1.1.2"
+  dependencies:
+    prosemirror-model: ^1.2.0
+  checksum: 2fb2b09f96f18248a4088186dfc1968a6b613708c52851816a9a214ef21fe445d8d3e376f6958d172bc3142b63b76274288b43cc3c905e915e45eea6b5633e7b
+  languageName: node
+  linkType: hard
+
+"prosemirror-state@npm:^1.0.0, prosemirror-state@npm:^1.3.4":
+  version: 1.3.4
+  resolution: "prosemirror-state@npm:1.3.4"
+  dependencies:
+    prosemirror-model: ^1.0.0
+    prosemirror-transform: ^1.0.0
+  checksum: b15af9acab0db2212b1cb06a57be4a9d98dcd362cfa8e78bfd7bf9b47b19ac2742221de8165c5e60c4cd21d9b56b42b5730e2736a3302a07a6baba91bc3bc416
+  languageName: node
+  linkType: hard
+
+"prosemirror-transform@npm:^1.0.0, prosemirror-transform@npm:^1.1.0, prosemirror-transform@npm:^1.2.9":
+  version: 1.2.9
+  resolution: "prosemirror-transform@npm:1.2.9"
+  dependencies:
+    prosemirror-model: ^1.0.0
+  checksum: f5e4fc950d36086f609b326620f54eddf38b9e1cacfc24ca5dca4feef1013390d0ebaef6cd988e8ab756c052aae15410f23af66ac8df68f65656aadad890e401
+  languageName: node
+  linkType: hard
+
+"prosemirror-view@npm:^1.17.3":
+  version: 1.17.3
+  resolution: "prosemirror-view@npm:1.17.3"
+  dependencies:
+    prosemirror-model: ^1.1.0
+    prosemirror-state: ^1.0.0
+    prosemirror-transform: ^1.1.0
+  checksum: 41d3d935373680018c76fe6b6ceecbecac0e4a2c2b1d3f3da2d3b64382dca3e5a4fb4f6c8dcb4041f7c9cc3a6a58efa557afa10162de7ecbe4089fb432bd578d
   languageName: node
   linkType: hard
 
@@ -15660,6 +15743,13 @@ typescript@^4.1.3:
   dependencies:
     browser-process-hrtime: ^1.0.0
   checksum: bb021b4c4b15acc26a7b0de5b6f4c02d829b458345af162713685e84698380fabffc7856f4a85ba368f23c8419d3a7a726b628b993ffeb0d5a83d0d57d4cbf72
+  languageName: node
+  linkType: hard
+
+"w3c-keyname@npm:^2.2.0":
+  version: 2.2.4
+  resolution: "w3c-keyname@npm:2.2.4"
+  checksum: b711eaa9867030e5702131dfd434620125f1a337b98a473a4d60254fd4912559b16f2b8642975b881d6ec9387bf378b9bf838873151fd036b9ba8c356b4e42aa
   languageName: node
   linkType: hard
 

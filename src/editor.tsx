@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
 import { Order, Recipe } from "./types";
+import { Prosemirror } from "./Prosemirror";
 
 export function Viewer({ ingredients }) {
   return (
@@ -41,7 +42,7 @@ export function Viewer({ ingredients }) {
   );
 }
 
-const EditField = styled(TextareaAutosize)`
+const EditField = styled(Prosemirror)`
   min-height: 50vh;
 `;
 
@@ -76,11 +77,7 @@ export function Editor({ onUpdate, defaultTitle, defaultText }) {
         label="Title"
         value={title}
       />
-      <EditField
-        onChange={(e) => textUpdate(e.target.value)}
-        onBlur={(e) => textUpdate(e.target.value)}
-        value={text}
-      />
+      <EditField onChange={textUpdate} value={text} />
       <Viewer ingredients={ingredients} />
     </Box>
   );
