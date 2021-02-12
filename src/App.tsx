@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import Container from "@material-ui/core/Container";
 
 import { ListSorter } from "./ListSorter";
 import { RecipeEditor } from "./AddRecipe";
@@ -117,7 +118,7 @@ function App() {
   const onDeleteRecipe = useDeleteRecipe();
   return (
     <DragDispatcher trip={sortedTrip}>
-      <div className="App">
+      <Container>
         <RecipeList onEdit={startEditing} onDelete={onDeleteRecipe} />
         <Drawer anchor="bottom" open={Boolean(editing)} onClose={closeEditor}>
           {editing && (
@@ -137,7 +138,7 @@ function App() {
         </Fab>
         <ListSorter stores={stores} trip={sortedTrip} />
         {sync && <Sync recipes={allRecipes} />}
-      </div>
+      </Container>
     </DragDispatcher>
   );
 }

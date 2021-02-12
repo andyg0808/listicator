@@ -27,7 +27,7 @@ export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
           store,
         };
         return (
-          <div css={{ width: "45vw" }} key={store.name}>
+          <div css={{ width: "50%" }} key={store.name}>
             <Box color="primary.main" component="h3">
               {list.store.name}
             </Box>
