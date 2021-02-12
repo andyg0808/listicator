@@ -6,6 +6,7 @@ import { Amount, ShoppingList, Store, TotalOrder, Trip } from "./types";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import Box from "@material-ui/core/Box";
 
 export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
   const storeList = R.union(
@@ -27,7 +28,9 @@ export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
         };
         return (
           <div css={{ width: "45vw" }} key={store.name}>
-            <h3>{list.store.name}</h3>
+            <Box color="primary.main" component="h3">
+              {list.store.name}
+            </Box>
             <Droppable droppableId={list.store.name} key={list.store.name}>
               {(provided) => (
                 <List ref={provided.innerRef} {...provided.droppableProps}>
