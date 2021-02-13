@@ -6,7 +6,9 @@ import { Amount, ShoppingList, Store, TotalOrder, Trip } from "./types";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Box from "@material-ui/core/Box";
+import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
 export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
   const storeList = R.union(
@@ -74,6 +76,9 @@ function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
+          <ListItemIcon css={{ minWidth: "28px" }}>
+            <DragIndicatorIcon fontSize="small" />
+          </ListItemIcon>
           {amount} {name}
         </ListItem>
       )}
