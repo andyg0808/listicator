@@ -89,6 +89,57 @@ function DragDispatcher({ children, trip }) {
 
 function App() {
   const [sync, setSync] = React.useState(false);
+  const dispatch = useDispatch();
+
+  const stores = useSelector((store: RootState) => store.storeList);
+
+  const [showStoreEditor, setShowStoreEditor] = React.useState(false);
+  const [currentTab, setCurrentTab] = React.useState(0);
+  return (
+    <>
+      <AppBar>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            onClick={() => setShowStoreEditor(true)}
+            aria-label="Set List Items"
+            color="secondary"
+          >
+            <ViewListIcon />
+          </IconButton>
+          <Tabs
+            value={currentTab}
+            onChange={(e, newValue) => setCurrentTab(newValue)}
+          >
+            <Tab label="Build" />
+            <Tab label="Shop" />
+          </Tabs>
+        </Toolbar>
+      </AppBar>
+      <Container>
+        <Drawer
+          anchor="left"
+          open={showStoreEditor}
+          onClose={() => setShowStoreEditor(false)}
+        >
+          <ListBuilder
+            onChange={(e) => dispatch(setStores(e))}
+            items={stores.map((s) => s.name)}
+          />
+        </Drawer>
+        {currentTab == 0 && <BuildTab />}
+        {sync && <SyncTools />}
+      </Container>
+    </>
+  );
+}
+
+function SyncTools() {
+  const allRecipes = useSelector(recipeSelector);
+  return <Sync recipes={allRecipes} />;
+}
+
+function BuildTab() {
   const allRecipes = useSelector(recipeSelector);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const quantities = useSelector((store: RootState) => store.menuQuantities);
@@ -111,9 +162,9 @@ function App() {
     R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
     trip
   );
+
   const dispatch = useDispatch();
 
-  const [showStoreEditor, setShowStoreEditor] = React.useState(false);
   const [editing, startEditing] = React.useState<Recipe | null>(null);
   const closeEditor = () => startEditing(null);
   const saveHandler = (a: Recipe) => {
@@ -131,29 +182,7 @@ function App() {
   const onDeleteRecipe = useDeleteRecipe();
   return (
     <DragDispatcher trip={sortedTrip}>
-      <AppBar>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            onClick={() => setShowStoreEditor(true)}
-            aria-label="Set List Items"
-            color="secondary"
-          >
-            <ViewListIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Container>
-        <Drawer
-          anchor="left"
-          open={showStoreEditor}
-          onClose={() => setShowStoreEditor(false)}
-        >
-          <ListBuilder
-            onChange={(e) => dispatch(setStores(e))}
-            items={stores.map((s) => s.name)}
-          />
-        </Drawer>
+      <div>
         <RecipeList onEdit={startEditing} onDelete={onDeleteRecipe} />
         <Drawer anchor="bottom" open={Boolean(editing)} onClose={closeEditor}>
           {editing && (
@@ -172,8 +201,7 @@ function App() {
           <AddIcon />
         </Fab>
         <ListSorter stores={stores} trip={sortedTrip} />
-        {sync && <Sync recipes={allRecipes} />}
-      </Container>
+      </div>
     </DragDispatcher>
   );
 }
