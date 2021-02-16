@@ -97,7 +97,7 @@ function App() {
   const [currentTab, setCurrentTab] = React.useState(0);
   return (
     <>
-      <AppBar>
+      <AppBar position="static">
         <Toolbar>
           <IconButton
             edge="start"
