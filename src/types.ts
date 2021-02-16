@@ -61,7 +61,19 @@ export interface TotalOrder {
 }
 
 export const getIngredientName = (o: TotalOrder) => o?.ingredient?.name;
-
+export function getDescription(order: TotalOrder): string {
+  const amount = order.amount
+    .map((a: Amount) => {
+      const unit =
+        a.quantity && a.quantity > 1 && a.unit !== null
+          ? a.unit + "s"
+          : a.unit || "";
+      return `${a.quantity || ""} ${unit}`;
+    })
+    .join(" & ");
+  const name = order.ingredient.name;
+  return `${amount} ${name}`;
+}
 /**
  * A class to represent an amount of an ingredient
  */

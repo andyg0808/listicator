@@ -2,7 +2,14 @@
 import React from "react";
 import * as R from "ramda";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { Amount, ShoppingList, Store, TotalOrder, Trip } from "./types";
+import {
+  Amount,
+  ShoppingList,
+  Store,
+  TotalOrder,
+  Trip,
+  getDescription,
+} from "./types";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -59,15 +66,7 @@ export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
 }
 
 function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
-  const amount = item.amount
-    .map((a: Amount) => {
-      const unit =
-        a.quantity && a.quantity > 1 && a.unit !== null
-          ? a.unit + "s"
-          : a.unit || "";
-      return `${a.quantity || ""} ${unit}`;
-    })
-    .join(" & ");
+  const description = getDescription(item);
   const name = item.ingredient.name;
   return (
     <Draggable draggableId={name} index={idx}>
@@ -81,7 +80,7 @@ function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
           <ListItemIcon css={{ minWidth: "28px" }}>
             <DragIndicatorIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText>{`${amount} ${name}`}</ListItemText>
+          <ListItemText>{description}</ListItemText>
         </ListItem>
       )}
     </Draggable>
