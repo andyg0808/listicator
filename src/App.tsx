@@ -8,8 +8,15 @@ import "./App.css";
 import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
 import Container from "@material-ui/core/Container";
+import IconButton from "@material-ui/core/IconButton";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+
+import AddIcon from "@material-ui/icons/Add";
+import ViewListIcon from "@material-ui/icons/ViewList";
 
 import { ListSorter } from "./ListSorter";
 import { RecipeEditor } from "./AddRecipe";
@@ -20,6 +27,7 @@ import { ShoppingList, TotalOrder, updateTripLists, Recipe } from "./types";
 import { RootState, resetLocalStore, recipeSelector } from "./store";
 import { insertItem, reorder, sortByOrder } from "./shopping_order";
 import { setStore } from "./store_preference";
+import { setStores } from "./store_list";
 import { recipesToTrip, multiply } from "./transforms";
 import { addRecipe, setRecipe } from "./recipes";
 
@@ -28,6 +36,7 @@ import { Editor } from "./editor";
 import RecipeList from "./RecipeList";
 import { unparse } from "./parser";
 import { useDeleteRecipe } from "./undo";
+import { ListBuilder } from "./ListBuilder";
 
 function DragDispatcher({ children, trip }) {
   const dispatch = useDispatch();
@@ -104,6 +113,7 @@ function App() {
   );
   const dispatch = useDispatch();
 
+  const [showStoreEditor, setShowStoreEditor] = React.useState(false);
   const [editing, startEditing] = React.useState<Recipe | null>(null);
   const closeEditor = () => startEditing(null);
   const saveHandler = (a: Recipe) => {
@@ -121,7 +131,29 @@ function App() {
   const onDeleteRecipe = useDeleteRecipe();
   return (
     <DragDispatcher trip={sortedTrip}>
+      <AppBar>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            onClick={() => setShowStoreEditor(true)}
+            aria-label="Set List Items"
+            color="secondary"
+          >
+            <ViewListIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
       <Container>
+        <Drawer
+          anchor="left"
+          open={showStoreEditor}
+          onClose={() => setShowStoreEditor(false)}
+        >
+          <ListBuilder
+            onChange={(e) => dispatch(setStores(e))}
+            items={stores.map((s) => s.name)}
+          />
+        </Drawer>
         <RecipeList onEdit={startEditing} onDelete={onDeleteRecipe} />
         <Drawer anchor="bottom" open={Boolean(editing)} onClose={closeEditor}>
           {editing && (
