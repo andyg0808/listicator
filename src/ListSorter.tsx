@@ -6,6 +6,7 @@ import { Amount, ShoppingList, Store, TotalOrder, Trip } from "./types";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -80,7 +81,7 @@ function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
           <ListItemIcon css={{ minWidth: "28px" }}>
             <DragIndicatorIcon fontSize="small" />
           </ListItemIcon>
-          {amount} {name}
+          <ListItemText>{`${amount} ${name}`}</ListItemText>
         </ListItem>
       )}
     </Draggable>
