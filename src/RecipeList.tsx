@@ -56,7 +56,7 @@ export default function RecipeList({ onEdit, onDelete }) {
                 onChange={(evt) => setCheck(title, evt.target.checked)}
               ></Checkbox>
             </ListItemIcon>
-            <ListItemText primary={title}></ListItemText>
+            <ListItemText>{title}</ListItemText>
             <ListItemSecondaryAction
               css={{
                 position: "static",
