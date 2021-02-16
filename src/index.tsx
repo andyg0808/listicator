@@ -10,7 +10,11 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { SnackbarProvider } from "notistack";
 import store from "./store";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
+const headerFont = {
+  fontFamily: ["Merriweather", "serif"].join(","),
+};
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -19,6 +23,20 @@ const theme = createMuiTheme({
     secondary: {
       main: "#ffb700",
     },
+  },
+  typography: {
+    h1: headerFont,
+    h2: {
+      ...headerFont,
+      fontSize: "1.25rem",
+      fontWeight: 400,
+      lineHeight: 1.167,
+      letterSpacing: "0em",
+    },
+    h3: headerFont,
+    h4: headerFont,
+    h5: headerFont,
+    h6: headerFont,
   },
 });
 
@@ -29,6 +47,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={1}>
           {parserViewer && <ParserViewer />}
+          <CssBaseline />
           <App />
           {parserViewer && <LexerViewer />}
         </SnackbarProvider>

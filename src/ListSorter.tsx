@@ -8,6 +8,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
 export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
@@ -30,9 +31,9 @@ export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
         };
         return (
           <div css={{ width: "50%" }} key={store.name}>
-            <Box color="primary.main" component="h3">
+            <Typography color="primary" variant="h2">
               {list.store.name}
-            </Box>
+            </Typography>
             <Droppable droppableId={list.store.name} key={list.store.name}>
               {(provided) => (
                 <List ref={provided.innerRef} {...provided.droppableProps}>
