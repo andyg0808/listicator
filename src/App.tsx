@@ -139,7 +139,7 @@ function SyncTools() {
   return <Sync recipes={allRecipes} />;
 }
 
-function BuildTab() {
+function useSortedTrip(): Trip {
   const allRecipes = useSelector(recipeSelector);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const quantities = useSelector((store: RootState) => store.menuQuantities);
@@ -162,6 +162,12 @@ function BuildTab() {
     R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
     trip
   );
+  return sortedTrip;
+}
+
+function BuildTab() {
+  const sortedTrip = useSortedTrip();
+  const stores = useSelector((store: RootState) => store.storeList);
 
   const dispatch = useDispatch();
 
