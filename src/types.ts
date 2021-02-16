@@ -92,10 +92,15 @@ export interface MenuList {
 }
 
 /**
+ * A type for the name of a store
+ */
+export type StoreName = string;
+
+/**
  * A place where ingredients can be bought.
  */
 export interface Store {
-  name: string;
+  name: StoreName;
 }
 
 /**
