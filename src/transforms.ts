@@ -1,27 +1,35 @@
 import {
+  MenuQuantityMap,
+  StoreName,
   Ingredient,
   Menu,
   MenuList,
-  Recipe,
   Order,
+  Recipe,
   ShoppingList,
   Store,
+  StorePreferenceMap,
   TotalOrder,
   Trip,
-  StorePreferenceMap,
-  MenuQuantityMap,
 } from "./types";
 import * as R from "ramda";
 
 export function tripFromMenuList(
   menuList: MenuList,
   storePreference: StorePreferenceMap,
-  defaultStore: string
+  defaultStore: string,
+  knownStores: Set<StoreName>
 ): Trip {
-  const stores: { [index: string]: Array<TotalOrder> } = R.groupBy(
-    (item) => storePreference[item.ingredient.name] || defaultStore,
-    menuList.items
-  );
+  const stores: { [index: string]: Array<TotalOrder> } = R.groupBy((item) => {
+    const store = storePreference[item.ingredient.name];
+    if (!store) {
+      return defaultStore;
+    }
+    if (knownStores.has(store)) {
+      return store;
+    }
+    return defaultStore;
+  }, menuList.items);
   const lists: Array<ShoppingList> = Object.entries(stores).map(
     ([storeid, items]: [string, Array<TotalOrder>]): ShoppingList => {
       return {
@@ -58,11 +66,12 @@ export function menuListFromMenu(menu: Menu): MenuList {
 export function recipesToTrip(
   recipes: Recipe[],
   storePreference: StorePreferenceMap,
-  defaultStore: string
+  defaultStore: string,
+  knownStores: Set<StoreName>
 ): Trip {
   const menu = { recipes };
   const menuList = menuListFromMenu(menu);
-  return tripFromMenuList(menuList, storePreference, defaultStore);
+  return tripFromMenuList(menuList, storePreference, defaultStore, knownStores);
 }
 
 export function multiply(quantities: MenuQuantityMap, recipes: Recipe[]) {

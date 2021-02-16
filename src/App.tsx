@@ -83,6 +83,7 @@ function App() {
   const allRecipes = useSelector(recipeSelector);
   const selected = useSelector((store: RootState) => store.menuSelections);
   const quantities = useSelector((store: RootState) => store.menuQuantities);
+  const stores = useSelector((store: RootState) => store.storeList);
   const recipes = React.useMemo(
     () => multiply(quantities, allRecipes).filter((r) => selected[r.title]),
     [allRecipes, selected, quantities]
@@ -90,10 +91,12 @@ function App() {
   const storePreference = useSelector(
     (store: RootState) => store.storePreference
   );
-  const trip = recipesToTrip(recipes, storePreference, "Undecided");
-  const stores = ["Trader Joe's", "Costco", "Food 4 Less"].map((store) => {
-    return { name: store };
-  });
+  const trip = recipesToTrip(
+    recipes,
+    storePreference,
+    "Undecided",
+    new Set(stores.map((s) => s.name))
+  );
   const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
   const sortedTrip = updateTripLists(
     R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
