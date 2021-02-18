@@ -28,6 +28,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import AddIcon from "@material-ui/icons/Add";
 import ViewListIcon from "@material-ui/icons/ViewList";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { styled } from "@material-ui/core/styles";
 
@@ -131,37 +132,38 @@ function App() {
     <>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            onClick={() => setShowStoreEditor(true)}
-            aria-label="Set List Items"
-            color="secondary"
-          >
-            <ViewListIcon />
-          </IconButton>
           <div css={{ paddingRight: "20px" }}>
             <ColoredLogo />
           </div>
           <Tabs
+            css={{ flexGrow: 1 }}
             value={currentTab}
             onChange={(e, newValue) => setCurrentTab(newValue)}
           >
             <Tab label="Build" />
             <Tab label="Shop" />
           </Tabs>
+          <IconButton
+            edge="end"
+            onClick={() => setShowStoreEditor(true)}
+            aria-label="Set List Items"
+            color="secondary"
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
+      <Drawer
+        anchor="right"
+        open={showStoreEditor}
+        onClose={() => setShowStoreEditor(false)}
+      >
+        <ListBuilder
+          onChange={(e) => dispatch(setStores(e))}
+          items={stores.map((s) => s.name)}
+        />
+      </Drawer>
       <Container>
-        <Drawer
-          anchor="left"
-          open={showStoreEditor}
-          onClose={() => setShowStoreEditor(false)}
-        >
-          <ListBuilder
-            onChange={(e) => dispatch(setStores(e))}
-            items={stores.map((s) => s.name)}
-          />
-        </Drawer>
         {currentTab == 0 && <BuildTab />}
         {currentTab == 1 && <ShopTab />}
         {sync && <SyncTools />}
