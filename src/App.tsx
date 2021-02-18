@@ -3,6 +3,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext } from "react-beautiful-dnd";
 
+import { ReactComponent as Logo } from "./logo.svg";
+
 import "./App.css";
 
 import Button from "@material-ui/core/Button";
@@ -26,6 +28,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import AddIcon from "@material-ui/icons/Add";
 import ViewListIcon from "@material-ui/icons/ViewList";
+
+import { styled } from "@material-ui/core/styles";
 
 import { ListSorter } from "./ListSorter";
 import { RecipeEditor } from "./AddRecipe";
@@ -103,6 +107,18 @@ function DragDispatcher({ children, trip }) {
   return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
 }
 
+const ColoredLogo = styled(Logo)(({ theme }) => {
+  return {
+    "& .border": {
+      stroke: theme.palette.secondary.main,
+      fillOpacity: 0,
+    },
+    "& .checkmark": {
+      stroke: theme.palette.secondary.main,
+    },
+  };
+});
+
 function App() {
   const [sync, setSync] = React.useState(false);
   const dispatch = useDispatch();
@@ -123,6 +139,9 @@ function App() {
           >
             <ViewListIcon />
           </IconButton>
+          <div css={{ paddingRight: "20px" }}>
+            <ColoredLogo />
+          </div>
           <Tabs
             value={currentTab}
             onChange={(e, newValue) => setCurrentTab(newValue)}
