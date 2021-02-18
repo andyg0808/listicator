@@ -258,8 +258,8 @@ function ShopTab() {
     (list: ShoppingList) => list.store.name === activeName
   );
   return (
-    <div>
-      <FormControl>
+    <div css={{ maxWidth: "500px", margin: "auto", paddingTop: "30px" }}>
+      <FormControl css={{ width: "100%" }}>
         <InputLabel>Store</InputLabel>
         <Select
           value={activeName}
