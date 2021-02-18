@@ -290,7 +290,9 @@ function ShoppingListItem({ order }: { order: TotalOrder }) {
       <ListItemIcon>
         <Checkbox checked={checked} onChange={toggle} />
       </ListItemIcon>
-      <ListItemText onClick={toggle}>{getDescription(order)}</ListItemText>
+      <ListItemText css={{ cursor: "pointer" }} onClick={toggle}>
+        {getDescription(order)}
+      </ListItemText>
     </ListItem>
   );
 }
