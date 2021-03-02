@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "fraction.js": "^4.0.13",
     "moo": "^0.5.1",
     "nearley": "^2.20.1",
     "notistack": "^1.0.3",

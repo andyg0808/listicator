@@ -7297,6 +7297,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fraction.js@npm:^4.0.13":
+  version: 4.0.13
+  resolution: "fraction.js@npm:4.0.13"
+  checksum: 1e9ec132b09f17f3e41aa53508197901277f11896f6adc0b51a4b38511e6236813a471488c319221f4fadf7c854be9566a4924215623b460364591d80e1791c3
+  languageName: node
+  linkType: hard
+
 "fragment-cache@npm:^0.2.1":
   version: 0.2.1
   resolution: "fragment-cache@npm:0.2.1"
@@ -9784,6 +9791,7 @@ fsevents@~2.1.2:
     "@types/react-redux": ^7.1.11
     eslint-config-react-app: ^6.0.0
     fast-check: ^2.10.0
+    fraction.js: ^4.0.13
     moo: ^0.5.1
     nearley: ^2.20.1
     notistack: ^1.0.3
