@@ -44,6 +44,7 @@ import {
   Recipe,
   Trip,
   getDescription,
+  DisplayNumber,
 } from "./types";
 import { RootState, resetLocalStore, recipeSelector } from "./store";
 import { insertItem, reorder, sortByOrder } from "./shopping_order";
@@ -209,9 +210,11 @@ function BuildTab() {
 
   const dispatch = useDispatch();
 
-  const [editing, startEditing] = React.useState<Recipe | null>(null);
+  const [editing, startEditing] = React.useState<Recipe<DisplayNumber> | null>(
+    null
+  );
   const closeEditor = () => startEditing(null);
-  const saveHandler = (a: Recipe) => {
+  const saveHandler = (a: Recipe<DisplayNumber>) => {
     if (a) {
       dispatch(setRecipe(a));
     }

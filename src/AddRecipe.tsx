@@ -4,12 +4,12 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { Editor } from "./editor";
-import { Recipe } from "./types";
+import { Recipe, DisplayNumber } from "./types";
 import { unparse } from "./parser";
 
 interface RecipeEditorProps {
-  recipe: Recipe;
-  onSave: (r: Recipe) => void;
+  recipe: Recipe<DisplayNumber>;
+  onSave: (r: Recipe<DisplayNumber>) => void;
   onCancel: () => void;
 }
 

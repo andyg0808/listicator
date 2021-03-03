@@ -1,5 +1,5 @@
 import { parse } from "./parser";
-import { Recipe } from "./types";
+import { Recipe, DisplayNumber } from "./types";
 export const text = `1 can tomato paste
 1 tsp Italian seasoning
 1 tsp oregano
@@ -10,7 +10,7 @@ export const text = `1 can tomato paste
 Water to thin`;
 
 const ingredients = parse(text.trim());
-export const recipe: Recipe = {
+export const recipe: Recipe<DisplayNumber> = {
   title: "Pizza Sauce",
   ingredients,
 };

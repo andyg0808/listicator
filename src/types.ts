@@ -1,4 +1,5 @@
 import * as R from "ramda";
+import Fraction from "fraction.js";
 /*
    Actions:
    - reorder
@@ -30,9 +31,9 @@ import * as R from "ramda";
 /**
  * A list of ingredients and amounts to make
  */
-export interface Recipe {
+export interface Recipe<Number> {
   title: RecipeTitle;
-  ingredients: Array<Order>;
+  ingredients: Array<Order<Number>>;
 }
 
 /**
@@ -44,9 +45,9 @@ export type Unit = String;
  * A single ingredient in some amount. The kind of entry you would
  * expect on a recipe
  */
-export interface Order {
+export interface Order<Number> {
   ingredient: Ingredient;
-  amount: Amount;
+  amount: Amount<Number>;
 }
 
 /**
@@ -74,11 +75,20 @@ export function getDescription(order: TotalOrder): string {
   const name = order.ingredient.name;
   return `${amount} ${name}`;
 }
+
+export type DatabaseNumber = null | number | StoredFraction;
+export type DisplayNumber = null | Fraction;
+
+export interface StoredFraction {
+  n: number;
+  d: number;
+}
+
 /**
  * A class to represent an amount of an ingredient
  */
-export interface Amount {
-  quantity: number | null;
+export interface Amount<Number> {
+  quantity: Number;
   unit: Unit | null;
 }
 

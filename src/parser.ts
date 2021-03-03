@@ -1,9 +1,9 @@
-import { Recipe, Order, Amount } from "./types";
+import { Recipe, Order, Amount, DatabaseNumber } from "./types";
 import nearley from "nearley";
 import grammar from "./grammar";
 import * as R from "ramda";
 
-export function parse(data: string): Array<Order> {
+export function parse(data: string): Array<Order<DatabaseNumber>> {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
   parser.feed(data);
   if (parser.results.length > 1) {

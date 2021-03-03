@@ -1,9 +1,10 @@
 import moo from "moo";
-const fracMapping = new Map([
-  ["¼", 1 / 4],
-  ["½", 1 / 2],
-  ["⅓", 1 / 3],
-  ["⅔", 2 / 3],
+import { StoredFraction } from "./types";
+const fracMapping: Map<string, StoredFraction> = new Map([
+  ["¼", { n: 1, d: 4 }],
+  ["½", { n: 1, d: 2 }],
+  ["⅓", { n: 1, d: 3 }],
+  ["⅔", { n: 2, d: 3 }],
 ]);
 const regexMapping = [
   ["pints?", "pint"],
