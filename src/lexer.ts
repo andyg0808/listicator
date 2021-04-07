@@ -34,7 +34,7 @@ const regexMapping = [
 export const unitsRegex = new RegExp(
   regexMapping.map(([regex, _]) => regex).join("|")
 );
-const matcherMapping = regexMapping.map(([regex, unit]) => [
+const matcherMapping: [RegExp, string][] = regexMapping.map(([regex, unit]) => [
   new RegExp("^" + regex + "$"),
   unit,
 ]);

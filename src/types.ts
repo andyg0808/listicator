@@ -31,9 +31,9 @@ import Fraction from "fraction.js";
 /**
  * A list of ingredients and amounts to make
  */
-export interface Recipe<Number> {
+export interface Recipe {
   title: RecipeTitle;
-  ingredients: Array<Order<Number>>;
+  ingredients: Array<Order>;
 }
 
 /**
@@ -45,9 +45,9 @@ export type Unit = String;
  * A single ingredient in some amount. The kind of entry you would
  * expect on a recipe
  */
-export interface Order<Number> {
+export interface Order {
   ingredient: Ingredient;
-  amount: Amount<Number>;
+  amount: Amount<DatabaseNumber>;
 }
 
 /**
@@ -58,18 +58,21 @@ export interface Order<Number> {
  */
 export interface TotalOrder {
   ingredient: Ingredient;
-  amount: Array<Amount>;
+  amount: Array<Amount<DisplayNumber>>;
 }
 
 export const getIngredientName = (o: TotalOrder) => o?.ingredient?.name;
 export function getDescription(order: TotalOrder): string {
   const amount = order.amount
-    .map((a: Amount) => {
-      const unit =
-        a.quantity && a.quantity > 1 && a.unit !== null
-          ? a.unit + "s"
-          : a.unit || "";
-      return `${a.quantity || ""} ${unit}`;
+    .map((a: Amount<DisplayNumber>) => {
+      if (a.quantity === null) {
+        return a.unit || "";
+      }
+      if (a.unit === null) {
+        return a.quantity.toFraction();
+      }
+      const unit = a.quantity.valueOf() > 1 ? a.unit + "s" : a.unit;
+      return `${a.quantity.toFraction()} ${unit}`;
     })
     .join(" & ");
   const name = order.ingredient.name;
@@ -84,12 +87,51 @@ export interface StoredFraction {
   d: number;
 }
 
+export function databaseNumberToString(n: DatabaseNumber): string {
+  if (typeof n == "number") {
+    return n.toPrecision(2);
+  } else if (n === null) {
+    return "1";
+  } else {
+    return new Fraction(n).toFraction();
+  }
+}
+
+export function displayNumberToString(n: DisplayNumber): string {
+  if (n === null) {
+    return "1";
+  } else {
+    return n.toFraction();
+  }
+}
+
+export function databaseNumberToDisplayNumber(
+  n: DatabaseNumber
+): DisplayNumber {
+  if (typeof n == "number") {
+    return new Fraction(n);
+  } else if (n === null) {
+    return null;
+  } else {
+    return new Fraction(n);
+  }
+}
+
 /**
  * A class to represent an amount of an ingredient
  */
 export interface Amount<Number> {
   quantity: Number;
   unit: Unit | null;
+}
+
+export function databaseAmountToDisplayAmount(
+  amount: Amount<DatabaseNumber>
+): Amount<DisplayNumber> {
+  return {
+    ...amount,
+    quantity: databaseNumberToDisplayNumber(amount.quantity),
+  };
 }
 
 /**

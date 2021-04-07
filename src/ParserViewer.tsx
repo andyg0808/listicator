@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 
 import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
-import { Order, Recipe } from "./types";
+import { Order, Recipe, databaseNumberToString } from "./types";
 
 export default function ParserViewer() {
   const [text, setText] = React.useState("");
@@ -129,7 +129,9 @@ export default function ParserViewer() {
         <TableBody>
           {ingredients.map((order: Order, i: number) => (
             <TableRow key={order.ingredient.name + i}>
-              <TableCell>{order.amount.quantity?.toPrecision(2)}</TableCell>
+              <TableCell>
+                {databaseNumberToString(order.amount.quantity)}
+              </TableCell>
               <TableCell>{order.amount.unit}</TableCell>
               <TableCell>{order.ingredient.name}</TableCell>
             </TableRow>

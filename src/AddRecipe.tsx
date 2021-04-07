@@ -8,8 +8,8 @@ import { Recipe, DisplayNumber } from "./types";
 import { unparse } from "./parser";
 
 interface RecipeEditorProps {
-  recipe: Recipe<DisplayNumber>;
-  onSave: (r: Recipe<DisplayNumber>) => void;
+  recipe: Recipe;
+  onSave: (r: Recipe) => void;
   onCancel: () => void;
 }
 

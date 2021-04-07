@@ -3,21 +3,15 @@ import { Recipe, DisplayNumber, DatabaseNumber } from "./types";
 import * as R from "ramda";
 import { recipe } from "./init_recipes";
 
-type RecipeStore = Recipe<DatabaseNumber>[];
+type RecipeStore = Recipe[];
 const recipeSlice = createSlice({
   name: "recipes",
   initialState: [recipe] as RecipeStore,
   reducers: {
-    addRecipe(
-      state: RecipeStore,
-      action: PayloadAction<Recipe<DisplayNumber>>
-    ) {
+    addRecipe(state: RecipeStore, action: PayloadAction<Recipe>) {
       state.push(action.payload);
     },
-    setRecipe(
-      state: RecipeStore,
-      action: PayloadAction<Recipe<DisplayNumber>>
-    ): RecipeStore {
+    setRecipe(state: RecipeStore, action: PayloadAction<Recipe>): RecipeStore {
       const recipe = action.payload;
       const idx = R.findIndex((r) => r.title === recipe.title, state);
       if (idx === -1) {
@@ -28,7 +22,7 @@ const recipeSlice = createSlice({
     },
     deleteRecipe(
       state: RecipeStore,
-      action: PayloadAction<Recipe<DisplayNumber>>
+      action: PayloadAction<Recipe>
     ): RecipeStore {
       const recipe = action.payload;
       const idx = R.findIndex((r) => r.title === recipe.title, state);
@@ -39,6 +33,17 @@ const recipeSlice = createSlice({
     },
   },
 });
+
+// function toDatabase(list: Recipe<DisplayNumber>[]): Recipe<DatabaseNumber>[] {
+//     function recipeTransform(recipe: Recipe<DisplayNumber>): Recipe<DatabaseNumber> {
+//         return R.over(R.lensProp('ingredients'), ingredientsTransform, recipe)
+//     }
+//     function ingredientsTransform(ingredients: Array<Order<DisplayNumber>>): Array<Order<DatabaseNumber>> {
+//         return ingredients.map(ingredientTransform)
+//     }
+//     function ingredientTransform(
+//     return list.map(recipeTransform)
+// }
 
 export const { addRecipe, setRecipe, deleteRecipe } = recipeSlice.actions;
 export const reducer = recipeSlice.reducer;

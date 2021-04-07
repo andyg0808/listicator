@@ -10,7 +10,7 @@ export const text = `1 can tomato paste
 Water to thin`;
 
 const ingredients = parse(text.trim());
-export const recipe: Recipe<DisplayNumber> = {
+export const recipe: Recipe = {
   title: "Pizza Sauce",
   ingredients,
 };

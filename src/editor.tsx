@@ -16,14 +16,10 @@ import { useDispatch } from "react-redux";
 
 import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
-import { Order, Recipe, DisplayNumber } from "./types";
+import { Order, Recipe, DisplayNumber, databaseNumberToString } from "./types";
 import { Prosemirror } from "./Prosemirror";
 
-export function Viewer({
-  ingredients,
-}: {
-  ingredients: Order<DisplayNumber>[];
-}) {
+export function Viewer({ ingredients }: { ingredients: Order[] }) {
   return (
     <Table>
       <TableHead>
@@ -34,9 +30,11 @@ export function Viewer({
         </TableRow>
       </TableHead>
       <TableBody>
-        {ingredients.map((order: Order<DisplayNumber>, i: number) => (
+        {ingredients.map((order: Order, i: number) => (
           <TableRow key={order.ingredient.name + i}>
-            <TableCell>{order.amount.quantity?.toFraction()}</TableCell>
+            <TableCell>
+              {databaseNumberToString(order.amount.quantity)}
+            </TableCell>
             <TableCell>{order.amount.unit}</TableCell>
             <TableCell>{order.ingredient.name}</TableCell>
           </TableRow>
@@ -51,7 +49,7 @@ const EditField = styled(Prosemirror)`
 `;
 
 export interface EditorInterface {
-  onUpdate: (recipe: Recipe<DisplayNumber>) => void;
+  onUpdate: (recipe: Recipe) => void;
   defaultTitle: string;
   defaultText: string;
 }

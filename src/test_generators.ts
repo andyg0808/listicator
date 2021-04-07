@@ -35,7 +35,14 @@ export const fc_ingredient = fc
     }
   });
 
-export const fc_quantity = fc.option(fc.nat().map((n) => n + 1));
+export const fc_quantity = fc.option(
+  fc
+    .record({
+      n: fc.nat().map((n) => n + 1),
+      d: fc.nat().map((n) => n + 1),
+    })
+    .map((n) => new Fraction(n))
+);
 
 export const fc_amount = fc.record({
   quantity: fc_quantity,

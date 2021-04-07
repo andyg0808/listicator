@@ -1,7 +1,7 @@
 import fc from "fast-check";
 
 import { parse } from "./parser";
-import { Recipe, Order, Amount, Ingredient } from "./types";
+import { Recipe, Order, Amount, Ingredient, DatabaseNumber } from "./types";
 import { fc_ingredient_name, fc_unit } from "./test_generators";
 
 import fs from "fs";
@@ -19,7 +19,7 @@ function parseExpected(blob: string, src: string): Order[] {
       return null;
     }
     const [amount_str, unit_str, ingredient_str] = parts;
-    const amount: Amount = {
+    const amount: Amount<DatabaseNumber> = {
       quantity: Number(amount_str) || null,
       unit: unit_str || null,
     };

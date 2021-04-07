@@ -10,7 +10,7 @@ import { deleteRecipe } from "./recipes";
 export function useDeleteRecipe() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const dispatch = useDispatch();
-  const undo = (key) => {
+  const undo = (key: any) => {
     dispatch(ActionCreators.undo());
     closeSnackbar(key);
   };

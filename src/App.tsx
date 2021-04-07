@@ -210,11 +210,9 @@ function BuildTab() {
 
   const dispatch = useDispatch();
 
-  const [editing, startEditing] = React.useState<Recipe<DisplayNumber> | null>(
-    null
-  );
+  const [editing, startEditing] = React.useState<Recipe | null>(null);
   const closeEditor = () => startEditing(null);
-  const saveHandler = (a: Recipe<DisplayNumber>) => {
+  const saveHandler = (a: Recipe) => {
     if (a) {
       dispatch(setRecipe(a));
     }

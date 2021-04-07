@@ -1,7 +1,7 @@
 @preprocessor typescript
 
 @{%
-  const {lexer} = require("./lexer.js")
+  const {lexer} = require("./lexer")
 %}
 
 @lexer lexer
