@@ -54,21 +54,25 @@ export interface EditorInterface {
   defaultText: string;
 }
 
-export function Editor({ onUpdate, defaultTitle, defaultText }) {
+export function Editor({
+  onUpdate,
+  defaultTitle,
+  defaultText,
+}: EditorInterface) {
   const [title, setTitle] = React.useState(defaultTitle);
   const [text, setText] = React.useState(defaultText);
 
   const ingredients = safeParse(text);
 
-  function titleUpdate(title) {
+  function titleUpdate(title: string): void {
     setTitle(title);
-    onUpdate({ title, ingredients, text });
+    onUpdate({ title, ingredients });
   }
 
-  function textUpdate(text) {
+  function textUpdate(text: string): void {
     setText(text);
     const ingredients = safeParse(text);
-    onUpdate({ title, ingredients, text });
+    onUpdate({ title, ingredients });
   }
 
   return (

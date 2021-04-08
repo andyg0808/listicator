@@ -8,6 +8,7 @@ import { keymap } from "prosemirror-keymap";
 import "prosemirror-view/style/prosemirror.css";
 import { errorParse } from "./parser";
 import styled from "@emotion/styled";
+import { defined } from "./util";
 
 const ProsemirrorContainer = styled.div`
   border: 1px solid black;
@@ -56,17 +57,17 @@ const keymapPlugin = keymap(baseKeymap);
 function parseString(str: string): Node {
   return schema.node(
     "doc",
-    null,
+    undefined,
     str
       .split("\n")
       .map((s) => {
         if (s.length > 0) {
-          return schema.node("paragraph", null, [schema.text(s)]);
+          return schema.node("paragraph", undefined, [schema.text(s)]);
         } else {
           return null;
         }
       })
-      .filter((n) => n)
+      .filter(defined)
   );
 }
 
@@ -86,9 +87,12 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
       };
     },
   });
-  const ref = React.useRef(null);
-  const editorRef = React.useRef<EditorView>(null);
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const editorRef = React.useRef<EditorView | null>(null);
   React.useEffect(() => {
+    if (ref.current === null) {
+      return;
+    }
     const doc = value
       ? {
           doc: parseString(value),
@@ -100,7 +104,7 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
       plugins: [keymapPlugin, plugin, exportPlugin],
     });
     editorRef.current = new EditorView(ref.current, { state });
-  }, []);
+  }, [ref.current]);
 
   const clickHandler = () => editorRef.current?.focus();
 

@@ -39,12 +39,13 @@ const matcherMapping: [RegExp, string][] = regexMapping.map(([regex, unit]) => [
   unit,
 ]);
 
-export function matchUnit(value) {
+export function matchUnit(value: string) {
   for (const [regex, unit] of matcherMapping) {
     if (regex.test(value)) {
       return unit;
     }
   }
+  return value;
 }
 
 const fractionRegex = new RegExp(
@@ -71,14 +72,14 @@ const ingredient = {
   ingredient: {
     match: /.+\n?/,
     lineBreaks: true,
-    value: (v) => v.trim(),
+    value: (v: string) => v.trim(),
     next: "main",
   },
 };
 
 const delimiterChar = "!";
 
-const delimiter = (next) => {
+const delimiter = (next: string) => {
   return {
     delimiter: { match: delimiterChar, next },
   };
@@ -88,7 +89,10 @@ export const lexer = moo.states({
   main: {
     ...size,
     number: { match: /[0-9.]+/, value: (v) => Number(v) },
-    fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
+    fraction: {
+      match: fractionRegex,
+      value: (v) => fracMapping.get(v),
+    },
     slash: /[/⁄]/,
     dash: /-/,
     to: /\bto\b/,
@@ -105,7 +109,7 @@ export const lexer = moo.states({
     ...delimiter("ingredient"),
     forced_unit: {
       match: new RegExp(`[^${delimiterChar}]*${delimiterChar}`),
-      value: (v) => v.substring(0, v.length - 1),
+      value: (v: string) => v.substring(0, v.length - 1),
       next: "ingredient",
     },
   },

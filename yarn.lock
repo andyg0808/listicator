@@ -2693,6 +2693,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/moo@npm:^0.5.4":
+  version: 0.5.4
+  resolution: "@types/moo@npm:0.5.4"
+  checksum: cbdd3bd572989e3e388428ac5d1638f16d66f4dd6a67ded6c4a4be7d7af1df55765a822d9358e84374f6c958f8dac242d731bc227178136c9328aa0a026b06ad
+  languageName: node
+  linkType: hard
+
+"@types/nearley@npm:^2.11.1":
+  version: 2.11.1
+  resolution: "@types/nearley@npm:2.11.1"
+  checksum: 78945830e06f1129153fb5e023d99b8dc8f7f46ee52a41925868931d55f1a91e21422c1ee99f1fb77a7e58b0c8c78aa3db23e3d1af175a7df8b7f6867841618f
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*":
   version: 14.14.9
   resolution: "@types/node@npm:14.14.9"
@@ -2721,6 +2735,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/orderedmap@npm:*":
+  version: 1.0.0
+  resolution: "@types/orderedmap@npm:1.0.0"
+  checksum: 54e0da27647be2bc73aacd4a4af1334c4e2ef6369bb500263342c423c34abf855724b233a3f9b5926c259443132035600ffd8dfb9ac366f9ee1e6459b57b80fb
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -2742,6 +2763,78 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prosemirror-commands@npm:*":
+  version: 1.0.4
+  resolution: "@types/prosemirror-commands@npm:1.0.4"
+  dependencies:
+    "@types/prosemirror-model": "*"
+    "@types/prosemirror-state": "*"
+    "@types/prosemirror-view": "*"
+  checksum: 6f280dda19553388be16bf118a22cae2abd71ea4d4361315dcd5eb405e452106ffae70feedf9ba64226d4200f61eb9a75139d3fd201c0b7b41361d851c3ff4e3
+  languageName: node
+  linkType: hard
+
+"@types/prosemirror-keymap@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@types/prosemirror-keymap@npm:1.0.4"
+  dependencies:
+    "@types/prosemirror-commands": "*"
+    "@types/prosemirror-model": "*"
+    "@types/prosemirror-state": "*"
+    "@types/prosemirror-view": "*"
+  checksum: f2bb3cf54d1519224ccc8de0c176fe738f5f2bb07560e91365c15d557d896a427fe74d8e283369abc2890760886a29fb5c546c66e198c62cba1927b93ae130f5
+  languageName: node
+  linkType: hard
+
+"@types/prosemirror-model@npm:*":
+  version: 1.13.0
+  resolution: "@types/prosemirror-model@npm:1.13.0"
+  dependencies:
+    "@types/orderedmap": "*"
+  checksum: f60172d6d8a699148614d0ad6aa2cde44da08836807a84de74bb4c959fead055661b9fa5225242b763aa677e3b783a5e306c37a3b894f81b6cd0df59735c24b3
+  languageName: node
+  linkType: hard
+
+"@types/prosemirror-schema-basic@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@types/prosemirror-schema-basic@npm:1.0.2"
+  dependencies:
+    "@types/prosemirror-model": "*"
+  checksum: 3f8e4e81e8a21a6c17936a228f25c0a1704dda34ab574228d544b934c5f8353d1904c39853c30b81f3aef438b5d4eb38965f5e8c6fa379f83cd0bb3d99b355e2
+  languageName: node
+  linkType: hard
+
+"@types/prosemirror-state@npm:*":
+  version: 1.2.6
+  resolution: "@types/prosemirror-state@npm:1.2.6"
+  dependencies:
+    "@types/prosemirror-model": "*"
+    "@types/prosemirror-transform": "*"
+    "@types/prosemirror-view": "*"
+  checksum: e94245c731bcd61bb97e94058b2f7d5843ee54054df18830a1cd5404f63efe2a82388f56a7fa739ff08d9d1281c08d88be904c6b13847652b3e080a0ace87add
+  languageName: node
+  linkType: hard
+
+"@types/prosemirror-transform@npm:*":
+  version: 1.1.2
+  resolution: "@types/prosemirror-transform@npm:1.1.2"
+  dependencies:
+    "@types/prosemirror-model": "*"
+  checksum: ee2cc4f893489daecf445b0f22d51503993b823ed7265e4ad3a89b6012c60f9fc89d18d33f5bb08841dfc88c8634a5ea8c677568d10fdecef7af7530d9a1f1c1
+  languageName: node
+  linkType: hard
+
+"@types/prosemirror-view@npm:*":
+  version: 1.17.1
+  resolution: "@types/prosemirror-view@npm:1.17.1"
+  dependencies:
+    "@types/prosemirror-model": "*"
+    "@types/prosemirror-state": "*"
+    "@types/prosemirror-transform": "*"
+  checksum: dbc6502d75b5204e124a68db7381cee196a20d10ee4a2b42a6b9522d43eb0aa232f05cc43eabba6e4941e52fbe8daf7012cf7d66af8f7d76a01213622f51284d
+  languageName: node
+  linkType: hard
+
 "@types/q@npm:^1.5.1":
   version: 1.5.4
   resolution: "@types/q@npm:1.5.4"
@@ -2755,6 +2848,15 @@ __metadata:
   dependencies:
     ts-toolbelt: ^6.15.1
   checksum: c097bbefe31a8355d08f1b4ac6f52c7baf7f2ea7b37f7eff8345a539fcf88a037107cda37afceab728a74d5f6fe7514f4463013cdedeb2e187e127c68b9fa8db
+  languageName: node
+  linkType: hard
+
+"@types/react-beautiful-dnd@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "@types/react-beautiful-dnd@npm:13.0.0"
+  dependencies:
+    "@types/react": "*"
+  checksum: 2f946d2dbfef86fb823758058056f2c4a52d2b7b12fcb1bbdca6a8077891f339b992691cd3dfc084acabb8515c315e87e028b451302fadfaeff902f974c3e0e5
   languageName: node
   linkType: hard
 
@@ -9784,9 +9886,14 @@ fsevents@~2.1.2:
     "@testing-library/react": ^11.1.0
     "@testing-library/user-event": ^12.1.10
     "@types/jest": ^26.0.19
+    "@types/moo": ^0.5.4
+    "@types/nearley": ^2.11.1
     "@types/node": ^14.14.10
+    "@types/prosemirror-keymap": ^1.0.4
+    "@types/prosemirror-schema-basic": ^1.0.2
     "@types/ramda": ^0.27.32
     "@types/react": ^17.0.0
+    "@types/react-beautiful-dnd": ^13.0.0
     "@types/react-dom": ^17.0.0
     "@types/react-redux": ^7.1.11
     eslint-config-react-app: ^6.0.0

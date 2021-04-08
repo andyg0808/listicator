@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { ReactComponent as Logo } from "./logo.svg";
 
@@ -60,13 +60,18 @@ import { unparse } from "./parser";
 import { useDeleteRecipe } from "./undo";
 import { ListBuilder } from "./ListBuilder";
 
-function DragDispatcher({ children, trip }) {
+interface DragDispatcherProps {
+  children: JSX.Element | JSX.Element[];
+  trip: Trip;
+}
+
+function DragDispatcher({ children, trip }: DragDispatcherProps) {
   const dispatch = useDispatch();
   const listIndex = R.indexBy((l: ShoppingList) => l.store.name, trip.lists);
 
-  function dragHandler(result) {
+  function dragHandler(result: DropResult) {
     const { source, destination } = result;
-    if (destination === null) {
+    if (!destination || !source) {
       return;
     }
     const store = destination.droppableId;
@@ -287,7 +292,7 @@ function ShopTab() {
 
 function ShoppingListItem({ order }: { order: TotalOrder }) {
   const [checked, setChecked] = React.useState(false);
-  const toggle = (evt) => setChecked((c) => !c);
+  const toggle = (evt: any) => setChecked((c) => !c);
   return (
     <ListItem>
       <ListItemIcon>

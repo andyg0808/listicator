@@ -16,7 +16,6 @@ interface RecipeEditorProps {
 export function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
   const text = unparse(recipe.ingredients);
   const [blob, setBlob] = React.useState({
-    text,
     title: recipe.title,
     ingredients: recipe.ingredients,
   });

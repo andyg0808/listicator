@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
+import { combineReducers, Middleware } from "redux";
 
 import undoable from "redux-undo";
 
@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
 
 export const recipeSelector = (store: RootState) => store.recipes.present;
 
-const saveToLocalStore = (storeAPI) => (next) => (action) => {
+const saveToLocalStore: Middleware = (storeAPI) => (next) => (action) => {
   const result = next(action);
   const state = storeAPI.getState();
   window.localStorage.setItem("store", JSON.stringify(state));

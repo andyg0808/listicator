@@ -23,11 +23,8 @@ export function Sync({ recipes }: SyncProps) {
   };
   const recvData = async () => {
     const data = (await recv()) as string;
-    // console.log("data", data);
     const recipes = JSON.parse(data);
-    // console.log("recipes", recipes);
-    recipes.forEach((recipe) => {
-      // console.log("recipe", recipe);
+    recipes.forEach((recipe: Recipe) => {
       dispatch(addRecipe(recipe));
     });
   };
