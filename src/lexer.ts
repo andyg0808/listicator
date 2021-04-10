@@ -88,11 +88,11 @@ const delimiter = (next: string) => {
 export const lexer = moo.states({
   main: {
     ...size,
-    number: { match: /[0-9.]+/, value: (v) => Number(v) },
+    number: { match: /[0-9.]+/, value: (v: string) => Number(v) } as any,
     fraction: {
       match: fractionRegex,
-      value: (v) => fracMapping.get(v),
-    },
+      value: (v: string) => fracMapping.get(v),
+    } as any,
     slash: /[/⁄]/,
     dash: /-/,
     to: /\bto\b/,
