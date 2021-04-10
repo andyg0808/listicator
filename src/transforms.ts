@@ -1,4 +1,5 @@
 import {
+  DatabaseNumber,
   DisplayNumber,
   MenuQuantityMap,
   StoreName,
@@ -13,6 +14,7 @@ import {
   TotalOrder,
   Trip,
   databaseAmountToDisplayAmount,
+  databaseNumberMult,
 } from "./types";
 import * as R from "ramda";
 
@@ -76,17 +78,18 @@ export function recipesToTrip(
   return tripFromMenuList(menuList, storePreference, defaultStore, knownStores);
 }
 
-export function multiply(quantities: MenuQuantityMap, recipes: Recipe[]) {
-  console.log(recipes);
+export function multiply(
+  quantities: MenuQuantityMap,
+  recipes: Recipe[]
+): Recipe[] {
   return recipes.map((r: Recipe) => {
     const mult = quantities[r.title] || 1;
     return R.over(
       R.lensProp("ingredients"),
       R.map(
-        R.over(R.lensPath(["amount", "quantity"]), (qty: DisplayNumber) => {
-          console.log(qty);
-          return qty === null ? 1 : qty.mul(mult);
-        })
+        R.over(R.lensPath(["amount", "quantity"]), (qty: DatabaseNumber) =>
+          qty === null ? null : databaseNumberMult(qty, mult)
+        )
       ),
       r
     );

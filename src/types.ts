@@ -108,13 +108,31 @@ export function displayNumberToString(n: DisplayNumber): string {
 export function databaseNumberToDisplayNumber(
   n: DatabaseNumber
 ): DisplayNumber {
+  if (n === null) {
+    return null;
+  } else {
+    return toFraction(n);
+  }
+}
+
+function toFraction(n: number | StoredFraction): Fraction {
   if (typeof n == "number") {
     return new Fraction(n);
-  } else if (n === null) {
-    return null;
   } else {
     return new Fraction(n);
   }
+}
+
+export function databaseNumberMult(
+  n: DatabaseNumber,
+  m: DatabaseNumber
+): DatabaseNumber {
+  if (n === null || m === null) {
+    return null;
+  }
+  const nFrac = toFraction(n);
+  const mFrac = toFraction(m);
+  return nFrac.mul(mFrac);
 }
 
 /**
