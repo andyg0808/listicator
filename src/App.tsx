@@ -170,7 +170,9 @@ function App() {
         />
       </Drawer>
       <Container>
-        {currentTab == 0 && <BuildTab />}
+        {currentTab == 0 && (
+          <BuildTab startEdit={() => setShowStoreEditor(true)} />
+        )}
         {currentTab == 1 && <ShopTab />}
         {sync && <SyncTools />}
       </Container>
@@ -209,7 +211,11 @@ function useSortedTrip(): Trip {
   return sortedTrip;
 }
 
-function BuildTab() {
+interface BuildTabProps {
+  startEdit: () => void;
+}
+
+function BuildTab({ startEdit }: BuildTabProps) {
   const sortedTrip = useSortedTrip();
   const stores = useSelector((store: RootState) => store.storeList);
 
@@ -250,7 +256,11 @@ function BuildTab() {
         >
           <AddIcon />
         </Fab>
-        <ListSorter stores={stores} trip={sortedTrip} />
+        <ListSorter
+          stores={stores}
+          trip={sortedTrip}
+          onHeaderClick={startEdit}
+        />
       </div>
     </DragDispatcher>
   );
