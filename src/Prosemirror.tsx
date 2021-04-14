@@ -104,7 +104,7 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
       plugins: [keymapPlugin, plugin, exportPlugin],
     });
     editorRef.current = new EditorView(ref.current, { state });
-  }, [ref.current]);
+  }, []);
 
   const clickHandler = () => editorRef.current?.focus();
 
