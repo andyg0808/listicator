@@ -144,7 +144,7 @@ function App() {
           <Tabs
             css={{ flexGrow: 1 }}
             value={currentTab}
-            onChange={(e, newValue) => setCurrentTab(newValue)}
+            onChange={(e: any, newValue: number) => setCurrentTab(newValue)}
           >
             <Tab label="Build" />
             <Tab label="Shop" />
