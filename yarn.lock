@@ -2936,7 +2936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^26.0.19":
+"@types/jest@npm:*, @types/jest@npm:^26.0.22":
   version: 26.0.22
   resolution: "@types/jest@npm:26.0.22"
   dependencies:
@@ -2997,7 +2997,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^14.14.10":
+"@types/node@npm:*, @types/node@npm:^14.14.41":
   version: 14.14.41
   resolution: "@types/node@npm:14.14.41"
   checksum: 37dfb639644c8ee9b9846106834983f590d494b855e74645a4f169ea24199f7559366d25f6e72e83ba940b59eb6370e002bd53963d098d6d9fdf935a37011417
@@ -3125,7 +3125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ramda@npm:^0.27.32":
+"@types/ramda@npm:^0.27.40":
   version: 0.27.40
   resolution: "@types/ramda@npm:0.27.40"
   dependencies:
@@ -3143,7 +3143,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.0":
+"@types/react-dom@npm:^17.0.3":
   version: 17.0.3
   resolution: "@types/react-dom@npm:17.0.3"
   dependencies:
@@ -3152,7 +3152,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-redux@npm:^7.1.11, @types/react-redux@npm:^7.1.16":
+"@types/react-redux@npm:^7.1.16":
   version: 7.1.16
   resolution: "@types/react-redux@npm:7.1.16"
   dependencies:
@@ -3173,7 +3173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17.0.0":
+"@types/react@npm:*, @types/react@npm:^17.0.3":
   version: 17.0.3
   resolution: "@types/react@npm:17.0.3"
   dependencies:
@@ -8217,7 +8217,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-check@npm:^2.10.0":
+"fast-check@npm:^2.14.0":
   version: 2.14.0
   resolution: "fast-check@npm:2.14.0"
   dependencies:
@@ -11634,47 +11634,47 @@ __metadata:
     "@testing-library/jest-dom": ^5.11.4
     "@testing-library/react": ^11.1.0
     "@testing-library/user-event": ^12.1.10
-    "@types/jest": ^26.0.19
+    "@types/jest": ^26.0.22
     "@types/moo": ^0.5.4
     "@types/nearley": ^2.11.1
-    "@types/node": ^14.14.10
+    "@types/node": ^14.14.41
     "@types/prosemirror-keymap": ^1.0.4
     "@types/prosemirror-schema-basic": ^1.0.2
-    "@types/ramda": ^0.27.32
-    "@types/react": ^17.0.0
+    "@types/ramda": ^0.27.40
+    "@types/react": ^17.0.3
     "@types/react-beautiful-dnd": ^13.0.0
-    "@types/react-dom": ^17.0.0
-    "@types/react-redux": ^7.1.11
+    "@types/react-dom": ^17.0.3
+    "@types/react-redux": ^7.1.16
     eslint-config-react-app: ^6.0.0
-    fast-check: ^2.10.0
+    fast-check: ^2.14.0
     fraction.js: ^4.0.13
     moo: ^0.5.1
     nearley: ^2.20.1
-    notistack: ^1.0.3
-    peerjs: ^1.3.1
+    notistack: ^1.0.5
+    peerjs: ^1.3.2
     prettier: ^2.2.1
-    prosemirror-commands: ^1.1.5
+    prosemirror-commands: ^1.1.7
     prosemirror-keymap: ^1.1.4
-    prosemirror-model: ^1.13.1
+    prosemirror-model: ^1.14.0
     prosemirror-schema-basic: ^1.1.2
     prosemirror-state: ^1.3.4
-    prosemirror-transform: ^1.2.9
-    prosemirror-view: ^1.17.3
+    prosemirror-transform: ^1.3.2
+    prosemirror-view: ^1.18.3
     ramda: ^0.27.1
-    react: ^17.0.1
-    react-beautiful-dnd: ^13.0.0
-    react-dom: ^17.0.1
-    react-redux: ^7.2.2
-    react-refresh: ^0.9.0
-    react-scripts: ^4.0.1
+    react: ^17.0.2
+    react-beautiful-dnd: ^13.1.0
+    react-dom: ^17.0.2
+    react-redux: ^7.2.3
+    react-refresh: ^0.10.0
+    react-scripts: ^4.0.3
     redux: ^4.0.5
     redux-undo: ^1.0.1
     taiko: ^1.2.3
-    ts-jest: ^26.4.4
+    ts-jest: ^26.5.5
     ts-node: ^9.1.1
-    typescript: ^4.2
-    typescript-language-server: ^0.4.0
-    web-vitals: ^1.0.1
+    typescript: ^4.2.4
+    typescript-language-server: ^0.5.1
+    web-vitals: ^1.1.1
     winston: ^3.3.3
   languageName: unknown
   linkType: soft
@@ -12943,7 +12943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"notistack@npm:^1.0.3":
+"notistack@npm:^1.0.5":
   version: 1.0.5
   resolution: "notistack@npm:1.0.5"
   dependencies:
@@ -13778,7 +13778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"peerjs@npm:^1.3.1":
+"peerjs@npm:^1.3.2":
   version: 1.3.2
   resolution: "peerjs@npm:1.3.2"
   dependencies:
@@ -14917,7 +14917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-commands@npm:^1.1.5":
+"prosemirror-commands@npm:^1.1.7":
   version: 1.1.7
   resolution: "prosemirror-commands@npm:1.1.7"
   dependencies:
@@ -14938,7 +14938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-model@npm:^1.0.0, prosemirror-model@npm:^1.1.0, prosemirror-model@npm:^1.13.1, prosemirror-model@npm:^1.2.0":
+"prosemirror-model@npm:^1.0.0, prosemirror-model@npm:^1.1.0, prosemirror-model@npm:^1.14.0, prosemirror-model@npm:^1.2.0":
   version: 1.14.0
   resolution: "prosemirror-model@npm:1.14.0"
   dependencies:
@@ -14966,7 +14966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-transform@npm:^1.0.0, prosemirror-transform@npm:^1.1.0, prosemirror-transform@npm:^1.2.9":
+"prosemirror-transform@npm:^1.0.0, prosemirror-transform@npm:^1.1.0, prosemirror-transform@npm:^1.3.2":
   version: 1.3.2
   resolution: "prosemirror-transform@npm:1.3.2"
   dependencies:
@@ -14975,7 +14975,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-view@npm:^1.17.3":
+"prosemirror-view@npm:^1.18.3":
   version: 1.18.3
   resolution: "prosemirror-view@npm:1.18.3"
   dependencies:
@@ -15300,7 +15300,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-beautiful-dnd@npm:^13.0.0":
+"react-beautiful-dnd@npm:^13.1.0":
   version: 13.1.0
   resolution: "react-beautiful-dnd@npm:13.1.0"
   dependencies:
@@ -15350,7 +15350,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^17.0.1":
+"react-dom@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-dom@npm:17.0.2"
   dependencies:
@@ -15384,7 +15384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.2.0, react-redux@npm:^7.2.2":
+"react-redux@npm:^7.2.0, react-redux@npm:^7.2.3":
   version: 7.2.3
   resolution: "react-redux@npm:7.2.3"
   dependencies:
@@ -15406,6 +15406,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-refresh@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "react-refresh@npm:0.10.0"
+  checksum: 09a59d2732d8f2e9df3f59670146a507ea027f6b35a18b5a2116919f18ef056cfcc0455bed2f6b916ac154e4af78e3c57748cfbf9383930729624f7b8c672b91
+  languageName: node
+  linkType: hard
+
 "react-refresh@npm:^0.8.3":
   version: 0.8.3
   resolution: "react-refresh@npm:0.8.3"
@@ -15413,14 +15420,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-refresh@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "react-refresh@npm:0.9.0"
-  checksum: 300dc431389f4c532bdfec08d5bc59b591c8c440486a7d5770c8954adf3afe62501b659c5acbdb7831751e8be506eb90a6f72491fab40352f3b3fba16897acf6
-  languageName: node
-  linkType: hard
-
-"react-scripts@npm:^4.0.1":
+"react-scripts@npm:^4.0.3":
   version: 4.0.3
   resolution: "react-scripts@npm:4.0.3"
   dependencies:
@@ -15513,7 +15513,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^17.0.1":
+"react@npm:^17.0.2":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
   dependencies:
@@ -18269,7 +18269,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^26.4.4":
+"ts-jest@npm:^26.5.5":
   version: 26.5.5
   resolution: "ts-jest@npm:26.5.5"
   dependencies:
@@ -18497,9 +18497,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"typescript-language-server@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "typescript-language-server@npm:0.4.0"
+"typescript-language-server@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "typescript-language-server@npm:0.5.1"
   dependencies:
     command-exists: 1.2.6
     commander: ^2.11.0
@@ -18509,12 +18509,12 @@ resolve@^2.0.0-next.3:
     vscode-languageserver: ^5.3.0-next
     vscode-uri: ^1.0.5
   bin:
-    typescript-language-server: ./lib/cli.js
-  checksum: 0685054b368b04f40434cb49a8fd6406aaa7b635f5ae17ad1005e4d991f9de7640c5279f26750527efca47187150d7314bf9198b41653de0f8ca9ade2430375b
+    typescript-language-server: lib/cli.js
+  checksum: 1902efbf2ee4abd372b0fb2b278a682c3462da4190e0af0ecd85d2ed8868910c9157b82c418908f6cf2243f78660cd4694fe03c8172186b1ea943b1c52f02ce9
   languageName: node
   linkType: hard
 
-typescript@^4.2:
+typescript@^4.2.4:
   version: 4.2.4
   resolution: "typescript@npm:4.2.4"
   bin:
@@ -18524,7 +18524,7 @@ typescript@^4.2:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.2#builtin<compat/typescript>":
+"typescript@patch:typescript@^4.2.4#builtin<compat/typescript>":
   version: 4.2.4
   resolution: "typescript@patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"
   bin:
@@ -19288,7 +19288,7 @@ typescript@^4.2:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^1.0.1":
+"web-vitals@npm:^1.1.1":
   version: 1.1.1
   resolution: "web-vitals@npm:1.1.1"
   checksum: e84e449f46d5bdae9bc3d9d03647e654970bbe7fd448ecc8051ae06bcb869aa29cdcd16486786db416ca7a6e43a2f87e0f66662437ec5679761bcdd753a8c055
