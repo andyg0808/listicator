@@ -192,10 +192,7 @@ export interface Trip {
   lists: Array<ShoppingList>;
 }
 
-export const updateTripLists: (
-  f: (l: ShoppingList[]) => ShoppingList[],
-  t: Trip
-) => Trip = R.over(R.lensProp("lists"));
+export const updateTripLists = R.over(R.lensProp<Trip>("lists"));
 
 /**
  * The list of items to get at a store
@@ -205,7 +202,9 @@ export interface ShoppingList {
   store: Store;
 }
 
-export const updateShoppingListItems = R.over(R.lensProp("items"));
+export const updateShoppingListItems = R.over(
+  R.lensProp<ShoppingList>("items")
+);
 
 export type IngredientId = string;
 export type StoreId = string;

@@ -51,7 +51,7 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
             <TextField
               label="New store"
               value={editing}
-              onChange={(e) => setEditing(e.target.value)}
+              onChange={(e: any) => setEditing(e.target.value)}
             />
           </form>
         </ListItemText>

@@ -1,29 +1,30 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, Draft } from "@reduxjs/toolkit";
 import { Recipe, DisplayNumber, DatabaseNumber } from "./types";
 import * as R from "ramda";
 import { recipe } from "./init_recipes";
 
 type RecipeStore = Recipe[];
+type RecipeState = (Draft<Recipe> | Recipe)[];
 const recipeSlice = createSlice({
   name: "recipes",
   initialState: [recipe] as RecipeStore,
   reducers: {
-    addRecipe(state: RecipeStore, action: PayloadAction<Recipe>) {
+    addRecipe(state: RecipeState, action: PayloadAction<Recipe>) {
       state.push(action.payload);
     },
-    setRecipe(state: RecipeStore, action: PayloadAction<Recipe>): RecipeStore {
+    setRecipe(state: RecipeState, action: PayloadAction<Recipe>): RecipeState {
       const recipe = action.payload;
       const idx = R.findIndex((r) => r.title === recipe.title, state);
       if (idx === -1) {
         return R.append(recipe, state);
       }
-      const idxLens = R.lensIndex(idx);
+      const idxLens = R.lensIndex<Draft<Recipe> | Recipe>(idx);
       return R.set(idxLens, recipe, state);
     },
     deleteRecipe(
-      state: RecipeStore,
+      state: RecipeState,
       action: PayloadAction<Recipe>
-    ): RecipeStore {
+    ): RecipeState {
       const recipe = action.payload;
       const idx = R.findIndex((r) => r.title === recipe.title, state);
       if (idx === -1) {

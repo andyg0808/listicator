@@ -84,8 +84,9 @@ export function multiply(
 ): Recipe[] {
   return recipes.map((r: Recipe) => {
     const mult = quantities[r.title] || 1;
+    const lens = R.lensProp<Recipe, "ingredients">("ingredients");
     return R.over(
-      R.lensProp("ingredients"),
+      lens,
       R.map(
         R.over(R.lensPath(["amount", "quantity"]), (qty: DatabaseNumber) =>
           qty === null ? null : databaseNumberMult(qty, mult)

@@ -6,7 +6,6 @@ import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
@@ -78,8 +77,8 @@ export function Editor({
   return (
     <Box display="flex" flexDirection="column">
       <TextField
-        onChange={(e) => titleUpdate(e.target.value)}
-        onBlur={(e) => titleUpdate(e.target.value)}
+        onChange={(e: any) => titleUpdate(e.target.value)}
+        onBlur={(e: any) => titleUpdate(e.target.value)}
         label="Title"
         value={title}
       />

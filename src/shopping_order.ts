@@ -47,7 +47,7 @@ export function insertItemReducer(
   action: PayloadAction<InsertItemEvent>
 ) {
   const payload = action.payload;
-  const storeLens = R.lensProp(payload.store);
+  const storeLens = R.lensProp<ShoppingOrderMap>(payload.store);
   return R.over(
     storeLens,
     (mapping) => {
@@ -121,7 +121,7 @@ export function reorderReducer(
   action: PayloadAction<ReorderEvent>
 ) {
   const payload = action.payload;
-  const storeLens = R.lensProp(payload.store);
+  const storeLens = R.lensProp<ShoppingOrderMap>(payload.store);
   return R.over(
     storeLens,
     (mapping) => {

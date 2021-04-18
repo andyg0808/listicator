@@ -35,8 +35,9 @@ export default function LexerViewer() {
   return (
     <Container>
       <TextareaAutosize
-        onChange={(e) => setText(e.target.value)}
-        onBlur={(e) => setText(e.target.value)}
+        // @ts-ignore
+        onChange={(e: any) => setText(e.target.value)}
+        onBlur={(e: any) => setText(e.target.value)}
         value={text}
       />
       {tokens.map((t) => (

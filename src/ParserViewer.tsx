@@ -102,19 +102,20 @@ export default function ParserViewer() {
         </Alert>
       )}
       <TextareaAutosize
-        onChange={(e) => setText(e.target.value)}
-        onBlur={(e) => setText(e.target.value)}
+        // @ts-ignore
+        onBlur={(e: any) => setText(e.target.value)}
+        onChange={(e: any) => setText(e.target.value)}
         value={text}
       />
       <TextField
-        onChange={(e) => setUrl(e.target.value)}
-        onBlur={(e) => setUrl(e.target.value)}
+        onChange={(e: any) => setUrl(e.target.value)}
+        onBlur={(e: any) => setUrl(e.target.value)}
         label="Url"
         value={url}
       />
       <TextField
-        onChange={(e) => setTitle(e.target.value)}
-        onBlur={(e) => setTitle(e.target.value)}
+        onChange={(e: any) => setTitle(e.target.value)}
+        onBlur={(e: any) => setTitle(e.target.value)}
         label="Title"
         value={title}
       />

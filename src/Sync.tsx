@@ -35,8 +35,8 @@ export function Sync({ recipes }: SyncProps) {
   return (
     <div>
       <TextField
-        onChange={(e) => setTargetId(e.target.value)}
-        onBlur={(e) => setTargetId(e.target.value)}
+        onChange={(e: any) => setTargetId(e.target.value)}
+        onBlur={(e: any) => setTargetId(e.target.value)}
         label="Target ID"
         value={targetId}
       />
