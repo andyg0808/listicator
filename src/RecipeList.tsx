@@ -23,7 +23,7 @@ export interface RecipeListProps {
   onDelete: (t: Recipe) => void;
 }
 
-export default function RecipeList({ onEdit, onDelete }) {
+export default function RecipeList({ onEdit, onDelete }: RecipeListProps) {
   const dispatch = useDispatch();
   const recipes = useSelector(recipeSelector);
   const checks = useSelector((store: RootState) => store.menuSelections);

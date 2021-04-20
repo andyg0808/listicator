@@ -19,7 +19,13 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
-export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
+interface ListSorterProps {
+  trip: Trip;
+  stores: Store[];
+  onHeaderClick: () => void;
+}
+
+export function ListSorter({ trip, stores, onHeaderClick }: ListSorterProps) {
   const storeList = R.union(
     stores,
     trip.lists.map((l) => l.store)
@@ -39,7 +45,12 @@ export function ListSorter({ trip, stores }: { trip: Trip; stores: Store[] }) {
         };
         return (
           <div css={{ width: "50%" }} key={store.name}>
-            <Typography color="primary" variant="h2">
+            <Typography
+              onClick={onHeaderClick}
+              color="primary"
+              variant="h2"
+              css={{ cursor: "pointer" }}
+            >
               {list.store.name}
             </Typography>
             <Droppable droppableId={list.store.name} key={list.store.name}>

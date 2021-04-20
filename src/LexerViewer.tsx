@@ -10,6 +10,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import styled from "@emotion/styled";
 
 import { lexer } from "./lexer";
+import { Token } from "moo";
 
 import * as R from "ramda";
 
@@ -17,8 +18,8 @@ const Blob = styled.pre``;
 export default function LexerViewer() {
   const [text, setText] = React.useState("");
   lexer.reset(text);
-  const tokens: any[] = [];
-  let error: any = null;
+  const tokens: Token[] = [];
+  let error: Token | null = null;
   try {
     for (const token of lexer) {
       tokens.push(token);
@@ -34,8 +35,9 @@ export default function LexerViewer() {
   return (
     <Container>
       <TextareaAutosize
-        onChange={(e) => setText(e.target.value)}
-        onBlur={(e) => setText(e.target.value)}
+        // @ts-ignore
+        onChange={(e: any) => setText(e.target.value)}
+        onBlur={(e: any) => setText(e.target.value)}
         value={text}
       />
       {tokens.map((t) => (
@@ -47,7 +49,12 @@ export default function LexerViewer() {
   );
 }
 
-function DisplayError({ error, text }) {
+interface DisplayErrorProps {
+  error: Token;
+  text: string;
+}
+
+function DisplayError({ error, text }: DisplayErrorProps) {
   const [left, right] = R.splitAt(error.offset, text);
   return (
     <>

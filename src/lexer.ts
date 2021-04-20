@@ -1,9 +1,10 @@
 import moo from "moo";
-const fracMapping = new Map([
-  ["¼", 1 / 4],
-  ["½", 1 / 2],
-  ["⅓", 1 / 3],
-  ["⅔", 2 / 3],
+import { StoredFraction } from "./types";
+const fracMapping: Map<string, StoredFraction> = new Map([
+  ["¼", { n: 1, d: 4 }],
+  ["½", { n: 1, d: 2 }],
+  ["⅓", { n: 1, d: 3 }],
+  ["⅔", { n: 2, d: 3 }],
 ]);
 const regexMapping = [
   ["pints?", "pint"],
@@ -33,17 +34,18 @@ const regexMapping = [
 export const unitsRegex = new RegExp(
   regexMapping.map(([regex, _]) => regex).join("|")
 );
-const matcherMapping = regexMapping.map(([regex, unit]) => [
+const matcherMapping: [RegExp, string][] = regexMapping.map(([regex, unit]) => [
   new RegExp("^" + regex + "$"),
   unit,
 ]);
 
-export function matchUnit(value) {
+export function matchUnit(value: string) {
   for (const [regex, unit] of matcherMapping) {
     if (regex.test(value)) {
       return unit;
     }
   }
+  return value;
 }
 
 const fractionRegex = new RegExp(
@@ -70,14 +72,14 @@ const ingredient = {
   ingredient: {
     match: /.+\n?/,
     lineBreaks: true,
-    value: (v) => v.trim(),
+    value: (v: string) => v.trim(),
     next: "main",
   },
 };
 
 const delimiterChar = "!";
 
-const delimiter = (next) => {
+const delimiter = (next: string) => {
   return {
     delimiter: { match: delimiterChar, next },
   };
@@ -86,8 +88,11 @@ const delimiter = (next) => {
 export const lexer = moo.states({
   main: {
     ...size,
-    number: { match: /[0-9.]+/, value: (v) => Number(v) },
-    fraction: { match: fractionRegex, value: (v) => fracMapping.get(v) },
+    number: { match: /[0-9.]+/, value: (v: string) => Number(v) } as any,
+    fraction: {
+      match: fractionRegex,
+      value: (v: string) => fracMapping.get(v),
+    } as any,
     slash: /[/⁄]/,
     dash: /-/,
     to: /\bto\b/,
@@ -104,7 +109,7 @@ export const lexer = moo.states({
     ...delimiter("ingredient"),
     forced_unit: {
       match: new RegExp(`[^${delimiterChar}]*${delimiterChar}`),
-      value: (v) => v.substring(0, v.length - 1),
+      value: (v: string) => v.substring(0, v.length - 1),
       next: "ingredient",
     },
   },

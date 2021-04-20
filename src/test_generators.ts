@@ -1,8 +1,15 @@
 import fc from "fast-check";
-import { StoreOrderMap, Order, Amount } from "./types";
+import {
+  StoreOrderMap,
+  Order,
+  Amount,
+  StoredFraction,
+  DatabaseNumber,
+} from "./types";
 import * as R from "ramda";
 import { merge } from "./shopping_order";
 import { unitsRegex } from "./lexer";
+import Fraction from "fraction.js";
 
 export const fc_unit = fc
   .string({ minLength: 1 })
@@ -28,7 +35,14 @@ export const fc_ingredient = fc
     }
   });
 
-export const fc_quantity = fc.option(fc.nat().map((n) => n + 1));
+export const fc_quantity = fc.option(
+  fc
+    .record({
+      n: fc.nat().map((n) => n + 1),
+      d: fc.nat().map((n) => n + 1),
+    })
+    .map((n) => new Fraction(n))
+);
 
 export const fc_amount = fc.record({
   quantity: fc_quantity,
@@ -45,13 +59,30 @@ export const totalOrder = fc.record({
   amount: fc.array(fc_amount),
 });
 
-function normalizeAmount(amount: Amount): Amount {
+function normalizeAmount(
+  amount: Amount<DatabaseNumber>
+): Amount<Fraction | null> {
   return {
-    quantity:
-      amount.unit !== null && amount.quantity === null ? 1 : amount.quantity,
+    quantity: normalizeQuantity(amount),
     unit: amount.unit,
   };
 }
+
+function normalizeQuantity(amount: Amount<DatabaseNumber>): Fraction | null {
+  const quantity = amount.quantity;
+  if (quantity === null) {
+    if (amount.unit !== null) {
+      return new Fraction(1);
+    } else {
+      return null;
+    }
+  } else if (typeof quantity == "object") {
+    return new Fraction(quantity.n, quantity.d);
+  } else {
+    return new Fraction(quantity);
+  }
+}
+
 export function normalizeOrder(order: Order) {
   return R.over(R.lensProp("amount"), normalizeAmount, order);
 }

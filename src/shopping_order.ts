@@ -43,11 +43,11 @@ export function insertItemIntoMapping(
 }
 
 export function insertItemReducer(
-  state,
+  state: ShoppingOrderMap,
   action: PayloadAction<InsertItemEvent>
 ) {
   const payload = action.payload;
-  const storeLens = R.lensProp(payload.store);
+  const storeLens = R.lensProp<ShoppingOrderMap>(payload.store);
   return R.over(
     storeLens,
     (mapping) => {
@@ -116,9 +116,12 @@ export function move(mapping: StoreOrderMap, event: ReorderEvent) {
   }
 }
 
-export function reorderReducer(state, action: PayloadAction<ReorderEvent>) {
+export function reorderReducer(
+  state: ShoppingOrderMap,
+  action: PayloadAction<ReorderEvent>
+) {
   const payload = action.payload;
-  const storeLens = R.lensProp(payload.store);
+  const storeLens = R.lensProp<ShoppingOrderMap>(payload.store);
   return R.over(
     storeLens,
     (mapping) => {

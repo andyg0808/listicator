@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 
 import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
-import { Order, Recipe } from "./types";
+import { Order, Recipe, databaseNumberToString } from "./types";
 
 export default function ParserViewer() {
   const [text, setText] = React.useState("");
@@ -102,19 +102,20 @@ export default function ParserViewer() {
         </Alert>
       )}
       <TextareaAutosize
-        onChange={(e) => setText(e.target.value)}
-        onBlur={(e) => setText(e.target.value)}
+        // @ts-ignore
+        onBlur={(e: any) => setText(e.target.value)}
+        onChange={(e: any) => setText(e.target.value)}
         value={text}
       />
       <TextField
-        onChange={(e) => setUrl(e.target.value)}
-        onBlur={(e) => setUrl(e.target.value)}
+        onChange={(e: any) => setUrl(e.target.value)}
+        onBlur={(e: any) => setUrl(e.target.value)}
         label="Url"
         value={url}
       />
       <TextField
-        onChange={(e) => setTitle(e.target.value)}
-        onBlur={(e) => setTitle(e.target.value)}
+        onChange={(e: any) => setTitle(e.target.value)}
+        onBlur={(e: any) => setTitle(e.target.value)}
         label="Title"
         value={title}
       />
@@ -129,7 +130,9 @@ export default function ParserViewer() {
         <TableBody>
           {ingredients.map((order: Order, i: number) => (
             <TableRow key={order.ingredient.name + i}>
-              <TableCell>{order.amount.quantity?.toPrecision(2)}</TableCell>
+              <TableCell>
+                {databaseNumberToString(order.amount.quantity)}
+              </TableCell>
               <TableCell>{order.amount.unit}</TableCell>
               <TableCell>{order.ingredient.name}</TableCell>
             </TableRow>

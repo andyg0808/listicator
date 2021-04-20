@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import { Editor } from "./editor";
-import { Recipe } from "./types";
+import { Recipe, DisplayNumber } from "./types";
 import { unparse } from "./parser";
 
 interface RecipeEditorProps {
@@ -16,7 +16,6 @@ interface RecipeEditorProps {
 export function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
   const text = unparse(recipe.ingredients);
   const [blob, setBlob] = React.useState({
-    text,
     title: recipe.title,
     ingredients: recipe.ingredients,
   });

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { ReactComponent as Logo } from "./logo.svg";
 
@@ -44,6 +44,7 @@ import {
   Recipe,
   Trip,
   getDescription,
+  DisplayNumber,
 } from "./types";
 import { RootState, resetLocalStore, recipeSelector } from "./store";
 import { insertItem, reorder, sortByOrder } from "./shopping_order";
@@ -59,13 +60,18 @@ import { unparse } from "./parser";
 import { useDeleteRecipe } from "./undo";
 import { ListBuilder } from "./ListBuilder";
 
-function DragDispatcher({ children, trip }) {
+interface DragDispatcherProps {
+  children: JSX.Element | JSX.Element[];
+  trip: Trip;
+}
+
+function DragDispatcher({ children, trip }: DragDispatcherProps) {
   const dispatch = useDispatch();
   const listIndex = R.indexBy((l: ShoppingList) => l.store.name, trip.lists);
 
-  function dragHandler(result) {
+  function dragHandler(result: DropResult) {
     const { source, destination } = result;
-    if (destination === null) {
+    if (!destination || !source) {
       return;
     }
     const store = destination.droppableId;
@@ -138,7 +144,7 @@ function App() {
           <Tabs
             css={{ flexGrow: 1 }}
             value={currentTab}
-            onChange={(e, newValue) => setCurrentTab(newValue)}
+            onChange={(e: any, newValue: number) => setCurrentTab(newValue)}
           >
             <Tab label="Build" />
             <Tab label="Shop" />
@@ -164,7 +170,9 @@ function App() {
         />
       </Drawer>
       <Container>
-        {currentTab == 0 && <BuildTab />}
+        {currentTab == 0 && (
+          <BuildTab startEdit={() => setShowStoreEditor(true)} />
+        )}
         {currentTab == 1 && <ShopTab />}
         {sync && <SyncTools />}
       </Container>
@@ -203,7 +211,11 @@ function useSortedTrip(): Trip {
   return sortedTrip;
 }
 
-function BuildTab() {
+interface BuildTabProps {
+  startEdit: () => void;
+}
+
+function BuildTab({ startEdit }: BuildTabProps) {
   const sortedTrip = useSortedTrip();
   const stores = useSelector((store: RootState) => store.storeList);
 
@@ -244,7 +256,11 @@ function BuildTab() {
         >
           <AddIcon />
         </Fab>
-        <ListSorter stores={stores} trip={sortedTrip} />
+        <ListSorter
+          stores={stores}
+          trip={sortedTrip}
+          onHeaderClick={startEdit}
+        />
       </div>
     </DragDispatcher>
   );
@@ -286,7 +302,7 @@ function ShopTab() {
 
 function ShoppingListItem({ order }: { order: TotalOrder }) {
   const [checked, setChecked] = React.useState(false);
-  const toggle = (evt) => setChecked((c) => !c);
+  const toggle = (evt: any) => setChecked((c) => !c);
   return (
     <ListItem>
       <ListItemIcon>

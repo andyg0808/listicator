@@ -6,7 +6,6 @@ import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
@@ -16,10 +15,10 @@ import { useDispatch } from "react-redux";
 
 import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
-import { Order, Recipe } from "./types";
+import { Order, Recipe, DisplayNumber, databaseNumberToString } from "./types";
 import { Prosemirror } from "./Prosemirror";
 
-export function Viewer({ ingredients }) {
+export function Viewer({ ingredients }: { ingredients: Order[] }) {
   return (
     <Table>
       <TableHead>
@@ -32,7 +31,9 @@ export function Viewer({ ingredients }) {
       <TableBody>
         {ingredients.map((order: Order, i: number) => (
           <TableRow key={order.ingredient.name + i}>
-            <TableCell>{order.amount.quantity?.toPrecision(2)}</TableCell>
+            <TableCell>
+              {databaseNumberToString(order.amount.quantity)}
+            </TableCell>
             <TableCell>{order.amount.unit}</TableCell>
             <TableCell>{order.ingredient.name}</TableCell>
           </TableRow>
@@ -52,28 +53,32 @@ export interface EditorInterface {
   defaultText: string;
 }
 
-export function Editor({ onUpdate, defaultTitle, defaultText }) {
+export function Editor({
+  onUpdate,
+  defaultTitle,
+  defaultText,
+}: EditorInterface) {
   const [title, setTitle] = React.useState(defaultTitle);
   const [text, setText] = React.useState(defaultText);
 
   const ingredients = safeParse(text);
 
-  function titleUpdate(title) {
+  function titleUpdate(title: string): void {
     setTitle(title);
-    onUpdate({ title, ingredients, text });
+    onUpdate({ title, ingredients });
   }
 
-  function textUpdate(text) {
+  function textUpdate(text: string): void {
     setText(text);
     const ingredients = safeParse(text);
-    onUpdate({ title, ingredients, text });
+    onUpdate({ title, ingredients });
   }
 
   return (
     <Box display="flex" flexDirection="column">
       <TextField
-        onChange={(e) => titleUpdate(e.target.value)}
-        onBlur={(e) => titleUpdate(e.target.value)}
+        onChange={(e: any) => titleUpdate(e.target.value)}
+        onBlur={(e: any) => titleUpdate(e.target.value)}
         label="Title"
         value={title}
       />

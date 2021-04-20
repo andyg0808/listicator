@@ -1,4 +1,5 @@
 import * as R from "ramda";
+import Fraction from "fraction.js";
 /*
    Actions:
    - reorder
@@ -46,7 +47,7 @@ export type Unit = String;
  */
 export interface Order {
   ingredient: Ingredient;
-  amount: Amount;
+  amount: Amount<DatabaseNumber>;
 }
 
 /**
@@ -57,29 +58,98 @@ export interface Order {
  */
 export interface TotalOrder {
   ingredient: Ingredient;
-  amount: Array<Amount>;
+  amount: Array<Amount<DisplayNumber>>;
 }
 
 export const getIngredientName = (o: TotalOrder) => o?.ingredient?.name;
 export function getDescription(order: TotalOrder): string {
   const amount = order.amount
-    .map((a: Amount) => {
-      const unit =
-        a.quantity && a.quantity > 1 && a.unit !== null
-          ? a.unit + "s"
-          : a.unit || "";
-      return `${a.quantity || ""} ${unit}`;
+    .map((a: Amount<DisplayNumber>) => {
+      if (a.quantity === null) {
+        return a.unit || "";
+      }
+      if (a.unit === null) {
+        return a.quantity.toFraction();
+      }
+      const unit = a.quantity.valueOf() > 1 ? a.unit + "s" : a.unit;
+      return `${a.quantity.toFraction()} ${unit}`;
     })
     .join(" & ");
   const name = order.ingredient.name;
   return `${amount} ${name}`;
 }
+
+export type DatabaseNumber = null | number | StoredFraction;
+export type DisplayNumber = null | Fraction;
+
+export interface StoredFraction {
+  n: number;
+  d: number;
+}
+
+export function databaseNumberToString(n: DatabaseNumber): string {
+  if (typeof n == "number") {
+    return n.toPrecision(2);
+  } else if (n === null) {
+    return "1";
+  } else {
+    return new Fraction(n).toFraction();
+  }
+}
+
+export function displayNumberToString(n: DisplayNumber): string {
+  if (n === null) {
+    return "1";
+  } else {
+    return n.toFraction();
+  }
+}
+
+export function databaseNumberToDisplayNumber(
+  n: DatabaseNumber
+): DisplayNumber {
+  if (n === null) {
+    return null;
+  } else {
+    return toFraction(n);
+  }
+}
+
+function toFraction(n: number | StoredFraction): Fraction {
+  if (typeof n == "number") {
+    return new Fraction(n);
+  } else {
+    return new Fraction(n);
+  }
+}
+
+export function databaseNumberMult(
+  n: DatabaseNumber,
+  m: DatabaseNumber
+): DatabaseNumber {
+  if (n === null || m === null) {
+    return null;
+  }
+  const nFrac = toFraction(n);
+  const mFrac = toFraction(m);
+  return nFrac.mul(mFrac);
+}
+
 /**
  * A class to represent an amount of an ingredient
  */
-export interface Amount {
-  quantity: number | null;
+export interface Amount<Number> {
+  quantity: Number;
   unit: Unit | null;
+}
+
+export function databaseAmountToDisplayAmount(
+  amount: Amount<DatabaseNumber>
+): Amount<DisplayNumber> {
+  return {
+    ...amount,
+    quantity: databaseNumberToDisplayNumber(amount.quantity),
+  };
 }
 
 /**
@@ -122,7 +192,7 @@ export interface Trip {
   lists: Array<ShoppingList>;
 }
 
-export const updateTripLists = R.over(R.lensProp("lists"));
+export const updateTripLists = R.over(R.lensProp<Trip>("lists"));
 
 /**
  * The list of items to get at a store
@@ -132,7 +202,9 @@ export interface ShoppingList {
   store: Store;
 }
 
-export const updateShoppingListItems = R.over(R.lensProp("items"));
+export const updateShoppingListItems = R.over(
+  R.lensProp<ShoppingList>("items")
+);
 
 export type IngredientId = string;
 export type StoreId = string;

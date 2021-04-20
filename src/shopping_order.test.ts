@@ -89,7 +89,7 @@ describe("move", () => {
   it.each(move_down_cases)(
     "moves %d down to %d",
     (fromIdx, toIdx, expected, other, otherExpected) => {
-      const name = displayOrder[fromIdx];
+      const name = displayOrder[fromIdx as number];
       const event: ReorderEvent = {
         name,
         store: "n/a",
@@ -110,7 +110,7 @@ describe("move", () => {
   it.each(move_up_cases)(
     "moves %d up to %d",
     (fromIdx, toIdx, expected, other, otherExpected) => {
-      const name = displayOrder[fromIdx];
+      const name = displayOrder[fromIdx as number];
       const event: ReorderEvent = {
         name,
         store: "n/a",
