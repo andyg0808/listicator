@@ -34,6 +34,7 @@ import { styled } from "@material-ui/core/styles";
 
 import { ListSorter } from "./ListSorter";
 import { RecipeEditor } from "./AddRecipe";
+import { BuildTab } from "./BuildTab";
 
 import * as R from "ramda";
 
@@ -59,60 +60,7 @@ import RecipeList from "./RecipeList";
 import { unparse } from "./parser";
 import { useDeleteRecipe } from "./undo";
 import { ListBuilder } from "./ListBuilder";
-
-interface DragDispatcherProps {
-  children: JSX.Element | JSX.Element[];
-  trip: Trip;
-}
-
-function DragDispatcher({ children, trip }: DragDispatcherProps) {
-  const dispatch = useDispatch();
-  const listIndex = R.indexBy((l: ShoppingList) => l.store.name, trip.lists);
-
-  function dragHandler(result: DropResult) {
-    const { source, destination } = result;
-    if (!destination || !source) {
-      return;
-    }
-    const store = destination.droppableId;
-    const fromIdx = source.index;
-    const toIdx = destination.index;
-    const list: ShoppingList | undefined = listIndex[store];
-    const items: TotalOrder[] = list?.items || [];
-    const displayOrder = items.map((o) => o.ingredient.name);
-    if (source.droppableId === destination.droppableId) {
-      if (toIdx < 0) {
-        console.log("Moved to negative position", result);
-      }
-      dispatch(
-        reorder({
-          name: result.draggableId,
-          store,
-          fromIdx,
-          toIdx,
-          displayOrder,
-        })
-      );
-    } else {
-      dispatch(
-        insertItem({
-          name: result.draggableId,
-          store,
-          atIdx: toIdx,
-          displayOrder,
-        })
-      );
-      dispatch(
-        setStore({
-          item: result.draggableId,
-          store,
-        })
-      );
-    }
-  }
-
-  return <DragDropContext onDragEnd={dragHandler}>{children}</DragDropContext>;
-}
+import { useSortedTrip } from "./trip";
 
 const ColoredLogo = styled(Logo)(({ theme }) => {
   return {
@@ -183,87 +131,6 @@ function App() {
 function SyncTools() {
   const allRecipes = useSelector(recipeSelector);
   return <Sync recipes={allRecipes} />;
-}
-
-function useSortedTrip(): Trip {
-  const allRecipes = useSelector(recipeSelector);
-  const selected = useSelector((store: RootState) => store.menuSelections);
-  const quantities = useSelector((store: RootState) => store.menuQuantities);
-  const stores = useSelector((store: RootState) => store.storeList);
-  const recipes = React.useMemo(
-    () => multiply(quantities, allRecipes).filter((r) => selected[r.title]),
-    [allRecipes, selected, quantities]
-  );
-  const storePreference = useSelector(
-    (store: RootState) => store.storePreference
-  );
-  const trip = recipesToTrip(
-    recipes,
-    storePreference,
-    "Undecided",
-    new Set(stores.map((s) => s.name))
-  );
-  const sortOrder = useSelector((store: RootState) => store.shoppingOrder);
-  const sortedTrip = updateTripLists(
-    R.map((i: ShoppingList) => sortByOrder(sortOrder, i)),
-    trip
-  );
-  return sortedTrip;
-}
-
-interface BuildTabProps {
-  startEdit: () => void;
-}
-
-function BuildTab({ startEdit }: BuildTabProps) {
-  const sortedTrip = useSortedTrip();
-  const stores = useSelector((store: RootState) => store.storeList);
-
-  const dispatch = useDispatch();
-
-  const [editing, startEditing] = React.useState<Recipe | null>(null);
-  const closeEditor = () => startEditing(null);
-  const saveHandler = (a: Recipe) => {
-    if (a) {
-      dispatch(setRecipe(a));
-    }
-    closeEditor();
-  };
-  const startRecipe = () =>
-    startEditing({
-      title: "",
-      ingredients: [],
-    });
-
-  const onDeleteRecipe = useDeleteRecipe();
-  return (
-    <DragDispatcher trip={sortedTrip}>
-      <div>
-        <RecipeList onEdit={startEditing} onDelete={onDeleteRecipe} />
-        <Drawer anchor="bottom" open={Boolean(editing)} onClose={closeEditor}>
-          {editing && (
-            <RecipeEditor
-              recipe={editing}
-              onSave={saveHandler}
-              onCancel={closeEditor}
-            />
-          )}
-        </Drawer>
-        <Fab
-          color="primary"
-          onClick={startRecipe}
-          css={{ position: "fixed", bottom: "15px", right: "15px", zIndex: 10 }}
-        >
-          <AddIcon />
-        </Fab>
-        <ListSorter
-          stores={stores}
-          trip={sortedTrip}
-          onHeaderClick={startEdit}
-        />
-      </div>
-    </DragDispatcher>
-  );
 }
 
 function ShopTab() {
