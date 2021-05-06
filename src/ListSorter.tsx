@@ -18,6 +18,20 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
+import { styled } from "@material-ui/core/styles";
+
+const VisibleList = styled("div")(({ theme }) => {
+  const margin = "10px";
+  return {
+    "border-color": theme.palette.secondary.main,
+    "border-width": "3px",
+    "border-style": "solid",
+    "border-radius": "5px",
+    margin,
+    padding: "10px",
+    width: `calc(50% - 2*${margin})`,
+  };
+});
 
 interface ListSorterProps {
   trip: Trip;
@@ -44,7 +58,7 @@ export function ListSorter({ trip, stores, onHeaderClick }: ListSorterProps) {
           store,
         };
         return (
-          <div css={{ width: "50%" }} key={store.name}>
+          <VisibleList key={store.name}>
             <Typography
               onClick={onHeaderClick}
               color="primary"
@@ -55,7 +69,11 @@ export function ListSorter({ trip, stores, onHeaderClick }: ListSorterProps) {
             </Typography>
             <Droppable droppableId={list.store.name} key={list.store.name}>
               {(provided) => (
-                <List ref={provided.innerRef} {...provided.droppableProps}>
+                <List
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  css={{ height: "100%", minHeight: "50px" }}
+                >
                   {list.items.map((item, idx) => {
                     return (
                       <ListEntry
@@ -69,7 +87,7 @@ export function ListSorter({ trip, stores, onHeaderClick }: ListSorterProps) {
                 </List>
               )}
             </Droppable>
-          </div>
+          </VisibleList>
         );
       })}
     </div>
@@ -85,6 +103,7 @@ function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
         <ListItem
           ref={provided.innerRef}
           button
+          disableTouchRipple={true}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
