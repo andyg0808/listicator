@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^1.6.0",
     "@babel/preset-typescript": "^7.12.7",
     "@types/jest": "^26.0.22",
     "@types/moo": "^0.5.4",
@@ -69,6 +70,7 @@
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-dom": "^17.0.3",
     "@types/react-redux": "^7.1.16",
+    "cypress": "7.4.0",
     "eslint-config-react-app": "^6.0.0",
     "fast-check": "^2.14.0",
     "prettier": "^2.2.1",
