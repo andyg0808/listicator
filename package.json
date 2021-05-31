@@ -75,7 +75,6 @@
     "fast-check": "^2.14.0",
     "prettier": "^2.2.1",
     "react-refresh": "^0.10.0",
-    "taiko": "^1.2.3",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1"
   }
