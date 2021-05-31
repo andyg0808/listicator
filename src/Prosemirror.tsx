@@ -12,7 +12,7 @@ import { defined } from "./util";
 
 const ProsemirrorContainer = styled.div`
   border: 1px solid black;
-  .Prosemirror p {
+  & .ProseMirror p {
     margin: 0px;
   }
 `;
