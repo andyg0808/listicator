@@ -118,6 +118,7 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
     <ProsemirrorContainer
       //onClick={clickHandler}
       className={className}
+      data-test="Editor"
       ref={ref}
     />
   );

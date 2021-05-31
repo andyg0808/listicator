@@ -20,7 +20,7 @@ import { Prosemirror } from "./Prosemirror";
 
 export function Viewer({ ingredients }: { ingredients: Order[] }) {
   return (
-    <Table>
+    <Table data-test="Viewer">
       <TableHead>
         <TableRow>
           <TableCell>Amount</TableCell>
@@ -77,6 +77,7 @@ export function Editor({
   return (
     <Box display="flex" flexDirection="column">
       <TextField
+        data-test="Title"
         onChange={(e: any) => titleUpdate(e.target.value)}
         onBlur={(e: any) => titleUpdate(e.target.value)}
         label="Title"
