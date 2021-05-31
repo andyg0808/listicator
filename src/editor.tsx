@@ -11,6 +11,8 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 
 import styled from "@emotion/styled";
+import * as R from "ramda";
+
 import { useDispatch } from "react-redux";
 
 import { addRecipe } from "./recipes";
@@ -53,25 +55,35 @@ export interface EditorInterface {
   defaultText: string;
 }
 
+interface Blob {
+  title: string;
+  text: string;
+}
+
 export function Editor({
   onUpdate,
   defaultTitle,
   defaultText,
 }: EditorInterface) {
-  const [title, setTitle] = React.useState(defaultTitle);
-  const [text, setText] = React.useState(defaultText);
+  const [blob, setBlob] = React.useState<Blob>({
+    title: defaultTitle,
+    text: defaultText,
+  });
 
-  const ingredients = safeParse(text);
+  const ingredients = safeParse(blob.text);
 
   function titleUpdate(title: string): void {
-    setTitle(title);
-    onUpdate({ title, ingredients });
+    setBlob((blob) => {
+      onUpdate({ title: blob.title, ingredients: safeParse(blob.text) });
+      return R.assoc("title", title, blob);
+    });
   }
 
   function textUpdate(text: string): void {
-    setText(text);
-    const ingredients = safeParse(text);
-    onUpdate({ title, ingredients });
+    setBlob((blob) => {
+      onUpdate({ title: blob.title, ingredients: safeParse(text) });
+      return R.assoc("text", text, blob);
+    });
   }
 
   return (
@@ -81,9 +93,9 @@ export function Editor({
         onChange={(e: any) => titleUpdate(e.target.value)}
         onBlur={(e: any) => titleUpdate(e.target.value)}
         label="Title"
-        value={title}
+        value={blob.title}
       />
-      <EditField onChange={textUpdate} value={text} />
+      <EditField onChange={textUpdate} value={defaultText} />
       <Viewer ingredients={ingredients} />
     </Box>
   );
