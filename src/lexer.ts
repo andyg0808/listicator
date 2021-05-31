@@ -9,6 +9,7 @@ const fracMapping: Map<string, StoredFraction> = new Map([
 const regexMapping = [
   ["pints?", "pint"],
   ["cups?|c\\.", "cup"],
+  ["gallons?|gal\\.", "gallon"],
   ["teaspoons?|tsp\\.|tsp\\b", "teaspoon"],
   ["[tT]ablespoons?|[tT]bsp\\.|[tT]bsp\\b", "tablespoon"],
   ["pounds?|lb\\.|lb\\b", "pound"],
