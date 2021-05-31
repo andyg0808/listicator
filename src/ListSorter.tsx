@@ -102,8 +102,8 @@ function ListEntry({ item, idx }: { item: TotalOrder; idx: number }) {
       {(provided) => (
         <ListItem
           ref={provided.innerRef}
-          button
-          disableTouchRipple={true}
+          //button
+          //disableTouchRipple={true}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
