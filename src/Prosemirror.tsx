@@ -106,11 +106,11 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
     editorRef.current = new EditorView(ref.current, { state });
   }, []);
 
-  const clickHandler = () => editorRef.current?.focus();
+  //const clickHandler = () => editorRef.current?.focus();
 
   return (
     <ProsemirrorContainer
-      onClick={clickHandler}
+      //onClick={clickHandler}
       className={className}
       ref={ref}
     />
