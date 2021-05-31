@@ -12,6 +12,12 @@ import { defined } from "./util";
 
 const ProsemirrorContainer = styled.div`
   border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  & .ProseMirror {
+    flex: 1;
+    padding: 8px;
+  }
   & .ProseMirror p {
     margin: 0px;
   }
