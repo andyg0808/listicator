@@ -1,4 +1,4 @@
-import { Recipe, Order, Amount, DatabaseNumber } from "./types";
+import { Recipe, Order, Amount, DatabaseNumber, StoredFraction } from "./types";
 import nearley from "nearley";
 import grammar from "./grammar";
 import * as R from "ramda";
@@ -62,6 +62,16 @@ export function errorParse(text: string): ParseError | null {
   }
 }
 
+function toQtyString(v: null | StoredFraction | number): string {
+  if (v === null) {
+    return "";
+  }
+  if (typeof v === "number") {
+    return new Fraction(v).toFraction();
+  }
+  return new Fraction(v).toFraction();
+}
+
 export function unparse(data: Order[]): string {
   return data
     .map((order) => {
@@ -75,8 +85,7 @@ export function unparse(data: Order[]): string {
         }
       };
 
-      const quantityStr =
-        quantity === null ? "" : new Fraction(quantity).toFraction();
+      const quantityStr = toQtyString(quantity);
       const unitStr = unit === null ? "" : unit;
       const ingredientStr = ingredient.name;
 
