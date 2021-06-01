@@ -15,6 +15,7 @@ const regexMapping = [
   ["[tT]ablespoons?|[tT]bsp\\.|[tT]bsp\\b", "tablespoon"],
   ["pounds?|lb\\.|lb\\b", "pound"],
   ["ounces?|oz\\.|oz\\b", "ounce"],
+  ["sprigs?", "sprig"],
   ["grams?|g\\b", "gram"],
   ["x\\b", "count"],
   ["ml\\b", "milliliter"],
