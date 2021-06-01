@@ -1,4 +1,5 @@
 import moo from "moo";
+import Fraction from "fraction.js";
 import { StoredFraction } from "./types";
 const fracMapping: Map<string, StoredFraction> = new Map([
   ["¼", { n: 1, d: 4 }],
@@ -89,10 +90,10 @@ const delimiter = (next: string) => {
 export const lexer = moo.states({
   main: {
     ...size,
-    number: { match: /[0-9.]+/, value: (v: string) => Number(v) } as any,
+    number: { match: /[0-9.]+/, value: (v: string) => new Fraction(v) } as any,
     fraction: {
       match: fractionRegex,
-      value: (v: string) => fracMapping.get(v),
+      value: (v: string) => new Fraction(fracMapping.get(v)),
     } as any,
     slash: /[/⁄]/,
     dash: /-/,
