@@ -2,6 +2,7 @@
 
 @{%
   const {lexer} = require("./lexer")
+  const Fraction = require("fraction.js")
 %}
 
 @lexer lexer
@@ -13,8 +14,8 @@ line ->
 ingredient ->
     %ingredient {% i => [null, null, i[0].value] %}
   | mixed_number _:? %ingredient {% i => [i[0] || null, null, i[2].value] %}
-  | %size _ unit %ingredient {% i => [1, i[0].value + " " + i[2], i[3].value] %}
-  | unit _:? %ingredient {% i => [1, i[0], i[2].value] %}
+  | %size _ unit %ingredient {% i => [new Fraction(1), i[0].value + " " + i[2], i[3].value] %}
+  | unit _:? %ingredient {% i => [new Fraction(1), i[0], i[2].value] %}
   | mixed_number _:? unit (_ %of):? _:? %ingredient {% i => [i[0] || null, i[2] || null, i[5].value] %}
 unit ->
     %unit {% n => n[0].value %}
@@ -22,10 +23,10 @@ unit ->
   | %size _ unit {% n => n[0].value + " " + n[2] %}
   | %size {% n => n[0].value %}
 fraction ->
-    number %slash number  {% ([left, _, right]) => left/right %}
+    number %slash number  {% ([left, _, right]) => new Fraction(left, right) %}
   | %fraction {% f => f[0].value %}
 mixed_number ->
-    number (%dash|_):? fraction  {% ([number, _, fraction]) => number + fraction %}
+    number (%dash|_):? fraction  {% ([number, _, fraction]) => number.add(fraction) %}
   | fraction {% m => m[0] %}
   | number {% n => n[0] %}
 _ -> (%ws|%delimiter):+ {% data => null %}

@@ -3,6 +3,7 @@ import fc from "fast-check";
 import { parse } from "./parser";
 import { Recipe, Order, Amount, Ingredient, DatabaseNumber } from "./types";
 import { fc_ingredient_name, fc_unit } from "./test_generators";
+import Fraction from "fraction.js";
 
 import fs from "fs";
 
@@ -20,7 +21,7 @@ function parseExpected(blob: string, src: string): Order[] {
     }
     const [amount_str, unit_str, ingredient_str] = parts;
     const amount: Amount<DatabaseNumber> = {
-      quantity: Number(amount_str) || null,
+      quantity: amount_str ? new Fraction(amount_str) : null,
       unit: unit_str || null,
     };
     return {
@@ -69,7 +70,9 @@ test("Delimiter should disambiguate parses", () => {
       (quantity, unit, ingredient) => {
         const combined = `${quantity}!${unit}!${ingredient}\n`;
         const unified_quantity =
-          quantity === "" && unit !== null ? 1 : (quantity as number);
+          quantity === "" && unit !== null
+            ? new Fraction(1)
+            : new Fraction(quantity);
         const expected: Order[] = [
           {
             amount: {

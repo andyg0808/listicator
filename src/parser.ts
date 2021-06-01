@@ -2,6 +2,7 @@ import { Recipe, Order, Amount, DatabaseNumber } from "./types";
 import nearley from "nearley";
 import grammar from "./grammar";
 import * as R from "ramda";
+import Fraction from "fraction.js";
 
 type IngredientParse = [DatabaseNumber, null | string, string];
 
@@ -74,7 +75,8 @@ export function unparse(data: Order[]): string {
         }
       };
 
-      const quantityStr = quantity === null ? "" : quantity;
+      const quantityStr =
+        quantity === null ? "" : new Fraction(quantity).toFraction();
       const unitStr = unit === null ? "" : unit;
       const ingredientStr = ingredient.name;
 
