@@ -88,13 +88,18 @@ const delimiter = (next: string) => {
   };
 };
 
+function mapFrac(v: string) {
+  const mappedValue = fracMapping.get(v);
+  return mappedValue ? new Fraction(mappedValue) : null;
+}
+
 export const lexer = moo.states({
   main: {
     ...size,
     number: { match: /[0-9.]+/, value: (v: string) => new Fraction(v) } as any,
     fraction: {
       match: fractionRegex,
-      value: (v: string) => new Fraction(fracMapping.get(v)),
+      value: mapFrac,
     } as any,
     slash: /[/⁄]/,
     dash: /-/,
