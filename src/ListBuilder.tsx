@@ -8,6 +8,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
@@ -49,6 +50,7 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
             }}
           >
             <TextField
+              data-test="New Store"
               label="New store"
               value={editing}
               onChange={(e: any) => setEditing(e.target.value)}
@@ -56,9 +58,11 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
           </form>
         </ListItemText>
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="delete" onClick={addItem}>
-            <AddIcon />
-          </IconButton>
+          <Tooltip title="Add store">
+            <IconButton edge="end" aria-label="delete" onClick={addItem}>
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
         </ListItemSecondaryAction>
       </ListItem>
     </List>

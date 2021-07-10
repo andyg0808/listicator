@@ -56,7 +56,10 @@ export default function RecipeList({ onEdit, onDelete }: RecipeListProps) {
                 onChange={() => setCheck(title, !checks[title])}
               ></Checkbox>
             </ListItemIcon>
-            <ListItemText onClick={() => setCheck(title, !checks[title])}>
+            <ListItemText
+              css={{ cursor: "pointer" }}
+              onClick={() => setCheck(title, !checks[title])}
+            >
               {title}
             </ListItemText>
             <ListItemSecondaryAction

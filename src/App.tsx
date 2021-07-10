@@ -13,6 +13,7 @@ import Container from "@material-ui/core/Container";
 import IconButton from "@material-ui/core/IconButton";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Tooltip from "@material-ui/core/Tooltip";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -96,14 +97,15 @@ function App() {
             <Tab label="Build" />
             <Tab label="Shop" />
           </Tabs>
-          <IconButton
-            edge="end"
-            onClick={() => setShowStoreEditor(true)}
-            aria-label="Set List Items"
-            color="secondary"
-          >
-            <MenuIcon />
-          </IconButton>
+          <Tooltip title="Configure Stores">
+            <IconButton
+              edge="end"
+              onClick={() => setShowStoreEditor(true)}
+              color="secondary"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer

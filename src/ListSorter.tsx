@@ -58,7 +58,7 @@ export function ListSorter({ trip, stores, onHeaderClick }: ListSorterProps) {
           store,
         };
         return (
-          <VisibleList data-test="StoreList" key={store.name}>
+          <VisibleList data-test={`StoreList-${store.name}`} key={store.name}>
             <Typography
               onClick={onHeaderClick}
               color="primary"
