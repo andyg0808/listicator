@@ -13,6 +13,9 @@ describe("Add a recipe", () => {
     cy.get("@ketchup").contains("td", "1/2");
     cy.get("@ketchup").contains("td", "gallon");
     cy.get(recipeText).type("\n6 cubes ice");
+    cy.get(viewer).contains("tr", "ice").as("ice");
+    cy.get("@ice").contains("td", "6");
+    cy.get("@ice").contains("td", "cubes");
     cy.contains("Save").click();
 
     cy.contains("Come on and ketch up");
