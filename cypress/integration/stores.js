@@ -11,7 +11,10 @@ describe("Stores", () => {
   it("should allow the user to add new stores", () => {
     cy.visit("http://localhost:3000/");
     cy.get(configureStore).click();
-    const storeNames = fc.sample(fc.string({ minLength: 1 }), 10);
+    const storeNames = fc.sample(
+      fc.string({ minLength: 1 }).filter((s) => s !== "\\"),
+      10
+    );
     storeNames.forEach((store) => {
       cy.get(newStore).type(store);
       cy.get(addStore).click();
