@@ -10,6 +10,7 @@
 main -> line:+
 line ->
     _:? ingredient {% i => i[1]%}
+  | %dash _ ingredient {% i => i[2]%}
   | %heading {% i => null %}
 ingredient ->
     %ingredient {% i => [null, null, i[0].value] %}

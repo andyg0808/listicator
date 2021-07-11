@@ -17,4 +17,13 @@ describe("Add a recipe", () => {
 
     cy.contains("Come on and ketch up");
   });
+
+  it("should accept list forms", () => {
+    cy.visit("http://localhost:3000/");
+    cy.get(addRecipe).click();
+    cy.get(recipeText).type("- 1/2 gallon ketchup");
+    cy.get(viewer).contains("tr", "ketchup").as("ketchup");
+    cy.get("@ketchup").contains("td", "1/2");
+    cy.get("@ketchup").contains("td", "gallon");
+  });
 });
