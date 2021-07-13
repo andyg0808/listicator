@@ -59,7 +59,7 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
         </ListItemText>
         <ListItemSecondaryAction>
           <Tooltip title="Add store">
-            <IconButton edge="end" aria-label="delete" onClick={addItem}>
+            <IconButton edge="end" aria-label="Add store" onClick={addItem}>
               <AddIcon />
             </IconButton>
           </Tooltip>
