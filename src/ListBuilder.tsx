@@ -31,7 +31,7 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
       {items.map((item) => {
         const dropItem = () => onChange(items.filter((i) => i !== item));
         return (
-          <ListItem>
+          <ListItem key={item}>
             <ListItemText>{item}</ListItemText>
             <ListItemSecondaryAction>
               <IconButton onClick={dropItem} edge="end" aria-label="delete">
