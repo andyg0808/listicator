@@ -12,7 +12,7 @@ describe("Stores", () => {
     cy.visit("http://localhost:3000/");
     cy.get(configureStore).click();
     const storeNames = fc.sample(
-      fc.string({ minLength: 1 }).filter((s) => s !== "\\"),
+      fc.string({ minLength: 1 }).filter((s) => s !== "\\" && s !== ""),
       10
     );
     storeNames.forEach((store) => {
