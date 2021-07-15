@@ -1,41 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
-import { useSortedTrip } from "./trip";
-import { useSelector } from "react-redux";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
+import Checkbox from "@material-ui/core/Checkbox";
 import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import AddIcon from "@material-ui/icons/Add";
-import ViewListIcon from "@material-ui/icons/ViewList";
-
-import { ListSorter } from "./ListSorter";
-import { RecipeEditor } from "./AddRecipe";
-
-import {
-  ShoppingList,
-  TotalOrder,
-  updateTripLists,
-  Recipe,
-  Trip,
-  getDescription,
-  DisplayNumber,
-} from "./types";
-import * as R from "ramda";
-import { RootState, resetLocalStore, recipeSelector } from "./store";
-import { insertItem, reorder, sortByOrder } from "./shopping_order";
-import { recipesToTrip, multiply } from "./transforms";
-import { addRecipe, setRecipe } from "./recipes";
-
-import RecipeList from "./RecipeList";
-import { unparse } from "./parser";
-import { useDeleteRecipe } from "./undo";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+import { useSortedTrip } from "./trip";
+import { getDescription, ShoppingList, TotalOrder } from "./types";
 
 export function ShopTab() {
   const sortedTrip = useSortedTrip();
