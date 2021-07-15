@@ -9,6 +9,23 @@ export const ingredients = defaultRecipe.ingredients.map((order) => {
   return getDescription(totalOrder);
 });
 
+export { defaultRecipe };
+
 export function randomIngredient() {
   return ingredients[Cypress._.random(ingredients.length - 1)];
+}
+
+export function setCountOfDefaultRecipe(count: number) {
+  cy.contains("Pizza Sauce")
+    .closest("li")
+    .find('input[type="number"]')
+    .clear()
+    .type(`${count}{rightarrow}{backspace}`);
+}
+
+export function markDefaultRecipe() {
+  cy.contains("Pizza Sauce")
+    .closest("li")
+    .find('input[type="checkbox"]')
+    .check();
 }
