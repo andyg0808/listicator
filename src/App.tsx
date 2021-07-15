@@ -63,6 +63,7 @@ function App() {
           </Tabs>
           <Tooltip title="Configure Stores">
             <IconButton
+              data-test="Configure Stores"
               edge="end"
               onClick={() => setShowStoreEditor(true)}
               color="secondary"
