@@ -17,3 +17,8 @@ final: build
 .PHONY: build
 build:
 	yarn build
+	git tag deploy-`date --iso-8601=seconds`
+
+.PHONY: last-deploy
+last-deploy:
+	git checkout `git tag --sort=-refname | head -n1`
