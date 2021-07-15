@@ -16,6 +16,7 @@ final: build
 
 .PHONY: build
 build:
+	git diff --quiet
 	yarn build
 	git tag deploy-`date --iso-8601=seconds`
 
