@@ -16,3 +16,6 @@ COPY --from=build /app/build /app
 WORKDIR /app
 COPY Deployfile Makefile
 ENTRYPOINT make
+
+FROM nginx:latest as server
+COPY --from=build /app/build /usr/share/nginx/html
