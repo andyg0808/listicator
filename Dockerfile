@@ -11,4 +11,5 @@ FROM node:16 as deployer
 RUN apt-get update && apt-get install -y awscli && apt-get clean
 COPY --from=build /app/build /app
 WORKDIR /app
+COPY Deployfile Makefile
 ENTRYPOINT make

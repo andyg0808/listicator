@@ -1,0 +1,12 @@
+.PHONY: help
+help:
+	@sed '/^.PHONY/!d; s/^.PHONY: //' Deployfile
+.PHONY: upload
+upload:
+	aws s3 sync build s3://listicator.work/
+
+.PHONY: final
+final:
+	echo "Waiting before upload…"
+	sleep 5
+	aws s3 sync build s3://listicator.com/
