@@ -9,6 +9,7 @@ test:
 upload: build
 	aws s3 sync build s3://listicator.work/
 
+.PHONY: final
 final: build
 	echo "Waiting before upload…"
 	sleep 5
