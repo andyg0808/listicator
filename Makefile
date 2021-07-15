@@ -1,5 +1,9 @@
 .PHONY: default
-default: upload
+default: test upload
+
+.PHONY: test
+test:
+	npx cypress run
 
 .PHONY: upload
 upload: build
