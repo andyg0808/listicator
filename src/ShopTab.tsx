@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
@@ -23,6 +24,9 @@ export function ShopTab() {
   const selectedList = sortedTrip.lists.find(
     (list: ShoppingList) => list.store.name === activeName
   );
+  const undecidedList = sortedTrip.lists.find(
+    (list: ShoppingList) => list.store.name === "Undecided"
+  );
   return (
     <div css={{ maxWidth: "500px", margin: "auto", paddingTop: "30px" }}>
       <FormControl css={{ width: "100%" }}>
@@ -33,7 +37,7 @@ export function ShopTab() {
         >
           {storeNames.map((s) => (
             <MenuItem key={s} value={s}>
-              {s}
+              <Typography variant="h2">{s}</Typography>
             </MenuItem>
           ))}
         </Select>
@@ -44,6 +48,16 @@ export function ShopTab() {
             <ShoppingListItem key={order.ingredient.name} order={order} />
           ))}
       </List>
+      {undecidedList && (
+        <>
+          <Typography variant="h2">Undecided</Typography>
+          <List>
+            {undecidedList.items.map((order: TotalOrder) => (
+              <ShoppingListItem key={order.ingredient.name} order={order} />
+            ))}
+          </List>
+        </>
+      )}
     </div>
   );
 }
