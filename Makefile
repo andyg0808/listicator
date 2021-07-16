@@ -3,7 +3,7 @@ default: test upload
 
 .PHONY: test
 test:
-	npx cypress run
+	yarn run cypress run
 
 .PHONY: upload
 upload: build
