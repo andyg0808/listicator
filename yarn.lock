@@ -5,15 +5,6 @@ __metadata:
   version: 4
   cacheKey: 8
 
-"@4tw/cypress-drag-drop@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@4tw/cypress-drag-drop@npm:1.6.0"
-  peerDependencies:
-    cypress: ^2.1.0 || ^3.1.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
-  checksum: 77d7ae33d7c5202aa46ab9424ffaeaef81493e82d99ab4c4b026da382a7435a6c08b49d104f8cfa6caa2014213f85e1172f9c75015dab6b75dbf7461989df91b
-  languageName: node
-  linkType: hard
-
 "@babel/code-frame@npm:7.10.4":
   version: 7.10.4
   resolution: "@babel/code-frame@npm:7.10.4"
@@ -10745,7 +10736,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "listicator@workspace:."
   dependencies:
-    "@4tw/cypress-drag-drop": ^1.6.0
     "@babel/preset-typescript": ^7.14.5
     "@emotion/react": ^11.4.0
     "@emotion/styled": ^11.3.0
