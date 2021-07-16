@@ -2,8 +2,16 @@ import { lexer } from "./lexer";
 import { zip } from "ramda";
 import Fraction from "fraction.js";
 
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toLexAs(expect: Array<any>): CustomMatcherResult;
+    }
+  }
+}
+
 expect.extend({
-  toLexAs(text, expected) {
+  toLexAs(text: string, expected: Array<any>) {
     const options = {
       comment: "Deep equality",
       isNot: this.isNot,

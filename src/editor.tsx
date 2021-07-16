@@ -50,20 +50,17 @@ const EditField = styled(Prosemirror)`
 `;
 
 export interface EditorInterface {
-  onUpdate: (recipe: Recipe) => void;
-  defaultTitle: string;
-  defaultText: string;
-}
-
-interface Blob {
+  setTitle: (title: string) => void;
+  setIngredients: (ingredients: Array<Order>) => void;
   title: string;
   text: string;
 }
 
 export function Editor({
-  onUpdate,
-  defaultTitle,
-  defaultText,
+  setTitle,
+  setIngredients,
+  title,
+  text,
 }: EditorInterface) {
   const [blob, setBlob] = React.useState<Blob>({
     title: defaultTitle,
