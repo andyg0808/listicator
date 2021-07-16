@@ -62,37 +62,22 @@ export function Editor({
   title,
   text,
 }: EditorInterface) {
-  const [blob, setBlob] = React.useState<Blob>({
-    title: defaultTitle,
-    text: defaultText,
-  });
-
-  const ingredients = safeParse(blob.text);
-
-  function titleUpdate(title: string): void {
-    setBlob((blob) => {
-      onUpdate({ title: blob.title, ingredients: safeParse(blob.text) });
-      return R.assoc("title", title, blob);
-    });
-  }
+  const ingredients = safeParse(text);
 
   function textUpdate(text: string): void {
-    setBlob((blob) => {
-      onUpdate({ title: blob.title, ingredients: safeParse(text) });
-      return R.assoc("text", text, blob);
-    });
+    setIngredients(safeParse(text));
   }
 
   return (
     <Box display="flex" flexDirection="column">
       <TextField
         data-test="Title"
-        onChange={(e: any) => titleUpdate(e.target.value)}
-        onBlur={(e: any) => titleUpdate(e.target.value)}
+        onChange={(e: any) => setTitle(e.target.value)}
+        onBlur={(e: any) => setTitle(e.target.value)}
         label="Title"
-        value={blob.title}
+        value={title}
       />
-      <EditField onChange={textUpdate} value={defaultText} />
+      <EditField onChange={textUpdate} value={text} />
       <Viewer ingredients={ingredients} />
     </Box>
   );
