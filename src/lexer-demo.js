@@ -1,5 +1,5 @@
 const fs = require("fs");
-const {lexer} = require("./lexer.js");
+const { lexer } = require("./lexer.js");
 
 const input = fs.readFileSync("examples/allrecipes", "utf-8");
 

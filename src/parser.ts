@@ -19,19 +19,17 @@ export function parse(data: string): Array<Order> {
 
   const ingredients = results[0]
     .filter((i: any) => i !== null)
-    .map(
-      (ingredient_parse: IngredientParse): Order => {
-        const name = ingredient_parse[2];
-        const ingredient = { name };
-        const quantity = ingredient_parse[0];
-        const unit = ingredient_parse[1];
-        const amount = { quantity, unit };
-        return {
-          ingredient,
-          amount,
-        };
-      }
-    );
+    .map((ingredient_parse: IngredientParse): Order => {
+      const name = ingredient_parse[2];
+      const ingredient = { name };
+      const quantity = ingredient_parse[0];
+      const unit = ingredient_parse[1];
+      const amount = { quantity, unit };
+      return {
+        ingredient,
+        amount,
+      };
+    });
   return ingredients;
 }
 
@@ -89,9 +87,10 @@ export function unparse(data: Order[]): string {
       const unitStr = unit === null ? "" : unit;
       const ingredientStr = ingredient.name;
 
-      let render = (unit
-        ? `${quantityStr} ${unitStr} ${ingredientStr}`
-        : `${quantityStr} ${ingredientStr}`
+      let render = (
+        unit
+          ? `${quantityStr} ${unitStr} ${ingredientStr}`
+          : `${quantityStr} ${ingredientStr}`
       ).trim();
       if (check(render)) {
         return render;
