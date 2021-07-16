@@ -1,12 +1,12 @@
 # syntax=docker/dockerfile:1.2
 FROM node:16 as build
+USER node
 WORKDIR /app
-COPY package.json yarn.lock .yarnrc.yml .
-COPY .yarn .yarn
+COPY --chown=node:node package.json yarn.lock .yarnrc.yml .
+COPY --chown=node:node .yarn .yarn
 RUN rm -rf .yarn/install-state.gz .yarn/cache .yarn/unplugged
-RUN --mount=type=cache,target=./.yarn/cache
 RUN yarn
-COPY .git .git
+COPY --chown=node:node .git .git
 RUN git checkout -- . && \
     ./update-icon.sh && \
     yarn compile && \
@@ -14,6 +14,7 @@ RUN git checkout -- . && \
 
 FROM node:16 as deployer
 RUN apt-get update && apt-get install -y awscli && apt-get clean
+USER node
 WORKDIR /app
 COPY --from=build /app/build /app/build
 COPY Deployfile Deployfile
