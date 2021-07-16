@@ -54,7 +54,9 @@ describe("unparse", () => {
     fc.assert(
       fc.property(fc.array(fc_order), (orders) => {
         const expected = orders.map(normalizeOrder);
-        expect(unparse(orders)).toParseAs(expected);
+        expect(unparse(orders)).toParseAs(
+          expected.length === 0 ? null : expected
+        );
       })
     );
   });
