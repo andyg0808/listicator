@@ -14,10 +14,10 @@ RUN git checkout -- . && \
 
 FROM node:16 as deployer
 RUN apt-get update && apt-get install -y awscli && apt-get clean
-COPY --from=build /app/build /app
 WORKDIR /app
-COPY Deployfile Makefile
-ENTRYPOINT make
+COPY --from=build /app/build /app/build
+COPY Deployfile Deployfile
+ENTRYPOINT ["make", "-f", "Deployfile"]
 
 FROM nginx:latest as server
 COPY --from=build /app/build /usr/share/nginx/html
