@@ -5,7 +5,7 @@ import Fraction from "fraction.js";
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toLexAs(expect: Array<any>): CustomMatcherResult;
+      toLexAs(expect: Array<any>): R;
     }
   }
 }
