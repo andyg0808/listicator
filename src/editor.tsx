@@ -19,6 +19,7 @@ import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
 import { Order, Recipe, DisplayNumber, databaseNumberToString } from "./types";
 import { Prosemirror } from "./Prosemirror";
+import { unparse } from "./parser";
 
 export function Viewer({ ingredients }: { ingredients: Order[] }) {
   return (
@@ -53,19 +54,22 @@ export interface EditorInterface {
   setTitle: (title: string) => void;
   setIngredients: (ingredients: Array<Order>) => void;
   title: string;
-  text: string;
+  ingredients: Order[];
 }
 
 export function Editor({
   setTitle,
   setIngredients,
   title,
-  text,
+  ingredients,
 }: EditorInterface) {
-  const ingredients = safeParse(text);
+  const text = unparse(ingredients);
 
   function textUpdate(text: string): void {
-    setIngredients(safeParse(text));
+    const parse = safeParse(text);
+    if (parse) {
+      setIngredients(parse);
+    }
   }
 
   return (

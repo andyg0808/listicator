@@ -33,13 +33,13 @@ export function parse(data: string): Array<Order> {
   return ingredients;
 }
 
-export function safeParse(text: string): Order[] {
+export function safeParse(text: string): Order[] | null {
   try {
     return parse(text.trim());
   } catch (e) {
     const lines = text.trim().split(/\n/);
     const line = e.token?.line || 0;
-    return [];
+    return null;
   }
 }
 

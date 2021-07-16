@@ -16,13 +16,12 @@ interface RecipeEditorProps {
 export function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
   const [title, setTitle] = React.useState(recipe.title);
   const [ingredients, setIngredients] = React.useState(recipe.ingredients);
-  const text = unparse(ingredients);
   return (
     <Paper css={{ padding: "0 3vw" }}>
       <Editor
         setTitle={setTitle}
         setIngredients={setIngredients}
-        text={text}
+        ingredients={ingredients}
         title={title}
       />
       <Button onClick={() => onCancel()}>Cancel</Button>
