@@ -6,7 +6,7 @@ import Fraction from "fraction.js";
 
 type IngredientParse = [DatabaseNumber, null | string, string];
 
-export function parse(data: string): Array<Order> {
+export function parse(data: string): Array<Order> | null {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
   parser.feed(data);
   if (parser.results.length > 1) {
@@ -14,7 +14,7 @@ export function parse(data: string): Array<Order> {
   }
   const results = parser.results[0];
   if (!results || results.length == 0) {
-    return [];
+    return null;
   }
 
   const ingredients = results[0]
@@ -77,7 +77,7 @@ export function unparse(data: Order[]): string {
       const { quantity, unit } = amount;
       const check = (render: string) => {
         try {
-          return R.equals(parse(render)[0], order);
+          return R.equals(parse(render)?.[0], order);
         } catch (e) {
           return false;
         }

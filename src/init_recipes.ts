@@ -10,6 +10,9 @@ export const text = `1 can tomato paste
 Water to thin`;
 
 const ingredients = parse(text.trim());
+if (!ingredients) {
+  throw new Error("Invalid default recipe text");
+}
 export const recipe: Recipe = {
   title: "Pizza Sauce",
   ingredients,
