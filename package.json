@@ -82,5 +82,8 @@
     "react-refresh": "^0.10.0",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.1.0"
+  },
+  "resolutions": {
+    "prosemirror-model": "1.14.2"
   }
 }
