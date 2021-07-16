@@ -1,5 +1,5 @@
 import React from "react";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -15,7 +15,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 const headerFont = {
   fontFamily: ["Merriweather", "serif"].join(","),
 };
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#e50900",
