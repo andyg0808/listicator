@@ -1,9 +1,34 @@
 .PHONY: default
 default: test upload
 
+.PHONY: help
+help:
+	@sed '/^.PHONY/!d; s/^.PHONY: //' Makefile
+
 .PHONY: test
 test:
-	npx cypress run
+	yarn run cypress run
+
+.PHONY: docker-build
+docker-build:
+	docker build -t listicator .
+
+
+.PHONY: docker-serve
+docker-serve: docker-build
+	docker run --rm -p 127.0.0.1:8008:80 listicator
+
+.PHONY: docker-deploy
+docker-deploy:
+	docker build -t listicator:deploy --target=deployer .
+
+.PHONY: docker-upload
+docker-upload:
+	docker run --rm -v$(HOME)/.aws/credentials:/root/.aws/credentials listicator:deploy upload
+
+.PHONY: docker-final
+docker-final:
+	docker run --rm -v$(HOME)/.aws/credentials:/root/.aws/credentials listicator:deploy final
 
 .PHONY: upload
 upload: build
