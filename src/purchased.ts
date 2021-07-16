@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import * as R from "ramda";
 
+import { newList } from "./new_list";
 import { PurchaseMap, IngredientId } from "./types";
 
 const purchasedSlice = createSlice({
@@ -12,6 +13,11 @@ const purchasedSlice = createSlice({
       const lens = R.lensProp<typeof state>(name);
       return R.over(lens, (v) => !v, state);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(newList, (_state, _action: PayloadAction<undefined>) => {
+      return {};
+    });
   },
 });
 

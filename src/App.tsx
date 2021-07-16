@@ -18,9 +18,11 @@ import Tab from "@material-ui/core/Tab";
 import { RootState, recipeSelector } from "./store";
 import { styled } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 
 import { ListBuilder } from "./ListBuilder";
 import { setStores } from "./store_list";
+import { newList } from "./new_list";
 
 import { BuildTab } from "./BuildTab";
 import { ShopTab } from "./ShopTab";
@@ -61,6 +63,16 @@ function App() {
             <Tab label="Build" />
             <Tab label="Shop" />
           </Tabs>
+          <Tooltip title="Clear checkmarks">
+            <IconButton
+              data-test="Clear checkmarks"
+              edge="end"
+              onClick={() => dispatch(newList())}
+              color="secondary"
+            >
+              <RemoveShoppingCartIcon />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Configure Stores">
             <IconButton
               data-test="Configure Stores"
