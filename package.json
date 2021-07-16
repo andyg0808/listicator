@@ -17,6 +17,8 @@
     "@typescript-eslint/parser": "^4.28.3",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-node": "^0.3.4",
+    "eslint-plugin-import": "^2.23.4",
     "fraction.js": "^4.1.1",
     "moo": "^0.5.1",
     "nearley": "^2.20.1",
