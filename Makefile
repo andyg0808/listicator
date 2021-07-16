@@ -1,13 +1,21 @@
 .PHONY: default
 default: test upload
 
+.PHONY: help
+help:
+	@sed '/^.PHONY/!d; s/^.PHONY: //' Makefile
+
 .PHONY: test
 test:
 	yarn run cypress run
 
-.PHONY: docker-serve
-docker-serve:
+.PHONY: docker-build
+docker-build:
 	docker build -t listicator .
+
+
+.PHONY: docker-serve
+docker-serve: docker-build
 	docker run --rm -p 127.0.0.1:8008:80 listicator
 
 .PHONY: docker-deploy
