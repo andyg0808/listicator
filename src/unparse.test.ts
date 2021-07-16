@@ -26,7 +26,8 @@ expect.extend({
           this.utils.matcherHint("toParseAs", undefined, undefined, options) +
           "\n\n" +
           `Expected: not ${this.utils.printExpected(expected)}\n` +
-          `Received: ${this.utils.printReceived(parsed)}`,
+          `Passed: ${this.utils.printReceived(text)}\n` +
+          `Parsed as: ${this.utils.printReceived(parsed)}`,
         pass,
       };
     } else {
@@ -40,7 +41,8 @@ expect.extend({
           (diffString && diffString.includes("- Expect")
             ? `Difference:\n\n${diffString}\n\nUnparse:\n'${text}'`
             : `Expected: ${this.utils.printExpected(expected)}\n` +
-              `Received: ${this.utils.printReceived(parsed)}`),
+              `Passed: ${this.utils.printReceived(text)}\n` +
+              `Parsed as: ${this.utils.printReceived(parsed)}`),
         pass,
       };
     }
