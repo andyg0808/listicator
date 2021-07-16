@@ -84,18 +84,17 @@ interface RawProsemirrorProps {
 }
 
 function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
-  const exportPlugin = new Plugin({
-    view() {
-      return {
-        update(view: EditorView, prevState: EditorState) {
-          onChange(plaintext(view.state.doc));
-        },
-      };
-    },
-  });
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const editorRef = React.useRef<EditorView | null>(null);
   React.useEffect(() => {
+    const exportPlugin = new Plugin({
+      view() {
+        return {
+          update(view: EditorView, prevState: EditorState) {
+            onChange(plaintext(view.state.doc));
+          },
+        };
+      },
+    });
     if (ref.current === null) {
       return;
     }
@@ -109,7 +108,9 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
       ...doc,
       plugins: [keymapPlugin, plugin, exportPlugin],
     });
-    editorRef.current = new EditorView(ref.current, { state });
+    // We only need to start the EditorView; outputting the results
+    // happens via plugin.
+    new EditorView(ref.current, { state });
   }, []);
 
   return (
