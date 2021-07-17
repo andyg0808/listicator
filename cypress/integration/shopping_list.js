@@ -1,5 +1,6 @@
 import { markDefaultRecipe, ingredients } from "../support/default_recipe";
 import { addStore } from "../support/stores";
+import { clickShopTab, clickBuildTab } from "../support/navigation";
 import {
   checkListItem,
   listItemShouldBeChecked,
@@ -7,16 +8,6 @@ import {
 } from "../support/lists";
 
 describe("Shopping list", () => {
-  const tab = '[role="tab"]';
-
-  function clickShopTab() {
-    cy.contains(tab, "Shop").click();
-  }
-
-  function clickBuildTab() {
-    cy.contains(tab, "Build").click();
-  }
-
   beforeEach(() => {
     cy.visit("http://localhost:3000/");
     markDefaultRecipe();
