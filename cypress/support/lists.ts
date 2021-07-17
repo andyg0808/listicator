@@ -1,4 +1,9 @@
-import { checkItem, uncheckItem } from "./checkboxes";
+import {
+  checkItem,
+  uncheckItem,
+  shouldBeChecked,
+  shouldNotBeChecked,
+} from "./checkboxes";
 
 export function findItem(
   elem: Cypress.Chainable,
@@ -19,4 +24,18 @@ export function uncheckListItem(
   name: string
 ): Cypress.Chainable {
   return uncheckItem(findItem(elem, name));
+}
+
+export function listItemShouldBeChecked(
+  elem: Cypress.Chainable,
+  name: string
+): Cypress.Chainable {
+  return shouldBeChecked(findItem(elem, name));
+}
+
+export function listItemShouldNotBeChecked(
+  elem: Cypress.Chainable,
+  name: string
+): Cypress.Chainable {
+  return shouldNotBeChecked(findItem(elem, name));
 }
