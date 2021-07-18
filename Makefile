@@ -16,7 +16,7 @@ docker-build:
 
 .PHONY: docker-serve
 docker-serve: docker-build
-	docker run --rm -p 127.0.0.1:8008:80 listicator
+	docker run --rm -p 127.0.0.1:3000:80 listicator
 
 .PHONY: docker-deploy
 docker-deploy:
