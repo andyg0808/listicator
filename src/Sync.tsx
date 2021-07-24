@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { send, recv, peer } from "./sync";
+import { send, recv, peer, targetPeer } from "./sync";
 import { receiveRecipe, removeReceivedRecipe } from "./sync_store";
 import { Recipe } from "./types";
 import { addRecipe } from "./recipes";
@@ -26,10 +26,7 @@ export interface SyncProps {
 export function Sync({ recipes }: SyncProps) {
   const dispatch = useDispatch();
   const syncStore = useSelector((store: RootState) => store.syncStore);
-  const url = new URL(window.location.toString());
-  const [targetId, setTargetId] = React.useState(
-    url.searchParams.get("targetPeer") || ""
-  );
+  const [targetId, setTargetId] = React.useState(targetPeer() || "");
   const [selfId, setSelfId] = React.useState("");
   const sendData = () => {
     send(targetId, JSON.stringify(recipes));
@@ -49,7 +46,7 @@ export function Sync({ recipes }: SyncProps) {
     if (!syncStore.peerid) {
       return "";
     }
-    const scanUrl = new URL(url.toString());
+    const scanUrl = new URL(window.location.toString());
     scanUrl.searchParams.set("targetPeer", syncStore.peerid);
 
     const code = qrcode(0, "M");

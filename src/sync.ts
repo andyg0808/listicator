@@ -2,6 +2,10 @@ import Peer from "peerjs";
 import { setPeerId } from "./sync_store";
 import store from "./store";
 
+export function targetPeer(): string | null {
+  const url = new URL(window.location.toString());
+  return url.searchParams.get("targetPeer");
+}
 export const peer = new Peer();
 peer.on("open", (id) => {
   store.dispatch(setPeerId(id));

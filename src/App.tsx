@@ -23,10 +23,10 @@ import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 import { ListBuilder } from "./ListBuilder";
 import { setStores } from "./store_list";
 import { newList } from "./new_list";
-
 import { BuildTab } from "./BuildTab";
 import { ShopTab } from "./ShopTab";
 import { Sync } from "./Sync";
+import { targetPeer } from "./sync";
 
 const ColoredLogo = styled(Logo)(({ theme }) => {
   return {
@@ -42,7 +42,7 @@ const ColoredLogo = styled(Logo)(({ theme }) => {
 
 function App() {
   const [sync, setSync] = React.useState(
-    process.env.REACT_APP_USE_SYNC === "true"
+    process.env.REACT_APP_USE_SYNC === "true" || targetPeer() !== null
   );
   const dispatch = useDispatch();
 
