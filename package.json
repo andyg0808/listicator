@@ -39,7 +39,7 @@
     "winston": "^3.3.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_USE_SYNC=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
