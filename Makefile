@@ -44,7 +44,7 @@ final: build
 build:
 	git diff --quiet
 	yarn build
-	git tag deploy-`date --iso-8601=seconds`
+	git tag deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
 
 .PHONY: last-deploy
 last-deploy:
