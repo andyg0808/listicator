@@ -3,8 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { send, recv, peer } from "./sync";
+import { receiveRecipe, removeReceivedRecipe } from "./sync_store";
 import { Recipe } from "./types";
 import { addRecipe } from "./recipes";
 import { resetLocalStore, RootState } from "./store";
@@ -25,7 +34,7 @@ export function Sync({ recipes }: SyncProps) {
     const data = (await recv()) as string;
     const recipes = JSON.parse(data);
     recipes.forEach((recipe: Recipe) => {
-      dispatch(addRecipe(recipe));
+      dispatch(receiveRecipe(recipe));
     });
   };
   React.useEffect(() => {
@@ -43,7 +52,43 @@ export function Sync({ recipes }: SyncProps) {
       <div>Peer id {syncStore.peerid}</div>
       <Button onClick={sendData}>Send</Button>
       <Button onClick={recvData}>Recv</Button>
-      <Button onClick={resetLocalStore}>Delete everything</Button>
+      {false && <Button onClick={resetLocalStore}>Delete everything</Button>}
+      <Typography variant="h3">Synced Recipes</Typography>
+      <RecipeAdder recipes={syncStore.recipes || []} />
     </div>
+  );
+}
+
+function RecipeAdder({ recipes }: { recipes: Recipe[] }) {
+  const dispatch = useDispatch();
+  const saveRecipe = (recipe: Recipe) => {
+    dispatch(addRecipe(recipe));
+    dispatch(removeReceivedRecipe(recipe.title));
+  };
+  return (
+    <List>
+      {recipes.map((recipe: Recipe) => {
+        return (
+          <ListItem>
+            <ListItemText>{recipe.title}</ListItemText>
+            <ListItemSecondaryAction>
+              <Tooltip title="Keep Recipe">
+                <IconButton onClick={() => saveRecipe(recipe)} edge="end">
+                  <AddBoxIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Trash Recipe">
+                <IconButton
+                  onClick={() => dispatch(removeReceivedRecipe(recipe.title))}
+                  edge="end"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            </ListItemSecondaryAction>
+          </ListItem>
+        );
+      })}
+    </List>
   );
 }
