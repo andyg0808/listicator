@@ -5,7 +5,6 @@ import store from "./store";
 export const peer = new Peer();
 peer.on("open", (id) => {
   store.dispatch(setPeerId(id));
-  // console.log("My peer id:", id);
 });
 export function send(id: any, blob: any) {
   const conn = peer.connect(id);

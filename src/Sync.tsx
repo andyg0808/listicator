@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import qrcode from "qrcode-generator";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -25,7 +26,10 @@ export interface SyncProps {
 export function Sync({ recipes }: SyncProps) {
   const dispatch = useDispatch();
   const syncStore = useSelector((store: RootState) => store.syncStore);
-  const [targetId, setTargetId] = React.useState("");
+  const url = new URL(window.location.toString());
+  const [targetId, setTargetId] = React.useState(
+    url.searchParams.get("targetPeer") || ""
+  );
   const [selfId, setSelfId] = React.useState("");
   const sendData = () => {
     send(targetId, JSON.stringify(recipes));
@@ -41,6 +45,20 @@ export function Sync({ recipes }: SyncProps) {
     recvData();
   });
 
+  function getCode(): string {
+    if (!syncStore.peerid) {
+      return "";
+    }
+    const scanUrl = new URL(url.toString());
+    scanUrl.searchParams.set("targetPeer", syncStore.peerid);
+
+    const code = qrcode(0, "M");
+    code.addData(scanUrl.toString());
+    code.make();
+    return code.createDataURL();
+  }
+  const tag = getCode();
+
   return (
     <div>
       <TextField
@@ -52,6 +70,7 @@ export function Sync({ recipes }: SyncProps) {
       <div>Peer id {syncStore.peerid}</div>
       <Button onClick={sendData}>Send</Button>
       <Button onClick={recvData}>Recv</Button>
+      <img src={tag} />
       {false && <Button onClick={resetLocalStore}>Delete everything</Button>}
       <Typography variant="h3">Synced Recipes</Typography>
       <RecipeAdder recipes={syncStore.recipes || []} />
