@@ -14,9 +14,15 @@ const peerSlice = createSlice({
       state.peerid = action.payload;
     },
     receiveRecipe(state, action: PayloadAction<Recipe>) {
+      if (!state.recipes) {
+        state.recipes = [];
+      }
       state.recipes.push(action.payload);
     },
     removeReceivedRecipe(state, action: PayloadAction<string>) {
+      if (!state.recipes) {
+        state.recipes = [];
+      }
       state.recipes = state.recipes.filter(
         (r: Recipe) => r.title !== action.payload
       );
