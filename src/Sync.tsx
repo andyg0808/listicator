@@ -42,12 +42,12 @@ export function Sync({ recipes }: SyncProps) {
     recvData();
   });
 
+  const scanUrl = new URL(window.location.toString());
+  scanUrl.searchParams.set("targetPeer", syncStore.peerid || "");
   function getCode(): string {
     if (!syncStore.peerid) {
       return "";
     }
-    const scanUrl = new URL(window.location.toString());
-    scanUrl.searchParams.set("targetPeer", syncStore.peerid);
 
     const code = qrcode(0, "M");
     code.addData(scanUrl.toString());
@@ -67,7 +67,9 @@ export function Sync({ recipes }: SyncProps) {
       <div>Peer id {syncStore.peerid}</div>
       <Button onClick={sendData}>Send</Button>
       <Button onClick={recvData}>Recv</Button>
-      <img src={tag} />
+      <a href={scanUrl.toString()}>
+        <img src={tag} />
+      </a>
       {false && <Button onClick={resetLocalStore}>Delete everything</Button>}
       <Typography variant="h3">Synced Recipes</Typography>
       <RecipeAdder recipes={syncStore.recipes || []} />
