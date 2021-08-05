@@ -13,11 +13,20 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { send, recv, peer, targetPeer } from "./sync";
-import { receiveRecipe, removeReceivedRecipe } from "./sync_store";
+import Peer from "peerjs";
+import { receiveRecipe, removeReceivedRecipe, setPeerId } from "./sync_store";
 import { Recipe } from "./types";
 import { addRecipe } from "./recipes";
 import { resetLocalStore, RootState } from "./store";
+import { peer, targetPeer, waitForData, sendData } from "./sync";
+import { createAction } from "@reduxjs/toolkit";
+
+peer.on("error", (err) => {
+  console.error(err);
+});
+
+const pingAction = createAction<string>("ping");
+const recipeAction = createAction<Recipe[]>("recipe");
 
 export interface SyncProps {
   recipes: Recipe[];
@@ -26,21 +35,57 @@ export interface SyncProps {
 export function Sync({ recipes }: SyncProps) {
   const dispatch = useDispatch();
   const syncStore = useSelector((store: RootState) => store.syncStore);
-  const [targetId, setTargetId] = React.useState(targetPeer() || "");
-  const [selfId, setSelfId] = React.useState("");
-  const sendData = () => {
-    send(targetId, JSON.stringify(recipes));
-  };
-  const recvData = async () => {
-    const data = (await recv()) as string;
-    const recipes = JSON.parse(data);
-    recipes.forEach((recipe: Recipe) => {
-      dispatch(receiveRecipe(recipe));
-    });
-  };
+  const selfId = syncStore.peerid;
+  const [targetId, setTargetId] = React.useState(targetPeer() || null);
+
+  //const syncStore = { recipes: [], peerid: selfId };
+  const [num, setNum] = React.useState(0);
+  console.log("rendering");
+
+  // Recieve handling
   React.useEffect(() => {
-    recvData();
-  });
+    return waitForData((data) => {
+      if (pingAction.match(data)) {
+        setTargetId(data.payload);
+      } else if (recipeAction.match(data)) {
+        data.payload.forEach((recipe: Recipe) => {
+          dispatch(receiveRecipe(recipe));
+        });
+      } else {
+        console.error("unknown action", data);
+      }
+    });
+  }, []);
+
+  // Backlink triggering
+  //
+  //This is the magic that allows any phone which scans the link to
+  // trigger the originating peer to be connected to them.
+  React.useEffect(() => {
+    console.log("trying to activate remote");
+    const targetId = targetPeer();
+    if (targetId === null) {
+      console.log("no target, not activating");
+      return;
+    }
+    if (!selfId) {
+      console.log("no selfid yet; will try later");
+      return;
+    }
+    sendData(targetId, pingAction(selfId));
+  }, [selfId]);
+
+  /**
+   * Send the current collection of recipes to the peer
+   */
+  function triggerSend() {
+    console.log("triggered");
+    if (targetId === null) {
+      console.log("no target id; can't send");
+      return;
+    }
+    sendData(targetId, recipeAction(recipes));
+  }
 
   const scanUrl = new URL(window.location.toString());
   scanUrl.searchParams.set("targetPeer", syncStore.peerid || "");
@@ -62,12 +107,12 @@ export function Sync({ recipes }: SyncProps) {
         onChange={(e: any) => setTargetId(e.target.value)}
         onBlur={(e: any) => setTargetId(e.target.value)}
         label="Target ID"
-        value={targetId}
+        value={targetId || ""}
       />
-      <div>Peer id {syncStore.peerid}</div>
-      <Button onClick={sendData}>Send</Button>
-      <Button onClick={recvData}>Recv</Button>
-      <a href={scanUrl.toString()}>
+      <div>Peer id {selfId}</div>
+      <p>{num}</p>
+      <Button onClick={triggerSend}>Send</Button>
+      <a href={scanUrl.toString()} target="_blank">
         <img src={tag} />
       </a>
       {false && <Button onClick={resetLocalStore}>Delete everything</Button>}
