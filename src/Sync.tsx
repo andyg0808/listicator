@@ -102,13 +102,6 @@ export function Sync({ recipes }: SyncProps) {
   const scanUrl = new URL(window.location.toString());
   scanUrl.searchParams.set("targetPeer", selfId || "");
 
-  function getCode(peerid: string, scanUrl: URL): string {
-    const code = qrcode(0, "M");
-    code.addData(scanUrl.toString());
-    code.make();
-    return code.createDataURL();
-  }
-
   const tag = selfId ? getCode(selfId, scanUrl) : "";
 
   return (
@@ -164,4 +157,11 @@ function RecipeAdder({ recipes }: { recipes: Recipe[] }) {
       })}
     </List>
   );
+}
+
+function getCode(peerid: string, scanUrl: URL): string {
+  const code = qrcode(0, "M");
+  code.addData(scanUrl.toString());
+  code.make();
+  return code.createDataURL();
 }
