@@ -13,8 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Peer from "peerjs";
-import { receiveRecipe, removeReceivedRecipe, setPeerId } from "./sync_store";
+import { receiveRecipe, removeReceivedRecipe } from "./sync_store";
 import { Recipe } from "./types";
 import { addRecipe } from "./recipes";
 import { resetLocalStore, RootState } from "./store";
@@ -38,10 +37,6 @@ export function Sync({ recipes }: SyncProps) {
   const syncStore = useSelector((store: RootState) => store.syncStore);
   const selfId = syncStore.peerid;
   const [targetId, setTargetId] = React.useState(targetPeer() || null);
-
-  //const syncStore = { recipes: [], peerid: selfId };
-  const [num, setNum] = React.useState(0);
-  console.log("rendering");
 
   // Recieve handling
   React.useEffect(() => {
@@ -123,7 +118,6 @@ export function Sync({ recipes }: SyncProps) {
         value={targetId || ""}
       />
       <div>Peer id {selfId}</div>
-      <p>{num}</p>
       <Button onClick={triggerSend}>Send</Button>
       <Button onClick={triggerFetch}>Fetch</Button>
       <a href={scanUrl.toString()} target="_blank">
