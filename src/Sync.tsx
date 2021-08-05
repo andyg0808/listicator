@@ -100,7 +100,7 @@ export function Sync({ recipes }: SyncProps) {
   }
 
   const scanUrl = new URL(window.location.toString());
-  addPeer(scanUrl, selfId);
+  addPeer(scanUrl, selfId || "");
   const tag = selfId ? getCode(selfId, scanUrl) : "";
 
   return (
