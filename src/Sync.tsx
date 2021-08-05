@@ -37,6 +37,7 @@ export function Sync({ recipes }: SyncProps) {
   const syncStore = useSelector((store: RootState) => store.syncStore);
   const selfId = syncStore.peerid;
   const [targetId, setTargetId] = React.useState(targetPeer() || null);
+  const triggerSendRef = React.useRef(triggerSend);
 
   // Recieve handling
   React.useEffect(() => {
@@ -48,9 +49,9 @@ export function Sync({ recipes }: SyncProps) {
           dispatch(receiveRecipe(recipe));
         });
       } else if (fetchAction.match(data)) {
-        if (targetId) {
-          console.log("sending recipes to peer");
-          triggerSend();
+        console.log("sending recipes to peer");
+        if (triggerSendRef.current) {
+          triggerSendRef.current();
         } else {
           console.log("no known target; not sending recipes");
         }
@@ -89,6 +90,9 @@ export function Sync({ recipes }: SyncProps) {
     }
     sendData(targetId, recipeAction(recipes));
   }
+  React.useEffect(() => {
+    triggerSendRef.current = triggerSend;
+  });
 
   function triggerFetch() {
     console.log("triggering fetch");
