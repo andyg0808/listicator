@@ -12,13 +12,14 @@ import store from "./store";
 
 export const peer = new Peer();
 
+const queryParam = "targetPeer";
 export function targetPeer(): string | null {
   const url = new URL(window.location.toString());
-  return url.searchParams.get("targetPeer");
+  return url.searchParams.get(queryParam);
 }
 
 export function addPeer(url: URL, selfId: string): void {
-  url.searchParams.set("targetPeer", selfId);
+  url.searchParams.set(queryParam, selfId);
 }
 
 peer.on("open", (id: string) => {
