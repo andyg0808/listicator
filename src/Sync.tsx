@@ -40,7 +40,7 @@ export function Sync({ recipes }: SyncProps) {
 
   // Recieve handling
   React.useEffect(() => {
-    return waitForData((data) => {
+    waitForData((data) => {
       if (pingAction.match(data)) {
         setTargetId(data.payload);
       } else if (recipeAction.match(data)) {

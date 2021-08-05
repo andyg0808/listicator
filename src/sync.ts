@@ -28,13 +28,10 @@ peer.on("open", (id: string) => {
 });
 
 export function waitForData(callback: (data: any) => void) {
-  let c: DataConnection | null = null;
   console.log("waiting for connection");
   peer.on("connection", (conn) => {
     console.log("connection received");
-
     conn.on("open", () => {
-      c = conn;
       console.log("conn opened");
       conn.on("data", (data) => {
         console.log("received", data);
@@ -42,13 +39,6 @@ export function waitForData(callback: (data: any) => void) {
       });
     });
   });
-  return () => {
-    console.log("trying to clean up");
-    if (c) {
-      console.log("cleaning up");
-      c.close();
-    }
-  };
 }
 
 export function sendData(targetId: string, data: any) {
