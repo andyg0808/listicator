@@ -17,6 +17,10 @@ export function targetPeer(): string | null {
   return url.searchParams.get("targetPeer");
 }
 
+export function addPeer(url: URL, selfId: string): void {
+  url.searchParams.set("targetPeer", selfId);
+}
+
 peer.on("open", (id: string) => {
   console.log("got server connection");
   store.dispatch(setPeerId(id));

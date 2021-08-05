@@ -17,7 +17,7 @@ import { receiveRecipe, removeReceivedRecipe } from "./sync_store";
 import { Recipe } from "./types";
 import { addRecipe } from "./recipes";
 import { resetLocalStore, RootState } from "./store";
-import { peer, targetPeer, waitForData, sendData } from "./sync";
+import { peer, targetPeer, addPeer, waitForData, sendData } from "./sync";
 import { createAction } from "@reduxjs/toolkit";
 
 peer.on("error", (err) => {
@@ -100,8 +100,7 @@ export function Sync({ recipes }: SyncProps) {
   }
 
   const scanUrl = new URL(window.location.toString());
-  scanUrl.searchParams.set("targetPeer", selfId || "");
-
+  addPeer(scanUrl, selfId);
   const tag = selfId ? getCode(selfId, scanUrl) : "";
 
   return (
