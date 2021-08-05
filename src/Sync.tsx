@@ -122,8 +122,12 @@ export function Sync({ recipes }: SyncProps) {
         <img src={tag} />
       </a>
       {false && <Button onClick={resetLocalStore}>Delete everything</Button>}
-      <Typography variant="h3">Synced Recipes</Typography>
-      <RecipeAdder recipes={syncStore.recipes || []} />
+      {syncStore.recipes && syncStore.recipes.length > 0 && (
+        <>
+          <Typography variant="h3">Recipes</Typography>
+          <RecipeAdder recipes={syncStore.recipes} />
+        </>
+      )}
     </div>
   );
 }
