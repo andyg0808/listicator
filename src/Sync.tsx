@@ -67,7 +67,7 @@ export function Sync({ recipes }: SyncProps) {
   React.useEffect(() => {
     console.log("trying to activate remote");
     const targetId = targetPeer();
-    if (targetId === null) {
+    if (!targetId) {
       console.log("no target, not activating");
       return;
     }
