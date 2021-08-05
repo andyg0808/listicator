@@ -100,14 +100,15 @@ export function Sync({ recipes }: SyncProps) {
   }
 
   const scanUrl = new URL(window.location.toString());
-  scanUrl.searchParams.set("targetPeer", syncStore.peerid || "");
+  scanUrl.searchParams.set("targetPeer", selfId || "");
+
   function getCode(peerid: string): string {
     const code = qrcode(0, "M");
     code.addData(scanUrl.toString());
     code.make();
     return code.createDataURL();
   }
-  const tag = syncStore.peerid ? getCode(syncStore.peerid) : "";
+  const tag = selfId ? getCode(selfId) : "";
 
   return (
     <div>
