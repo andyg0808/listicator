@@ -27,6 +27,7 @@ peer.on("error", (err) => {
 
 const pingAction = createAction<string>("ping");
 const recipeAction = createAction<Recipe[]>("recipe");
+const fetchAction = createAction<undefined>("fetch");
 
 export interface SyncProps {
   recipes: Recipe[];
@@ -51,6 +52,13 @@ export function Sync({ recipes }: SyncProps) {
         data.payload.forEach((recipe: Recipe) => {
           dispatch(receiveRecipe(recipe));
         });
+      } else if (fetchAction.match(data)) {
+        if (targetId) {
+          console.log("sending recipes to peer");
+          triggerSend();
+        } else {
+          console.log("no known target; not sending recipes");
+        }
       } else {
         console.error("unknown action", data);
       }
@@ -87,6 +95,15 @@ export function Sync({ recipes }: SyncProps) {
     sendData(targetId, recipeAction(recipes));
   }
 
+  function triggerFetch() {
+    console.log("triggering fetch");
+    if (targetId === null) {
+      console.log("no target id; can't send");
+      return;
+    }
+    sendData(targetId, fetchAction());
+  }
+
   const scanUrl = new URL(window.location.toString());
   scanUrl.searchParams.set("targetPeer", syncStore.peerid || "");
   function getCode(peerid: string): string {
@@ -108,6 +125,7 @@ export function Sync({ recipes }: SyncProps) {
       <div>Peer id {selfId}</div>
       <p>{num}</p>
       <Button onClick={triggerSend}>Send</Button>
+      <Button onClick={triggerFetch}>Fetch</Button>
       <a href={scanUrl.toString()} target="_blank">
         <img src={tag} />
       </a>
