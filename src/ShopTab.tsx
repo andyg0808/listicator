@@ -10,10 +10,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./store";
 import { useSortedTrip } from "./trip";
 import { getDescription, ShoppingList, TotalOrder } from "./types";
+import { setPurchased } from "./purchased";
 
 export function ShopTab() {
   const sortedTrip = useSortedTrip();
@@ -63,8 +64,11 @@ export function ShopTab() {
 }
 
 function ShoppingListItem({ order }: { order: TotalOrder }) {
-  const [checked, setChecked] = React.useState(false);
-  const toggle = (evt: any) => setChecked((c) => !c);
+  const dispatch = useDispatch();
+  const purchased = useSelector((store: RootState) => store.purchased);
+  const name = order.ingredient.name;
+  const checked = purchased[name] || false;
+  const toggle = (evt: any) => dispatch(setPurchased(name));
   return (
     <ListItem>
       <ListItemIcon>

@@ -5,15 +5,6 @@ __metadata:
   version: 4
   cacheKey: 8
 
-"@4tw/cypress-drag-drop@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@4tw/cypress-drag-drop@npm:1.6.0"
-  peerDependencies:
-    cypress: ^2.1.0 || ^3.1.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
-  checksum: 77d7ae33d7c5202aa46ab9424ffaeaef81493e82d99ab4c4b026da382a7435a6c08b49d104f8cfa6caa2014213f85e1172f9c75015dab6b75dbf7461989df91b
-  languageName: node
-  linkType: hard
-
 "@babel/code-frame@npm:7.10.4":
   version: 7.10.4
   resolution: "@babel/code-frame@npm:7.10.4"
@@ -10745,7 +10736,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "listicator@workspace:."
   dependencies:
-    "@4tw/cypress-drag-drop": ^1.6.0
     "@babel/preset-typescript": ^7.14.5
     "@emotion/react": ^11.4.0
     "@emotion/styled": ^11.3.0
@@ -10789,6 +10779,7 @@ __metadata:
     prosemirror-state: ^1.3.4
     prosemirror-transform: ^1.3.2
     prosemirror-view: ^1.18.10
+    qrcode-generator: ^1.4.4
     ramda: ^0.27.1
     react: ^17.0.2
     react-beautiful-dnd: ^13.1.0
@@ -13637,16 +13628,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-model@npm:^1.0.0, prosemirror-model@npm:^1.1.0, prosemirror-model@npm:^1.2.0":
-  version: 1.14.0
-  resolution: "prosemirror-model@npm:1.14.0"
-  dependencies:
-    orderedmap: ^1.1.0
-  checksum: a81085a94b68ec8b40c5731c368c40a75572153efed0ce2b3ceb7d7b2151e60e65a107621e02e9469efbb974943eddf982e46f72cd9fe9c7d95101cd457dda86
-  languageName: node
-  linkType: hard
-
-"prosemirror-model@npm:^1.14.2":
+"prosemirror-model@npm:1.14.2":
   version: 1.14.2
   resolution: "prosemirror-model@npm:1.14.2"
   dependencies:
@@ -13795,6 +13777,13 @@ __metadata:
   version: 1.5.1
   resolution: "q@npm:1.5.1"
   checksum: 147baa93c805bc1200ed698bdf9c72e9e42c05f96d007e33a558b5fdfd63e5ea130e99313f28efc1783e90e6bdb4e48b67a36fcc026b7b09202437ae88a1fb12
+  languageName: node
+  linkType: hard
+
+"qrcode-generator@npm:^1.4.4":
+  version: 1.4.4
+  resolution: "qrcode-generator@npm:1.4.4"
+  checksum: 860cfdd2a7a608d34e92cab99774cc08182e1911432f30ed36d16f8a5cdabd7fdf40239caed91fa2691cfe66c8d95c1340a2fc9cc439eed07a9f2eb328c6f527
   languageName: node
   linkType: hard
 

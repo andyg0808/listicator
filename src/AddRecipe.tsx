@@ -14,20 +14,18 @@ interface RecipeEditorProps {
 }
 
 export function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
-  const text = unparse(recipe.ingredients);
-  const [blob, setBlob] = React.useState({
-    title: recipe.title,
-    ingredients: recipe.ingredients,
-  });
+  const [title, setTitle] = React.useState(recipe.title);
+  const [ingredients, setIngredients] = React.useState(recipe.ingredients);
   return (
     <Paper css={{ padding: "0 3vw" }}>
       <Editor
-        onUpdate={setBlob}
-        defaultText={text}
-        defaultTitle={recipe.title}
+        setTitle={setTitle}
+        setIngredients={setIngredients}
+        ingredients={ingredients}
+        title={title}
       />
       <Button onClick={() => onCancel()}>Cancel</Button>
-      <Button color="primary" onClick={() => onSave(blob)}>
+      <Button color="primary" onClick={() => onSave({ title, ingredients })}>
         Save
       </Button>
     </Paper>

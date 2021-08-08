@@ -15,8 +15,8 @@ docker-build:
 
 
 .PHONY: docker-serve
-docker-serve: docker-build
-	docker run --rm -p 127.0.0.1:8008:80 listicator
+docker-serve:
+	docker run --rm -p 127.0.0.1:3000:80 listicator
 
 .PHONY: docker-deploy
 docker-deploy:
@@ -32,19 +32,20 @@ docker-final:
 
 .PHONY: upload
 upload: build
+	git tag work-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
 	aws s3 sync build s3://listicator.work/
 
 .PHONY: final
 final: build
 	echo "Waiting before upload…"
 	sleep 5
+	git tag com-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
 	aws s3 sync build s3://listicator.com/
 
 .PHONY: build
 build:
 	git diff --quiet
 	yarn build
-	git tag deploy-`date --iso-8601=seconds`
 
 .PHONY: last-deploy
 last-deploy:

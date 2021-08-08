@@ -18,13 +18,15 @@ import Tab from "@material-ui/core/Tab";
 import { RootState, recipeSelector } from "./store";
 import { styled } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
 
 import { ListBuilder } from "./ListBuilder";
 import { setStores } from "./store_list";
-
+import { newList } from "./new_list";
 import { BuildTab } from "./BuildTab";
 import { ShopTab } from "./ShopTab";
 import { Sync } from "./Sync";
+import { targetPeer } from "./sync";
 
 const ColoredLogo = styled(Logo)(({ theme }) => {
   return {
@@ -39,7 +41,9 @@ const ColoredLogo = styled(Logo)(({ theme }) => {
 });
 
 function App() {
-  const [sync, setSync] = React.useState(false);
+  const [sync, setSync] = React.useState(
+    process.env.REACT_APP_USE_SYNC === "true" || targetPeer() !== null
+  );
   const dispatch = useDispatch();
 
   const stores = useSelector((store: RootState) => store.storeList);
@@ -61,6 +65,16 @@ function App() {
             <Tab label="Build" />
             <Tab label="Shop" />
           </Tabs>
+          <Tooltip title="Clear checkmarks">
+            <IconButton
+              data-test="Clear checkmarks"
+              edge="end"
+              onClick={() => dispatch(newList())}
+              color="secondary"
+            >
+              <RemoveShoppingCartIcon />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Configure Stores">
             <IconButton
               data-test="Configure Stores"

@@ -6,7 +6,7 @@ import Fraction from "fraction.js";
 
 type IngredientParse = [DatabaseNumber, null | string, string];
 
-export function parse(data: string): Array<Order> {
+export function parse(data: string): Array<Order> | null {
   const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
   parser.feed(data);
   if (parser.results.length > 1) {
@@ -14,34 +14,32 @@ export function parse(data: string): Array<Order> {
   }
   const results = parser.results[0];
   if (!results || results.length == 0) {
-    return [];
+    return null;
   }
 
   const ingredients = results[0]
     .filter((i: any) => i !== null)
-    .map(
-      (ingredient_parse: IngredientParse): Order => {
-        const name = ingredient_parse[2];
-        const ingredient = { name };
-        const quantity = ingredient_parse[0];
-        const unit = ingredient_parse[1];
-        const amount = { quantity, unit };
-        return {
-          ingredient,
-          amount,
-        };
-      }
-    );
+    .map((ingredient_parse: IngredientParse): Order => {
+      const name = ingredient_parse[2];
+      const ingredient = { name };
+      const quantity = ingredient_parse[0];
+      const unit = ingredient_parse[1];
+      const amount = { quantity, unit };
+      return {
+        ingredient,
+        amount,
+      };
+    });
   return ingredients;
 }
 
-export function safeParse(text: string): Order[] {
+export function safeParse(text: string): Order[] | null {
   try {
     return parse(text.trim());
   } catch (e) {
     const lines = text.trim().split(/\n/);
     const line = e.token?.line || 0;
-    return [];
+    return null;
   }
 }
 
@@ -79,7 +77,7 @@ export function unparse(data: Order[]): string {
       const { quantity, unit } = amount;
       const check = (render: string) => {
         try {
-          return R.equals(parse(render)[0], order);
+          return R.equals(parse(render)?.[0], order);
         } catch (e) {
           return false;
         }
@@ -89,9 +87,10 @@ export function unparse(data: Order[]): string {
       const unitStr = unit === null ? "" : unit;
       const ingredientStr = ingredient.name;
 
-      let render = (unit
-        ? `${quantityStr} ${unitStr} ${ingredientStr}`
-        : `${quantityStr} ${ingredientStr}`
+      let render = (
+        unit
+          ? `${quantityStr} ${unitStr} ${ingredientStr}`
+          : `${quantityStr} ${ingredientStr}`
       ).trim();
       if (check(render)) {
         return render;

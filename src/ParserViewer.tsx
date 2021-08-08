@@ -23,7 +23,7 @@ export default function ParserViewer() {
   const [saved, setSaved] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   // console.log("Parsing");
-  const ingredients = safeParse(text);
+  const ingredients = safeParse(text) || [];
   // console.log("done");
 
   function reset() {
@@ -81,7 +81,7 @@ export default function ParserViewer() {
     );
     setText(text);
     setTitle(title);
-    const ingredients = safeParse(text);
+    const ingredients = safeParse(text) || [];
     const recipe = {
       ingredients,
       title,

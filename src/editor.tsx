@@ -19,6 +19,7 @@ import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
 import { Order, Recipe, DisplayNumber, databaseNumberToString } from "./types";
 import { Prosemirror } from "./Prosemirror";
+import { unparse } from "./parser";
 
 export function Viewer({ ingredients }: { ingredients: Order[] }) {
   return (
@@ -50,52 +51,37 @@ const EditField = styled(Prosemirror)`
 `;
 
 export interface EditorInterface {
-  onUpdate: (recipe: Recipe) => void;
-  defaultTitle: string;
-  defaultText: string;
-}
-
-interface Blob {
+  setTitle: (title: string) => void;
+  setIngredients: (ingredients: Array<Order>) => void;
   title: string;
-  text: string;
+  ingredients: Order[];
 }
 
 export function Editor({
-  onUpdate,
-  defaultTitle,
-  defaultText,
+  setTitle,
+  setIngredients,
+  title,
+  ingredients,
 }: EditorInterface) {
-  const [blob, setBlob] = React.useState<Blob>({
-    title: defaultTitle,
-    text: defaultText,
-  });
-
-  const ingredients = safeParse(blob.text);
-
-  function titleUpdate(title: string): void {
-    setBlob((blob) => {
-      onUpdate({ title: blob.title, ingredients: safeParse(blob.text) });
-      return R.assoc("title", title, blob);
-    });
-  }
+  const text = unparse(ingredients);
 
   function textUpdate(text: string): void {
-    setBlob((blob) => {
-      onUpdate({ title: blob.title, ingredients: safeParse(text) });
-      return R.assoc("text", text, blob);
-    });
+    const parse = safeParse(text);
+    if (parse) {
+      setIngredients(parse);
+    }
   }
 
   return (
     <Box display="flex" flexDirection="column">
       <TextField
         data-test="Title"
-        onChange={(e: any) => titleUpdate(e.target.value)}
-        onBlur={(e: any) => titleUpdate(e.target.value)}
+        onChange={(e: any) => setTitle(e.target.value)}
+        onBlur={(e: any) => setTitle(e.target.value)}
         label="Title"
-        value={blob.title}
+        value={title}
       />
-      <EditField onChange={textUpdate} value={defaultText} />
+      <EditField onChange={textUpdate} value={text} />
       <Viewer ingredients={ingredients} />
     </Box>
   );

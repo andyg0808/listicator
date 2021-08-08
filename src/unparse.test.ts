@@ -26,7 +26,8 @@ expect.extend({
           this.utils.matcherHint("toParseAs", undefined, undefined, options) +
           "\n\n" +
           `Expected: not ${this.utils.printExpected(expected)}\n` +
-          `Received: ${this.utils.printReceived(parsed)}`,
+          `Passed: ${this.utils.printReceived(text)}\n` +
+          `Parsed as: ${this.utils.printReceived(parsed)}`,
         pass,
       };
     } else {
@@ -40,7 +41,8 @@ expect.extend({
           (diffString && diffString.includes("- Expect")
             ? `Difference:\n\n${diffString}\n\nUnparse:\n'${text}'`
             : `Expected: ${this.utils.printExpected(expected)}\n` +
-              `Received: ${this.utils.printReceived(parsed)}`),
+              `Passed: ${this.utils.printReceived(text)}\n` +
+              `Parsed as: ${this.utils.printReceived(parsed)}`),
         pass,
       };
     }
@@ -52,7 +54,9 @@ describe("unparse", () => {
     fc.assert(
       fc.property(fc.array(fc_order), (orders) => {
         const expected = orders.map(normalizeOrder);
-        expect(unparse(orders)).toParseAs(expected);
+        expect(unparse(orders)).toParseAs(
+          expected.length === 0 ? null : expected
+        );
       })
     );
   });
