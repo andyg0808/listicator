@@ -8,19 +8,18 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 
 import * as R from "ramda";
 
-interface ListBuilderProps {
+interface ConversionBuilderProps {
   onChange: (list: string[]) => void;
   items: string[];
 }
 
-export function ListBuilder({ onChange, items }: ListBuilderProps) {
+export function ConversionBuilder({ onChange, items }: ConversionBuilderProps) {
   const [editing, setEditing] = React.useState("");
   const addItem = () => {
     setEditing("");
@@ -31,7 +30,7 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
       {items.map((item) => {
         const dropItem = () => onChange(items.filter((i) => i !== item));
         return (
-          <ListItem key={item}>
+          <ListItem>
             <ListItemText>{item}</ListItemText>
             <ListItemSecondaryAction>
               <IconButton onClick={dropItem} edge="end" aria-label="delete">
@@ -50,7 +49,6 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
             }}
           >
             <TextField
-              data-test="New Store"
               label="New store"
               value={editing}
               onChange={(e: any) => setEditing(e.target.value)}
@@ -58,16 +56,9 @@ export function ListBuilder({ onChange, items }: ListBuilderProps) {
           </form>
         </ListItemText>
         <ListItemSecondaryAction>
-          <Tooltip title="Add store">
-            <IconButton
-              data-test="Add store"
-              edge="end"
-              aria-label="Add store"
-              onClick={addItem}
-            >
-              <AddIcon />
-            </IconButton>
-          </Tooltip>
+          <IconButton edge="end" aria-label="delete" onClick={addItem}>
+            <AddIcon />
+          </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
     </List>

@@ -20,10 +20,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-      "downlevelIteration": true,
-      "types": [
-          "cypress"
-      ]
+    "downlevelIteration": true
   },
   "include": [
     "src"
