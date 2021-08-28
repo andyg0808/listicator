@@ -99,7 +99,7 @@
   "scripts": {
     "start": "REACT_APP_USE_SYNC=true node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "jest --all && playwright test integration",
+    "test": "jest --all src && playwright test integration",
     "compile": "nearleyc src/grammar.ne -o src/grammar.ts"
   },
   "browserslist": {
