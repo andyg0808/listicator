@@ -3,14 +3,6 @@ import { BuildTab } from "./BuildTab";
 import { ShopTab } from "./ShopTab";
 import { ingredients } from "./default_recipe";
 import sample from "lodash/sample";
-// import { markDefaultRecipe, ingredients } from "../support/default_recipe";
-// import { addStore } from "../support/stores";
-// import { clickShopTab, clickBuildTab } from "../support/navigation";
-// import {
-//   checkListItem,
-//   listItemShouldBeChecked,
-//   listItemShouldNotBeChecked,
-// } from "../support/lists";
 
 test.describe("Shopping list", () => {
   test.beforeEach(async ({ page }) => {
