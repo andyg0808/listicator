@@ -6,7 +6,7 @@ import { Order } from "./types";
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toParseAs(expected: Order[]): R;
+      toParseAs(expected: null | Order[]): R;
     }
   }
 }
