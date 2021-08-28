@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { AddRecipe } from "./AddRecipe";
+import { ShopTab } from "./ShopTab";
 
 export class BuildTab {
   private page: Page;
@@ -28,5 +29,20 @@ export class BuildTab {
     const addRecipe = '[title="Add Recipe"]';
     await this.page.click(addRecipe);
     return new AddRecipe(this.page);
+  }
+
+  async addStore(store: string): Promise<void> {
+    const configureStore = '[data-test^="Configure Stores"]';
+    const newStore = '[data-test="New Store"] input';
+    const addStore = '[data-test="Add store"]';
+    await this.page.click(configureStore);
+    await this.page.type(newStore, store);
+    await this.page.click(addStore);
+    await this.page.click(".MuiBackdrop-root");
+  }
+
+  async gotoShopTab(): Promise<ShopTab> {
+    await this.page.click("text=Shop");
+    return new ShopTab(this.page);
   }
 }
