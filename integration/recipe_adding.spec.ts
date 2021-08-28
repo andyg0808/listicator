@@ -15,8 +15,6 @@ test.describe("Add a recipe", () => {
     const addRecipe = await tab.addRecipe();
     await addRecipe.typeTitle("Come on and ketch up!");
     await addRecipe.typeText("1/2 gallon ketchup");
-    // cy.get(recipeTitle).type("Come on and ketch up!");
-    // cy.get(recipeText).type();
 
     const ketchup = addRecipe.viewerLine("ketchup");
     await expect(ketchup.locator("text=1/2")).toBeVisible();
@@ -41,5 +39,5 @@ test.describe("Add a recipe", () => {
     await expect(ketchup.locator("text=gallon")).toBeVisible();
   });
 
-  test("should offer similar ingredients to switch to", () => {});
+  //test("should offer similar ingredients to switch to", () => {});
 });
