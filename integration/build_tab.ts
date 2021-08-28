@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import { AddRecipe } from "./add_recipe";
 
 export class BuildTab {
   private page: Page;
@@ -23,8 +24,9 @@ export class BuildTab {
     await line.type(String(count));
   }
 
-  async addRecipe(): Promise<void> {
+  async addRecipe(): Promise<AddRecipe> {
     const addRecipe = '[title="Add Recipe"]';
     await this.page.click(addRecipe);
+    return new AddRecipe(this.page);
   }
 }
