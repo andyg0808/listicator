@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { ingredients, defaultRecipe } from "./default_recipe";
-import { BuildTab } from "./build_tab";
+import { BuildTab } from "./BuildTab";
 import { databaseNumberMult } from "../src/types";
 
 test.beforeEach(async ({ page }) => {

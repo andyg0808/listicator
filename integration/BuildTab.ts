@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { AddRecipe } from "./add_recipe";
+import { AddRecipe } from "./AddRecipe";
 
 export class BuildTab {
   private page: Page;
