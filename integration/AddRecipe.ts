@@ -7,12 +7,12 @@ export class AddRecipe {
   }
 
   async typeTitle(text: string) {
-    const recipeTitle = '[data-test="Title"]';
+    const recipeTitle = 'css=[data-test="Title"] input';
     await this.page.type(recipeTitle, text);
   }
 
   async typeText(text: string) {
-    const recipeText = '[data-test="Editor"]';
+    const recipeText = '[data-test="Editor"] div.ProseMirror';
     await this.page.type(recipeText, text);
   }
 
@@ -23,6 +23,6 @@ export class AddRecipe {
   }
 
   async save(): Promise<void> {
-    await this.page.click("Save");
+    await this.page.click("text=Save");
   }
 }
