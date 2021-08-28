@@ -7,7 +7,7 @@ help:
 
 .PHONY: test
 test:
-	yarn run cypress run
+	yarn test
 
 .PHONY: docker-build
 docker-build:
