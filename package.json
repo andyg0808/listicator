@@ -44,7 +44,7 @@
     "fs-extra": "^9.0.1",
     "html-webpack-plugin": "4.5.0",
     "identity-obj-proxy": "3.0.0",
-    "jest": "26.6.0",
+    "jest": "^27.1.0",
     "jest-circus": "26.6.0",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
@@ -99,7 +99,7 @@
   "scripts": {
     "start": "REACT_APP_USE_SYNC=true node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js && playwright test integration",
+    "test": "jest --all && playwright test integration",
     "compile": "nearleyc src/grammar.ne -o src/grammar.ts"
   },
   "browserslist": {
@@ -143,8 +143,8 @@
     "playwright": "^1.14.1",
     "prettier": "^2.3.2",
     "react-refresh": "^0.10.0",
-    "ts-jest": "^27.0.3",
-    "ts-node": "^10.1.0"
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1"
   },
   "resolutions": {
     "prosemirror-model": "1.14.2"
