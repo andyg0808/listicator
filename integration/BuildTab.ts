@@ -32,12 +32,18 @@ export class BuildTab {
   }
 
   async addStore(store: string): Promise<void> {
+    await this.addStores([store]);
+  }
+
+  async addStores(stores: Array<string>): Promise<void> {
     const configureStore = '[data-test^="Configure Stores"]';
     const newStore = '[data-test="New Store"] input';
     const addStore = '[data-test="Add store"]';
     await this.page.click(configureStore);
-    await this.page.type(newStore, store);
-    await this.page.click(addStore);
+    for (const store of stores) {
+      await this.page.type(newStore, store);
+      await this.page.click(addStore);
+    }
     await this.page.click(".MuiBackdrop-root");
   }
 
