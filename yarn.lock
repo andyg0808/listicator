@@ -3395,6 +3395,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.14.172":
+  version: 4.14.172
+  resolution: "@types/lodash@npm:4.14.172"
+  checksum: 5fc51ea40d7e455bd1c760bcc60c9e81f82d85988666d4d4969bd8311367c63bbf1fe2be48755ba87836710e45fff94014ec164ebe6ccaa72815014981152434
+  languageName: node
+  linkType: hard
+
 "@types/minimatch@npm:*":
   version: 3.0.4
   resolution: "@types/minimatch@npm:3.0.4"
@@ -11036,6 +11043,7 @@ __metadata:
     "@testing-library/react": ^12.0.0
     "@testing-library/user-event": ^13.1.9
     "@types/jest": ^26.0.24
+    "@types/lodash": ^4.14.172
     "@types/moo": ^0.5.5
     "@types/nearley": ^2.11.2
     "@types/node": ^16.3.2
