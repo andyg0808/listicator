@@ -110,8 +110,11 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
     });
     // We only need to start the EditorView; outputting the results
     // happens via plugin.
-    new EditorView(ref.current, { state });
-  }, []);
+    const view = new EditorView(ref.current, { state });
+    return () => {
+      view.destroy();
+    };
+  }, [value]);
 
   return (
     <ProsemirrorContainer className={className} data-test="Editor" ref={ref} />

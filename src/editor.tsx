@@ -1,11 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import Table from "@material-ui/core/Table";
 import Container from "@material-ui/core/Container";
-import TableBody from "@material-ui/core/TableBody";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
@@ -17,34 +12,10 @@ import { useDispatch } from "react-redux";
 
 import { addRecipe } from "./recipes";
 import { safeParse } from "./parser";
-import { Order, Recipe, DisplayNumber, databaseNumberToString } from "./types";
+import { Order, Recipe, DisplayNumber } from "./types";
 import { Prosemirror } from "./Prosemirror";
 import { unparse } from "./parser";
-
-export function Viewer({ ingredients }: { ingredients: Order[] }) {
-  return (
-    <Table data-test="Viewer">
-      <TableHead>
-        <TableRow>
-          <TableCell>Amount</TableCell>
-          <TableCell>Unit</TableCell>
-          <TableCell>Ingredient</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {ingredients.map((order: Order, i: number) => (
-          <TableRow key={order.ingredient.name + i}>
-            <TableCell>
-              {databaseNumberToString(order.amount.quantity)}
-            </TableCell>
-            <TableCell>{order.amount.unit}</TableCell>
-            <TableCell>{order.ingredient.name}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-}
+import { Viewer } from "./Viewer";
 
 const EditField = styled(Prosemirror)`
   min-height: 50vh;
@@ -63,13 +34,29 @@ export function Editor({
   title,
   ingredients,
 }: EditorInterface) {
-  const text = unparse(ingredients);
+  const [text, setText] = React.useState(unparse(ingredients));
 
   function textUpdate(text: string): void {
     const parse = safeParse(text);
     if (parse) {
       setIngredients(parse);
     }
+  }
+
+  function ingredientUpdate(current: Order, updated: string) {
+    const updatedIngredients = ingredients.map((order) => {
+      if (current !== order) {
+        return order;
+      }
+      return {
+        ...current,
+        ingredient: {
+          name: updated,
+        },
+      };
+    });
+    setText(unparse(updatedIngredients));
+    setIngredients(updatedIngredients);
   }
 
   return (
@@ -82,7 +69,7 @@ export function Editor({
         value={title}
       />
       <EditField onChange={textUpdate} value={text} />
-      <Viewer ingredients={ingredients} />
+      <Viewer onUpdate={ingredientUpdate} ingredients={ingredients} />
     </Box>
   );
 }
