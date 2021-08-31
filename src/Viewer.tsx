@@ -4,9 +4,11 @@ import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import { Order, databaseNumberToString } from "./types";
+import { Order, databaseNumberToString, Recipe } from "./types";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
 
 interface ViewerProps {
   ingredients: Order[];
@@ -48,7 +50,9 @@ interface IngredientChooserProps {
 }
 
 function IngredientChooser({ current, setIngredient }: IngredientChooserProps) {
-  const options = [current, "bread"];
+  const recipes = useSelector((store: RootState) => store.recipes.present);
+  const orders = recipes.flatMap((recipe: Recipe) => recipe.ingredients);
+  const options = orders.map((order: Order) => order.ingredient.name);
   return (
     <Select
       onChange={(e) => setIngredient(String(e.target.value))}
