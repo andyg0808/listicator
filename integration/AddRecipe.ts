@@ -2,6 +2,9 @@ import { Page, Locator } from "@playwright/test";
 
 export class AddRecipe {
   private page: Page;
+
+  public readonly recipeText = '[data-test="Editor"] div.ProseMirror';
+
   constructor(page: Page) {
     this.page = page;
   }
@@ -12,8 +15,7 @@ export class AddRecipe {
   }
 
   async typeText(text: string) {
-    const recipeText = '[data-test="Editor"] div.ProseMirror';
-    await this.page.type(recipeText, text);
+    await this.page.type(this.recipeText, text);
   }
 
   viewerLine(lineText: string): Locator {

@@ -39,5 +39,18 @@ test.describe("Add a recipe", () => {
     await expect(ketchup.locator("text=gallon")).toBeVisible();
   });
 
-  //test("should offer similar ingredients to switch to", () => {});
+  test("should offer similar ingredients to switch to", async ({ page }) => {
+    const tab = new BuildTab(page);
+    const addRecipe = await tab.addRecipe();
+    await addRecipe.typeText("1 can organic tomato paste");
+    const tomatoPaste = addRecipe.viewerLine("tomato paste");
+    await tomatoPaste.click();
+    await page.click('text="tomato paste"');
+    await expect(page.locator(addRecipe.recipeText)).toContainText(
+      "1 can tomato paste"
+    );
+    await expect(
+      addRecipe.viewerLine("tomato paste").locator('text="tomato paste"')
+    ).toBeVisible();
+  });
 });
