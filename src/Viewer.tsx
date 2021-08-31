@@ -9,6 +9,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
+import Fuse from "fuse.js";
 
 interface ViewerProps {
   ingredients: Order[];
@@ -52,13 +53,26 @@ interface IngredientChooserProps {
 function IngredientChooser({ current, setIngredient }: IngredientChooserProps) {
   const recipes = useSelector((store: RootState) => store.recipes.present);
   const orders = recipes.flatMap((recipe: Recipe) => recipe.ingredients);
-  const options = orders.map((order: Order) => order.ingredient.name);
+  const fuse = new Fuse(orders, {
+    keys: ["ingredient.name"],
+  });
+
+  const results = fuse.search(current);
+  const searchResults = new Set(
+    results.map((result: { item: Order }) => result.item.ingredient.name)
+  );
+  searchResults.add(current);
+  const options = [...searchResults];
+
+  if (options.length === 1) {
+    return <>{current}</>;
+  }
   return (
     <Select
       onChange={(e) => setIngredient(String(e.target.value))}
       value={current}
     >
-      {options.map((option) => (
+      {options.map((option: string) => (
         <MenuItem value={option}>{option}</MenuItem>
       ))}
     </Select>
