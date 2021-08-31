@@ -1,0 +1,3 @@
+#!/bin/zsh
+set -xeuo pipefail
+git ls-files | entr -cr test.sh yarn playwright test ${@:-integration}
