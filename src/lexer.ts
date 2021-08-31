@@ -32,6 +32,7 @@ const regexMapping = [
   ["tins?\\b", "tin"],
   ["jar", "jar"],
   ["chunk", "chunk"],
+  ["shakes?", "shake"],
 ];
 
 export const unitsRegex = new RegExp(
