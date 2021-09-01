@@ -25,6 +25,7 @@ import { setStores } from "./store_list";
 import { newList } from "./new_list";
 import { BuildTab } from "./BuildTab";
 import { ShopTab } from "./ShopTab";
+import { ConversionTab } from "./ConversionTab";
 import { Sync } from "./Sync";
 import { targetPeer } from "./sync";
 
@@ -64,6 +65,7 @@ function App() {
           >
             <Tab label="Build" />
             <Tab label="Shop" />
+            <Tab label="Conversion" />
           </Tabs>
           <Tooltip title="Clear checkmarks">
             <IconButton
@@ -98,11 +100,14 @@ function App() {
         />
       </Drawer>
       <Container>
-        {currentTab == 0 && (
-          <BuildTab startEdit={() => setShowStoreEditor(true)} />
+        {currentTab === 0 && (
+          <>
+            <BuildTab startEdit={() => setShowStoreEditor(true)} />
+            <SyncTools />
+          </>
         )}
-        {currentTab == 1 && <ShopTab />}
-        {sync && <SyncTools />}
+        {currentTab === 1 && <ShopTab />}
+        {currentTab === 2 && <ConversionTab />}
       </Container>
     </>
   );
