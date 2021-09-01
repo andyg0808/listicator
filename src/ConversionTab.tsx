@@ -21,24 +21,31 @@ interface Conversion {
   from: Unit;
   to: Unit;
   value: Fraction;
-  ingredient?: IngredientId;
 }
-type ConversionTable = Array<Conversion>;
 
-const ConversionTable: ConversionTable = [
+interface Density extends Conversion {
+  ingredient: IngredientId;
+}
+
+type ConversionTable = Array<Conversion | Density>;
+
+const ConversionTable: Array<Conversion> = [
   { from: "tablespoon", to: "teaspoon", value: new Fraction(3) },
   { from: "cup", to: "tablespoon", value: new Fraction(4 * 4) },
   { from: "tablespoon", to: "fluid ounce", value: new Fraction(1, 2) },
+  {
+    from: "fluid ounce",
+    to: "milliliter",
+    value: new Fraction(30),
+  },
+];
+
+const DensityTable: Array<Density> = [
   {
     from: "teaspoon",
     to: "gram",
     value: new Fraction(4),
     ingredient: "granulated sugar",
-  },
-  {
-    from: "fluid ounce",
-    to: "milliliter",
-    value: new Fraction(30),
   },
   {
     from: "cup",
@@ -92,9 +99,16 @@ function convertOrder(order: Order, target: Unit): Order {
     return order;
   }
 
+  const conversionTable = ConversionTable.concat(DensityTable);
+
   const quantity = databaseNumberMult(
     order.amount.quantity,
-    shortestPath(order.amount.unit, target, order.ingredient.name)
+    shortestPath(
+      order.amount.unit,
+      target,
+      order.ingredient.name,
+      conversionTable
+    )
   );
 
   // We couldn't find a conversion; return the original units
@@ -126,15 +140,15 @@ function addInversions(conversionTable: ConversionTable): ConversionTable {
 function shortestPath(
   unit: string,
   target: string,
-  ingredient: IngredientId
+  ingredient: IngredientId,
+  conversionTable: ConversionTable
 ): Fraction | null {
   /** @param {Set<string>} seen A (mutable) set of conversions we've tried. */
   function _shortestPath(unit: string, seen: Set<string>): Fraction | null {
     seen.add(unit);
-    const found = addInversions(ConversionTable).filter(
-      (c: Conversion) =>
-        c.from === unit &&
-        (c.ingredient === undefined || c.ingredient === ingredient)
+    const found = addInversions(conversionTable).filter(
+      (c: Conversion | Density) =>
+        c.from === unit && (!("ingredient" in c) || c.ingredient === ingredient)
     );
     for (const conversion of found) {
       if (conversion.to === target) {
