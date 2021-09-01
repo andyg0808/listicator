@@ -243,7 +243,7 @@ export type PurchaseMap = Record<IngredientId, boolean>;
 export interface Conversion {
   from: Unit;
   to: Unit;
-  value: Fraction;
+  value: StoredFraction;
 }
 
 export interface Density extends Conversion {

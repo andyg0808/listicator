@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./store";
 import {
   Recipe,
@@ -12,12 +12,15 @@ import {
   IngredientId,
   Conversion,
   Density,
+  StoredFraction,
 } from "./types";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import TextField from "@material-ui/core/TextField";
 import Fraction from "fraction.js";
+import { setConversion, deleteConversion } from "./conversion_table";
 
 type ConversionTable = Array<Conversion | Density>;
 
@@ -39,12 +42,7 @@ export function ConversionTab() {
   const recipe = recipes.find((r) => r.title === recipeId);
   const target = "gram";
   const conversionTable = ConversionTable.concat(densities);
-  const converted = recipe && {
-    ...recipe,
-    ingredients: recipe.ingredients.map((order) =>
-      convertOrder(order, target, conversionTable)
-    ),
-  };
+  const dispatch = useDispatch();
   return (
     <div css={{ maxWidth: "500px", margin: "auto", paddingTop: "30px" }}>
       <FormControl css={{ width: "100%" }}>
@@ -58,18 +56,78 @@ export function ConversionTab() {
           ))}
         </Select>
       </FormControl>
-      {converted && (
+      {recipe && (
         <div>
-          <h2>{converted.title}</h2>
+          <h2>{recipe.title}</h2>
           <div>
-            {converted.ingredients.map((order: Order) => (
-              <div>
-                <div>{getDescription(totalOrderFromOrder(order))}</div>
-              </div>
-            ))}
+            {recipe.ingredients.map((order: Order) => {
+              const converted = convertOrder(order, target, conversionTable);
+              return (
+                <div>
+                  <div>{getDescription(totalOrderFromOrder(converted))}</div>
+                  <ConversionValue order={order} target={target} />
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+interface ConversionValueProps {
+  target: Unit;
+  order: Order;
+}
+
+function ConversionValue({ target, order }: ConversionValueProps) {
+  const recipes = useSelector((state: RootState) => state.recipes.present);
+  const densities = useSelector((state: RootState) => state.conversionTable);
+  const conversionTable = ConversionTable.concat(densities);
+  const dispatch = useDispatch();
+  const source = order.amount.unit;
+
+  const factor =
+    source === null
+      ? null
+      : shortestPath(source, target, order.ingredient.name, conversionTable);
+  const [value, setValue] = React.useState(factor || "");
+
+  if (source === null) {
+    return null;
+  }
+
+  function updateConversion(value: string) {
+    if (value === "") {
+      dispatch(
+        deleteConversion({
+          from: source || "",
+          to: target,
+          ingredient: order.ingredient.name,
+        })
+      );
+      return;
+    }
+
+    dispatch(
+      setConversion({
+        from: source || "",
+        to: target,
+        ingredient: order.ingredient.name,
+        value: new Fraction(value),
+      })
+    );
+  }
+  return (
+    <div>
+      Conversion: From {order.amount.unit} To {target}{" "}
+      <TextField
+        label="value"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={(e) => updateConversion(e.target.value)}
+      />
     </div>
   );
 }
@@ -114,7 +172,7 @@ function addInversions(conversionTable: ConversionTable): ConversionTable {
       return {
         from: c.to,
         to: c.from,
-        value: c.value.inverse(),
+        value: new Fraction(c.value).inverse() as StoredFraction,
       };
     })
     .concat(conversionTable);
@@ -135,16 +193,14 @@ function shortestPath(
     );
     for (const conversion of found) {
       if (conversion.to === target) {
-        console.log(conversion.to);
-        return conversion.value;
+        return new Fraction(conversion.value);
       }
       if (seen.has(conversion.to)) {
         continue;
       }
       const match = _shortestPath(conversion.to, seen);
       if (match !== null) {
-        console.log(conversion.to);
-        return conversion.value.mul(match);
+        return new Fraction(conversion.value).mul(match);
       }
     }
     // No match could be found. Give up.
