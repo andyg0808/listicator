@@ -10,22 +10,14 @@ import {
   Unit,
   databaseNumberMult,
   IngredientId,
+  Conversion,
+  Density,
 } from "./types";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Fraction from "fraction.js";
-
-interface Conversion {
-  from: Unit;
-  to: Unit;
-  value: Fraction;
-}
-
-interface Density extends Conversion {
-  ingredient: IngredientId;
-}
 
 type ConversionTable = Array<Conversion | Density>;
 

@@ -239,3 +239,14 @@ export type RecipeTitle = string;
 export type MenuSelectionMap = Record<RecipeTitle, boolean>;
 export type MenuQuantityMap = Record<RecipeTitle, number>;
 export type PurchaseMap = Record<IngredientId, boolean>;
+
+export interface Conversion {
+  from: Unit;
+  to: Unit;
+  value: Fraction;
+}
+
+export interface Density extends Conversion {
+  ingredient: IngredientId;
+}
+export type DensityTable = Array<Density>;
