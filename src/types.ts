@@ -79,6 +79,10 @@ export function getDescription(order: TotalOrder): string {
         return a.quantity.toFraction();
       }
       const unit = a.quantity.valueOf() > 1 ? a.unit + "s" : a.unit;
+      if (a.unit === "gram") {
+        // Special-case grams, since they're typically worked with in near-integer quantities
+        return `${a.quantity.round().toString(1)} ${unit}`;
+      }
       return `${a.quantity.toFraction()} ${unit}`;
     })
     .join(" & ");
