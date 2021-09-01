@@ -9,6 +9,7 @@ import {
   totalOrderFromOrder,
   Unit,
   databaseNumberMult,
+  IngredientId,
 } from "./types";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -20,19 +21,38 @@ interface Conversion {
   from: Unit;
   to: Unit;
   value: Fraction;
+  ingredient?: IngredientId;
 }
 type ConversionTable = Array<Conversion>;
 
 const ConversionTable: ConversionTable = [
   { from: "tablespoon", to: "teaspoon", value: new Fraction(3) },
   { from: "cup", to: "tablespoon", value: new Fraction(4 * 4) },
+  { from: "tablespoon", to: "fluid ounce", value: new Fraction(1, 2) },
+  {
+    from: "teaspoon",
+    to: "gram",
+    value: new Fraction(4),
+    ingredient: "granulated sugar",
+  },
+  {
+    from: "fluid ounce",
+    to: "milliliter",
+    value: new Fraction(30),
+  },
+  {
+    from: "cup",
+    to: "gram",
+    ingredient: "unsalted butter",
+    value: new Fraction(113, 0.5),
+  },
 ];
 
 export function ConversionTab() {
   const recipes = useSelector((state: RootState) => state.recipes.present);
   const [recipeId, setRecipe] = React.useState(recipes[0].title);
   const recipe = recipes.find((r) => r.title === recipeId);
-  const target = "teaspoon";
+  const target = "gram";
   const converted = recipe && {
     ...recipe,
     ingredients: recipe.ingredients.map((order) => convertOrder(order, target)),
@@ -74,7 +94,7 @@ function convertOrder(order: Order, target: Unit): Order {
 
   const quantity = databaseNumberMult(
     order.amount.quantity,
-    shortestPath(order.amount.unit, target)
+    shortestPath(order.amount.unit, target, order.ingredient.name)
   );
 
   // We couldn't find a conversion; return the original units
@@ -103,31 +123,35 @@ function addInversions(conversionTable: ConversionTable): ConversionTable {
     .concat(conversionTable);
 }
 
-function shortestPath(unit: string, target: string): Fraction | null {
-  /** @param {Set<string>} seen A set of  */
-  function _shortestPath(
-    unit: string,
-    target: string,
-    seen: Set<string>
-  ): Fraction | null {
+function shortestPath(
+  unit: string,
+  target: string,
+  ingredient: IngredientId
+): Fraction | null {
+  /** @param {Set<string>} seen A (mutable) set of conversions we've tried. */
+  function _shortestPath(unit: string, seen: Set<string>): Fraction | null {
     seen.add(unit);
     const found = addInversions(ConversionTable).filter(
-      (c: Conversion) => c.from === unit
+      (c: Conversion) =>
+        c.from === unit &&
+        (c.ingredient === undefined || c.ingredient === ingredient)
     );
     for (const conversion of found) {
       if (conversion.to === target) {
+        console.log(conversion.to);
         return conversion.value;
       }
       if (seen.has(conversion.to)) {
         continue;
       }
-      const match = _shortestPath(conversion.to, target, seen);
+      const match = _shortestPath(conversion.to, seen);
       if (match !== null) {
+        console.log(conversion.to);
         return conversion.value.mul(match);
       }
     }
     // No match could be found. Give up.
     return null;
   }
-  return _shortestPath(unit, target, new Set());
+  return _shortestPath(unit, new Set());
 }
