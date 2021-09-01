@@ -61,6 +61,13 @@ export interface TotalOrder {
   amount: Array<Amount<DisplayNumber>>;
 }
 
+export function totalOrderFromOrder(order: Order): TotalOrder {
+  return {
+    ...order,
+    amount: [databaseAmountToDisplayAmount(order.amount)],
+  };
+}
+
 export const getIngredientName = (o: TotalOrder) => o?.ingredient?.name;
 export function getDescription(order: TotalOrder): string {
   const amount = order.amount
