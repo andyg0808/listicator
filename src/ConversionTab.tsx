@@ -32,29 +32,18 @@ const ConversionTable: Array<Conversion> = [
   },
 ];
 
-const DensityTable: Array<Density> = [
-  {
-    from: "teaspoon",
-    to: "gram",
-    value: new Fraction(4),
-    ingredient: "granulated sugar",
-  },
-  {
-    from: "cup",
-    to: "gram",
-    ingredient: "unsalted butter",
-    value: new Fraction(113, 0.5),
-  },
-];
-
 export function ConversionTab() {
   const recipes = useSelector((state: RootState) => state.recipes.present);
+  const densities = useSelector((state: RootState) => state.conversionTable);
   const [recipeId, setRecipe] = React.useState(recipes[0].title);
   const recipe = recipes.find((r) => r.title === recipeId);
   const target = "gram";
+  const conversionTable = ConversionTable.concat(densities);
   const converted = recipe && {
     ...recipe,
-    ingredients: recipe.ingredients.map((order) => convertOrder(order, target)),
+    ingredients: recipe.ingredients.map((order) =>
+      convertOrder(order, target, conversionTable)
+    ),
   };
   return (
     <div css={{ maxWidth: "500px", margin: "auto", paddingTop: "30px" }}>
@@ -85,13 +74,15 @@ export function ConversionTab() {
   );
 }
 
-function convertOrder(order: Order, target: Unit): Order {
+function convertOrder(
+  order: Order,
+  target: Unit,
+  conversionTable: ConversionTable
+): Order {
   // No conversion possible if there aren't units
   if (order.amount.unit === null) {
     return order;
   }
-
-  const conversionTable = ConversionTable.concat(DensityTable);
 
   const quantity = databaseNumberMult(
     order.amount.quantity,
