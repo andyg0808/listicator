@@ -39,7 +39,7 @@ export interface Recipe {
 /**
  * A unit for an ingredient
  */
-export type Unit = String;
+export type Unit = string;
 
 /**
  * A single ingredient in some amount. The kind of entry you would
