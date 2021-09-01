@@ -3,6 +3,7 @@ import Fraction from "fraction.js";
 import { StoredFraction } from "./types";
 const fracMapping: Map<string, StoredFraction> = new Map([
   ["¼", { n: 1, d: 4 }],
+  ["¾", { n: 3, d: 4 }],
   ["½", { n: 1, d: 2 }],
   ["⅓", { n: 1, d: 3 }],
   ["⅔", { n: 2, d: 3 }],
