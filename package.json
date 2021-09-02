@@ -97,7 +97,8 @@
     "webpack-dev-server": "3.11.1",
     "webpack-manifest-plugin": "2.2.0",
     "winston": "^3.3.3",
-    "workbox-webpack-plugin": "5.1.4"
+    "workbox-webpack-plugin": "5.1.4",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "REACT_APP_USE_SYNC=true node scripts/start.js",
