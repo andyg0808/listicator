@@ -66,7 +66,7 @@ export function ConversionTab() {
             {recipe.ingredients.map((order: Order) => {
               const converted = convertOrder(order, target, conversionTable);
               return (
-                <div>
+                <div key={order.ingredient.name}>
                   <div>{getDescription(totalOrderFromOrder(converted))}</div>
                   <ConversionValue order={order} target={target} />
                 </div>
