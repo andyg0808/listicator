@@ -4738,6 +4738,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"array-find-index@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "array-find-index@npm:1.0.2"
+  checksum: aac128bf369e1ac6c06ff0bb330788371c0e256f71279fb92d745e26fb4b9db8920e485b4ec25e841c93146bf71a34dcdbcefa115e7e0f96927a214d237b7081
+  languageName: node
+  linkType: hard
+
 "array-flatten@npm:1.1.1":
   version: 1.1.1
   resolution: "array-flatten@npm:1.1.1"
@@ -11813,6 +11820,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"license-checker-webpack-plugin@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "license-checker-webpack-plugin@npm:0.2.1"
+  dependencies:
+    glob: ^7.1.6
+    lodash.template: ^4.5.0
+    minimatch: ^3.0.4
+    semver: ^6.3.0
+    spdx-expression-validate: ^2.0.0
+    spdx-satisfies: ^5.0.0
+    superstruct: ^0.10.12
+    webpack-sources: ^1.4.3
+    wrap-ansi: ^6.1.0
+  peerDependencies:
+    webpack: ^4.4.0 || ^5.4.0
+  checksum: abfeec6379f2cafd5b5df3a067c0baee4b8373fb2776c986d395d345decc134c6a9c04f25bdf33ca29643e4000b28fd45a16733501b402b7a7814b8031450989
+  languageName: node
+  linkType: hard
+
 "lines-and-columns@npm:^1.1.6":
   version: 1.1.6
   resolution: "lines-and-columns@npm:1.1.6"
@@ -11892,6 +11918,7 @@ __metadata:
     jest-circus: 26.6.0
     jest-resolve: 26.6.0
     jest-watch-typeahead: 0.6.1
+    license-checker-webpack-plugin: ^0.2.1
     lodash: ^4.17.21
     mini-css-extract-plugin: 0.11.3
     moo: ^0.5.1
@@ -16547,6 +16574,17 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"spdx-compare@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "spdx-compare@npm:1.0.0"
+  dependencies:
+    array-find-index: ^1.0.2
+    spdx-expression-parse: ^3.0.0
+    spdx-ranges: ^2.0.0
+  checksum: 7d8b55b31163ba8e7abeaf69d8d7accba5aee324dd55e22a796a685ec4d5e3c3cbc2683b9a2edff5543ee6f6242f4ec22c15dc2e493eb807690fb65e1051e5eb
+  languageName: node
+  linkType: hard
+
 "spdx-correct@npm:^3.0.0":
   version: 3.1.1
   resolution: "spdx-correct@npm:3.1.1"
@@ -16574,10 +16612,37 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"spdx-expression-validate@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "spdx-expression-validate@npm:2.0.0"
+  dependencies:
+    spdx-expression-parse: ^3.0.0
+  checksum: c100f949afeb529b3b519a70b86d64c3c35be8bf1ef30db32e48936f0c52a0339b3c88c283c97c55f372ea3c347165c9360aae7905cd8f303b817cfef49032c1
+  languageName: node
+  linkType: hard
+
 "spdx-license-ids@npm:^3.0.0":
   version: 3.0.7
   resolution: "spdx-license-ids@npm:3.0.7"
   checksum: b52a88aebc19b4c69049349939e1948014c4d10f52a11870431fc1cc6551de411d19e4570f5f1df2d8b7089bec921df9017a3d5199ae2468b2b432171945278e
+  languageName: node
+  linkType: hard
+
+"spdx-ranges@npm:^2.0.0":
+  version: 2.1.1
+  resolution: "spdx-ranges@npm:2.1.1"
+  checksum: f807bd915aa2975bcebd9c4b4805661f248efcd4953ee62557626452fcd2933183f5b1a307d65507d8be6b9519b4e46dce05b61db0fbd5fce253b8f6d69bbbad
+  languageName: node
+  linkType: hard
+
+"spdx-satisfies@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "spdx-satisfies@npm:5.0.1"
+  dependencies:
+    spdx-compare: ^1.0.0
+    spdx-expression-parse: ^3.0.0
+    spdx-ranges: ^2.0.0
+  checksum: 7f28a6ac492afbfc4794602b5d43957451b7afdd42506dc52dbeeed875d9b5f5b94f8f3deab1da4e2815111f57f916d135c7bd24f40245be6dab5dda09d41e91
   languageName: node
   linkType: hard
 
@@ -17005,6 +17070,13 @@ resolve@^2.0.0-next.3:
   version: 4.0.10
   resolution: "stylis@npm:4.0.10"
   checksum: 0fecaf5c234ec3ffcb0afc21478742a815a21cb964365259789be9c1692e72e13d8c081c1150fd76ed2146633a3251cdecd6e0c120b158f44bd74c38f81cafb3
+  languageName: node
+  linkType: hard
+
+"superstruct@npm:^0.10.12":
+  version: 0.10.13
+  resolution: "superstruct@npm:0.10.13"
+  checksum: 449305f892a63e69abac2dddf07199774e249482a73b295745cebcb75b7e35572ca3404598828c03763c08dbd79d3d15a33ae3a600e9c9e148a6fe33521ce88f
   languageName: node
   linkType: hard
 
@@ -18725,7 +18797,7 @@ typescript@^4.3.5:
   languageName: node
   linkType: hard
 
-"wrap-ansi@npm:^6.2.0":
+"wrap-ansi@npm:^6.1.0, wrap-ansi@npm:^6.2.0":
   version: 6.2.0
   resolution: "wrap-ansi@npm:6.2.0"
   dependencies:
