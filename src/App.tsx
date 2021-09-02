@@ -109,6 +109,7 @@ function App() {
         {currentTab === 1 && <ShopTab />}
         {currentTab === 2 && <ConversionTab />}
       </Container>
+      <a href="./ThirdPartyNotices.txt">Credits</a>
     </>
   );
 }
