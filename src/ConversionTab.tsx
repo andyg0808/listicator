@@ -100,15 +100,9 @@ function ConversionValue({ target, order }: ConversionValueProps) {
     return null;
   }
 
-  function updateConversion(value: string) {
-    if (value === "") {
-      dispatch(
-        deleteConversion({
-          from: source || "",
-          to: target,
-          ingredient: order.ingredient.name,
-        })
-      );
+  function updateConversion(value: Fraction | null) {
+    if (value === null) {
+      dispatch(deleteConversion(order.ingredient.name));
       return;
     }
 
@@ -117,23 +111,26 @@ function ConversionValue({ target, order }: ConversionValueProps) {
         from: source || "",
         to: target,
         ingredient: order.ingredient.name,
-        value: new Fraction(value),
+        value,
       })
     );
   }
   return (
     <Formik
       initialValues={{ from: factor?.d || "", to: factor?.n || "" }}
-      onSubmit={(values) => {
-        console.log("submit handler", values);
-      }}
+      onSubmit={() => {}}
       validate={(values) => {
-        console.log("validator", values);
-        return {};
+        if (values.from === "" || values.to === "") {
+          updateConversion(null);
+        } else {
+          updateConversion(
+            new Fraction(Number(values.to), Number(values.from))
+          );
+        }
       }}
       validationSchema={yup
         .object()
-        .shape({ from: yup.number().required(), to: yup.number().required() })}
+        .shape({ from: yup.number(), to: yup.number() })}
     >
       {({ submitForm, isSubmitting }) => (
         <>
