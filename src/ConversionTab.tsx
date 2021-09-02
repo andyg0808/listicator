@@ -18,9 +18,12 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import TextField from "@material-ui/core/TextField";
+//import TextField from "@material-ui/core/TextField";
+import { TextField } from "formik-material-ui";
 import Fraction from "fraction.js";
 import { setConversion, deleteConversion } from "./conversion_table";
+import { Form, Formik, Field } from "formik";
+import * as yup from "yup";
 
 type ConversionTable = Array<Conversion | Density>;
 
@@ -92,7 +95,6 @@ function ConversionValue({ target, order }: ConversionValueProps) {
     source === null
       ? null
       : shortestPath(source, target, order.ingredient.name, conversionTable);
-  const [value, setValue] = React.useState(factor || "");
 
   if (source === null) {
     return null;
@@ -120,15 +122,27 @@ function ConversionValue({ target, order }: ConversionValueProps) {
     );
   }
   return (
-    <div>
-      Conversion: From {order.amount.unit} To {target}{" "}
-      <TextField
-        label="value"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onBlur={(e) => updateConversion(e.target.value)}
-      />
-    </div>
+    <Formik
+      initialValues={{ from: factor?.d || "", to: factor?.n || "" }}
+      onSubmit={(values) => {
+        console.log("submit handler", values);
+      }}
+      validate={(values) => {
+        console.log("validator", values);
+        return {};
+      }}
+      validationSchema={yup
+        .object()
+        .shape({ from: yup.number().required(), to: yup.number().required() })}
+    >
+      {({ submitForm, isSubmitting }) => (
+        <>
+          Conversion: From
+          <Field component={TextField} name="from" label={order.amount.unit} />
+          To <Field component={TextField} name="to" label={target} />
+        </>
+      )}
+    </Formik>
   );
 }
 
