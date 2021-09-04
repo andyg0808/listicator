@@ -11962,6 +11962,7 @@ __metadata:
     react-refresh: ^0.10.0
     redux: ^4.1.0
     redux-undo: ^1.0.1
+    rescript: ^9.1.4
     resolve: 1.18.1
     resolve-url-loader: ^3.1.2
     sass-loader: ^10.0.5
@@ -15695,6 +15696,18 @@ __metadata:
   version: 1.0.0
   resolution: "requires-port@npm:1.0.0"
   checksum: eee0e303adffb69be55d1a214e415cf42b7441ae858c76dfc5353148644f6fd6e698926fc4643f510d5c126d12a705e7c8ed7e38061113bdf37547ab356797ff
+  languageName: node
+  linkType: hard
+
+"rescript@npm:^9.1.4":
+  version: 9.1.4
+  resolution: "rescript@npm:9.1.4"
+  bin:
+    bsc: bsc
+    bsrefmt: bsrefmt
+    bstracing: lib/bstracing
+    rescript: rescript
+  checksum: 3c503580f968b4d4409830093c57f85b5590f7372250345427b3a7c1f5ccb08009e1edd89b4a3dcbb3ee95ee4dcad9c337ece4d1f8fdaa10e22ed04b8a7495c0
   languageName: node
   linkType: hard
 
