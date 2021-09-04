@@ -8927,6 +8927,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gentype@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "gentype@npm:4.1.0"
+  bin:
+    gentype: gentype.exe
+  checksum: dce5af2ba6cd6ae132317a92b9824e4fe9e513349f3683c1aa2aae15bc537668bfcc7935006bb797a2196addd5d8e4a6f26ffdc00ab74ac4511f6bb78ac6627e
+  languageName: node
+  linkType: hard
+
 "get-caller-file@npm:^2.0.1, get-caller-file@npm:^2.0.5":
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
@@ -11921,6 +11930,7 @@ __metadata:
     fraction.js: ^4.1.1
     fs-extra: ^9.0.1
     fuse.js: ^6.4.6
+    gentype: ^4.1.0
     html-webpack-plugin: 4.5.0
     identity-obj-proxy: 3.0.0
     jest: ^27.1.0
