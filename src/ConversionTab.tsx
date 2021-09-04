@@ -27,6 +27,7 @@ import { Formik, Field } from "formik";
 import { units as lexerUnitTable } from "./lexer";
 import * as yup from "yup";
 import * as R from "ramda";
+import { initialValueFromCurrent } from "./ConversionTools.gen";
 
 type ConversionTable = Array<Conversion | Density>;
 
@@ -135,14 +136,10 @@ function ConversionValue({ target, order }: ConversionValueProps) {
 
   // initial values aren't safe, because they could mismatch the from/to/from_unit/to_unit
   // We need to choose the correct initial value object based on heuristic
+  const initialValue = initialValueFromCurrent(currentDensity, source, target);
   return (
     <Formik
-      initialValues={{
-        from: factor?.d || "",
-        to: factor?.n || "",
-        from_unit: currentDensity?.from || source,
-        to_unit: currentDensity?.to || target || "",
-      }}
+      initialValues={initialValue}
       onSubmit={(values, { setSubmitting }) => {
         if (values.from === "" || values.to === "") {
           dispatch(deleteConversion(order.ingredient.name));

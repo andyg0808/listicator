@@ -1,5 +1,10 @@
 import * as R from "ramda";
 import Fraction from "fraction.js";
+import {
+  stored_fraction as StoredFraction,
+  density as Density,
+  conversion as Conversion,
+} from "./ConversionTools.gen";
 /*
    Actions:
    - reorder
@@ -93,10 +98,11 @@ export function getDescription(order: TotalOrder): string {
 export type DatabaseNumber = null | number | StoredFraction;
 export type DisplayNumber = null | Fraction;
 
-export interface StoredFraction {
-  n: number;
-  d: number;
-}
+// export interface StoredFraction {
+//   n: number;
+//   d: number;
+// }
+export type { StoredFraction };
 
 export function databaseNumberToString(n: DatabaseNumber): string {
   if (typeof n == "number") {
@@ -240,13 +246,15 @@ export type MenuSelectionMap = Record<RecipeTitle, boolean>;
 export type MenuQuantityMap = Record<RecipeTitle, number>;
 export type PurchaseMap = Record<IngredientId, boolean>;
 
-export interface Conversion {
-  from: Unit;
-  to: Unit;
-  value: StoredFraction;
-}
+// export interface Conversion {
+//   from: Unit;
+//   to: Unit;
+//   value: StoredFraction;
+// }
+export type { Conversion };
 
-export interface Density extends Conversion {
-  ingredient: IngredientId;
-}
+// export interface Density extends Conversion {
+//   ingredient: IngredientId;
+// }
+export type { Density };
 export type DensityTable = Array<Density>;
