@@ -19,6 +19,7 @@ import Switch from "@material-ui/core/Switch";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 //import TextField from "@material-ui/core/TextField";
 import { TextField, Select as FormikSelect } from "formik-material-ui";
 import Fraction from "fraction.js";
@@ -46,14 +47,14 @@ export function ConversionTab() {
   const recipes = useSelector((state: RootState) => state.recipes.present);
   const densities = useSelector((state: RootState) => state.conversionTable);
   const [recipeId, setRecipe] = React.useState(recipes[0].title);
-  const [showConversions, setShowConversions] = React.useState(true);
+  const [showConversions, setShowConversions] = React.useState(false);
   const recipe = recipes.find((r) => r.title === recipeId);
   const target = "gram";
   const conversionTable = ConversionTable.concat(densities);
   const dispatch = useDispatch();
   return (
     <div css={{ maxWidth: "500px", margin: "auto", paddingTop: "30px" }}>
-      <div css={{ width: "100%", display: "flex" }}>
+      <div css={{ width: "100%", display: "flex", flexDirection: "column" }}>
         <FormControl>
           <InputLabel>Recipe</InputLabel>
           <Select
@@ -67,13 +68,15 @@ export function ConversionTab() {
             ))}
           </Select>
         </FormControl>
-        <FormControl>
-          <InputLabel>Show unit conversion entries</InputLabel>
-          <Switch
-            value={showConversions}
-            onChange={(e) => setShowConversions(e.target.checked)}
-          />
-        </FormControl>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={showConversions}
+              onChange={(e) => setShowConversions(e.target.checked)}
+            />
+          }
+          label="Show unit conversion entries"
+        />
       </div>
       {recipe && (
         <div>
