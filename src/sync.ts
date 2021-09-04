@@ -10,24 +10,31 @@ import store from "./store";
  Seems to correctly trigger multiple listeners.
 */
 
-export const peer = new Peer();
-
 const queryParam = "targetPeer";
 export function targetPeer(): string | null {
   const url = new URL(window.location.toString());
   return url.searchParams.get(queryParam);
 }
 
+export function syncActive(): boolean {
+  return process.env.REACT_APP_USE_SYNC === "true" || targetPeer() !== null;
+}
+
+export const peer = syncActive() ? new Peer() : undefined;
+
 export function addPeer(url: URL, selfId: string): void {
   url.searchParams.set(queryParam, selfId);
 }
 
-peer.on("open", (id: string) => {
+peer?.on("open", (id: string) => {
   console.log("got server connection");
   store.dispatch(setPeerId(id));
 });
 
 export function waitForData(callback: (data: any) => void) {
+  if (!peer) {
+    return;
+  }
   console.log("waiting for connection");
   peer.on("connection", (conn) => {
     console.log("connection received");
@@ -42,6 +49,9 @@ export function waitForData(callback: (data: any) => void) {
 }
 
 export function sendData(targetId: string, data: any) {
+  if (!peer) {
+    return;
+  }
   const conn = peer.connect(targetId);
   conn.on("open", () => {
     conn.send(data);

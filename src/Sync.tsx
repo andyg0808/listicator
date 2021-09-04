@@ -20,7 +20,7 @@ import { resetLocalStore, RootState } from "./store";
 import { peer, targetPeer, addPeer, waitForData, sendData } from "./sync";
 import { createAction } from "@reduxjs/toolkit";
 
-peer.on("error", (err) => {
+peer?.on("error", (err) => {
   console.error(err);
 });
 

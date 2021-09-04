@@ -27,7 +27,7 @@ import { BuildTab } from "./BuildTab";
 import { ShopTab } from "./ShopTab";
 import { ConversionTab } from "./ConversionTab";
 import { Sync } from "./Sync";
-import { targetPeer } from "./sync";
+import { syncActive } from "./sync";
 
 const ColoredLogo = styled(Logo)(({ theme }) => {
   return {
@@ -42,9 +42,7 @@ const ColoredLogo = styled(Logo)(({ theme }) => {
 });
 
 function App() {
-  const [sync, setSync] = React.useState(
-    process.env.REACT_APP_USE_SYNC === "true" || targetPeer() !== null
-  );
+  const [sync, setSync] = React.useState(syncActive());
   const dispatch = useDispatch();
 
   const stores = useSelector((store: RootState) => store.storeList);
