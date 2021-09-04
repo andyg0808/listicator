@@ -8,7 +8,7 @@ const fracMapping: Map<string, StoredFraction> = new Map([
   ["⅓", { n: 1, d: 3 }],
   ["⅔", { n: 2, d: 3 }],
 ]);
-const regexMapping = [
+export const units: [string, string][] = [
   ["pints?", "pint"],
   ["cups?|c\\.", "cup"],
   ["gallons?|gal\\.", "gallon"],
@@ -37,9 +37,9 @@ const regexMapping = [
 ];
 
 export const unitsRegex = new RegExp(
-  regexMapping.map(([regex, _]) => regex).join("|")
+  units.map(([regex, _]) => regex).join("|")
 );
-const matcherMapping: [RegExp, string][] = regexMapping.map(([regex, unit]) => [
+const matcherMapping: [RegExp, string][] = units.map(([regex, unit]) => [
   new RegExp("^" + regex + "$"),
   unit,
 ]);
