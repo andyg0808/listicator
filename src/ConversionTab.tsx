@@ -9,6 +9,7 @@ import {
   totalOrderFromOrder,
   Unit,
   databaseNumberMult,
+  databaseNumberToDisplayNumber,
   IngredientId,
   Conversion,
   Density,
@@ -187,6 +188,7 @@ function ConversionValue({ target, order }: ConversionValueProps) {
   const conversionTable = ConversionTable.concat(densities);
   const dispatch = useDispatch();
   const source = order.amount.unit;
+  const qty = databaseNumberToDisplayNumber(order.amount.quantity);
 
   const factor =
     source === null
@@ -196,14 +198,20 @@ function ConversionValue({ target, order }: ConversionValueProps) {
   if (source === null) {
     return null;
   }
+  if (qty === null) {
+    return null;
+  }
 
   const currentDensity = densities.find(
     (d: Density) => d.ingredient === order.ingredient.name
   );
 
-  // initial values aren't safe, because they could mismatch the from/to/from_unit/to_unit
-  // We need to choose the correct initial value object based on heuristic
-  const initialValue = initialValueFromCurrent(currentDensity, source, target);
+  const initialValue = initialValueFromCurrent(
+    currentDensity,
+    qty.valueOf(),
+    source,
+    target
+  );
   const fromId = String(Math.random());
   const toId = String(Math.random());
   return (

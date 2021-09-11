@@ -20,10 +20,10 @@ type conversion = {
 }
 
 @genType
-let initialValueFromCurrent = (density: option<density>, source: unit_measure, target: unit_measure) =>
+let initialValueFromCurrent = (density: option<density>, quantity: float, source: unit_measure, target: unit_measure) =>
     switch density {
         | None => {
-          from: "",
+          from: Belt.Float.toString(quantity),
             to: "",
           from_unit: source,
           to_unit: target
