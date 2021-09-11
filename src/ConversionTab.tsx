@@ -61,6 +61,7 @@ export function ConversionTab() {
   const [showConversions, setShowConversions] = React.useState(false);
   const recipe = recipes.find((r) => r.title === recipeId);
   const [target, setTarget] = React.useState("gram");
+  const [convert, setConvert] = React.useState(true);
   const conversionTable = ConversionTable.concat(densities);
   const dispatch = useDispatch();
   const units = useUnits();
@@ -102,6 +103,15 @@ export function ConversionTab() {
           }
           label="Show unit conversion entries"
         />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={!convert}
+              onChange={(e) => setConvert(!e.target.checked)}
+            />
+          }
+          label="Show original units"
+        />
       </div>
       {recipe && (
         <div>
@@ -109,6 +119,7 @@ export function ConversionTab() {
           <div>
             {recipe.ingredients.map((order: Order, i: number) => {
               const converted = convertOrder(order, target, conversionTable);
+              const o = convert ? converted : order;
               // We can't guarantee that there's not duplicate
               // ingredients, so we don't have a good key value
               // available. In the future it may be worth the
@@ -116,7 +127,7 @@ export function ConversionTab() {
               // ingredient name
               return (
                 <div>
-                  <div>{getDescription(totalOrderFromOrder(converted))}</div>
+                  <div>{getDescription(totalOrderFromOrder(o))}</div>
                   {showConversions && (
                     <ConversionValue order={order} target={target} />
                   )}
