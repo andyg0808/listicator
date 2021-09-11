@@ -75,7 +75,7 @@ export function totalOrderFromOrder(order: Order): TotalOrder {
 
 export const getIngredientName = (o: TotalOrder) => o?.ingredient?.name;
 /// Maps from unit to precision
-const decimalUnits: Record<string, number> = { gram: 1, ounce: 2 };
+const decimalUnits: Record<string, number> = { gram: 1, ounce: 2, pound: 2 };
 export function getDescription(order: TotalOrder): string {
   const amount = order.amount
     .map((a: Amount<DisplayNumber>) => {
