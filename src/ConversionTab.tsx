@@ -115,7 +115,7 @@ interface ConversionValueProps {
   order: Order;
 }
 
-function ConversionValue({ target, order }: ConversionValueProps) {
+function useUnits(): Array<Unit> {
   const recipes = useSelector((state: RootState) => state.recipes.present);
   const recipeUnits = recipes.flatMap((r: Recipe) =>
     r.ingredients
@@ -123,7 +123,11 @@ function ConversionValue({ target, order }: ConversionValueProps) {
       .filter((u: string | null): u is string => u !== null)
   );
   const lexerUnits = lexerUnitTable.map((a: [string, string]) => a[1]);
-  const units = R.uniq(recipeUnits.concat(lexerUnits));
+  return R.uniq(recipeUnits.concat(lexerUnits));
+}
+
+function ConversionValue({ target, order }: ConversionValueProps) {
+  const units = useUnits();
   const densities = useSelector((state: RootState) => state.conversionTable);
   const conversionTable = ConversionTable.concat(densities);
   const dispatch = useDispatch();
