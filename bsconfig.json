@@ -8,7 +8,7 @@
   ],
   "package-specs": [
     {
-      "module": "es6",
+      "module": "commonjs",
       "in-source": true
     }
   ],
@@ -16,6 +16,7 @@
   "bs-dependencies": [],
   "gentypeconfig": {
     "language": "typescript",
+    "module": "commonjs",
     "shims": {},
     "generatedFileExtension": ".gen.ts",
     "debug": {
