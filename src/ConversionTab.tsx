@@ -41,6 +41,11 @@ const ConversionTable: Array<Conversion> = [
     to: "milliliter",
     value: new Fraction(30),
   },
+  {
+    from: "ounce",
+    to: "gram",
+    value: new Fraction(28.349),
+  },
 ];
 
 export function ConversionTab() {
