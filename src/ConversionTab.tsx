@@ -35,6 +35,7 @@ type ConversionTable = Array<Conversion | Density>;
 const ConversionTable: Array<Conversion> = [
   { from: "tablespoon", to: "teaspoon", value: new Fraction(3) },
   { from: "cup", to: "tablespoon", value: new Fraction(4 * 4) },
+  { from: "pint", to: "cup", value: new Fraction(2) },
   { from: "tablespoon", to: "fluid ounce", value: new Fraction(1, 2) },
   {
     from: "fluid ounce",
@@ -45,6 +46,11 @@ const ConversionTable: Array<Conversion> = [
     from: "ounce",
     to: "gram",
     value: new Fraction(28.349),
+  },
+  {
+    from: "pound",
+    to: "ounce",
+    value: new Fraction(16),
   },
 ];
 
