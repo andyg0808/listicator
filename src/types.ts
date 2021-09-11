@@ -74,6 +74,8 @@ export function totalOrderFromOrder(order: Order): TotalOrder {
 }
 
 export const getIngredientName = (o: TotalOrder) => o?.ingredient?.name;
+/// Maps from unit to precision
+const decimalUnits: Record<string, number> = { gram: 1, ounce: 2 };
 export function getDescription(order: TotalOrder): string {
   const amount = order.amount
     .map((a: Amount<DisplayNumber>) => {
@@ -84,9 +86,10 @@ export function getDescription(order: TotalOrder): string {
         return a.quantity.toFraction();
       }
       const unit = a.quantity.valueOf() > 1 ? a.unit + "s" : a.unit;
-      if (a.unit === "gram") {
-        // Special-case grams, since they're typically worked with in near-integer quantities
-        return `${a.quantity.round().toString(1)} ${unit}`;
+      if (decimalUnits[a.unit]) {
+        // Special-case some units which are typically used in decimal
+        // quantities
+        return `${a.quantity.round().toString(decimalUnits[a.unit])} ${unit}`;
       }
       return `${a.quantity.toFraction()} ${unit}`;
     })
