@@ -41,7 +41,13 @@ const theme = createTheme({
     },
     h3: headerFont,
     h4: headerFont,
-    h5: headerFont,
+    h5: {
+      ...headerFont,
+      fontSize: "1.1rem",
+      fontWeight: 400,
+      lineHeight: 1.167,
+      letterSpacing: "0em",
+    },
     h6: headerFont,
   },
 });

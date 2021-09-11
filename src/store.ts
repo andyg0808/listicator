@@ -11,6 +11,7 @@ import { reducer as recipeReducer } from "./recipes";
 import { reducer as peerReducer } from "./sync_store";
 import { reducer as storeListReducer } from "./store_list";
 import { reducer as purchaseReducer } from "./purchased";
+import { reducer as conversionTableReducer } from "./conversion_table";
 
 const rootReducer = combineReducers({
   recipes: undoable(recipeReducer),
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   syncStore: peerReducer,
   storeList: storeListReducer,
   purchased: purchaseReducer,
+  conversionTable: conversionTableReducer,
 });
 
 export const recipeSelector = (store: RootState) => store.recipes.present;

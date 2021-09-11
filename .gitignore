@@ -39,3 +39,10 @@ examples
 expected
 urls
 src/logo.svg
+
+# ReScript
+*.bs.js
+*.gen.ts
+lib
+.bsb.lock
+.merlin

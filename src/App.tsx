@@ -25,8 +25,9 @@ import { setStores } from "./store_list";
 import { newList } from "./new_list";
 import { BuildTab } from "./BuildTab";
 import { ShopTab } from "./ShopTab";
+import { ConversionTab } from "./ConversionTab";
 import { Sync } from "./Sync";
-import { targetPeer } from "./sync";
+import { syncActive } from "./sync";
 
 const ColoredLogo = styled(Logo)(({ theme }) => {
   return {
@@ -41,9 +42,7 @@ const ColoredLogo = styled(Logo)(({ theme }) => {
 });
 
 function App() {
-  const [sync, setSync] = React.useState(
-    process.env.REACT_APP_USE_SYNC === "true" || targetPeer() !== null
-  );
+  const [sync, setSync] = React.useState(syncActive());
   const dispatch = useDispatch();
 
   const stores = useSelector((store: RootState) => store.storeList);
@@ -64,6 +63,7 @@ function App() {
           >
             <Tab label="Build" />
             <Tab label="Shop" />
+            <Tab label="Conversion" />
           </Tabs>
           <Tooltip title="Clear checkmarks">
             <IconButton
@@ -98,12 +98,16 @@ function App() {
         />
       </Drawer>
       <Container>
-        {currentTab == 0 && (
-          <BuildTab startEdit={() => setShowStoreEditor(true)} />
+        {currentTab === 0 && (
+          <>
+            <BuildTab startEdit={() => setShowStoreEditor(true)} />
+            <SyncTools />
+          </>
         )}
-        {currentTab == 1 && <ShopTab />}
-        {sync && <SyncTools />}
+        {currentTab === 1 && <ShopTab />}
+        {currentTab === 2 && <ConversionTab />}
       </Container>
+      <a href="./ThirdPartyNotices.txt">Credits</a>
     </>
   );
 }

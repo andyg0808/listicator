@@ -1,0 +1,27 @@
+{
+  "name": "listicator",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "commonjs",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "bs-dependencies": [],
+  "gentypeconfig": {
+    "language": "typescript",
+    "module": "commonjs",
+    "shims": {},
+    "generatedFileExtension": ".gen.ts",
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  }
+}

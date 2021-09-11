@@ -45,6 +45,7 @@ final: build
 .PHONY: build
 build:
 	git diff --quiet
+	yarn compile
 	yarn build
 
 .PHONY: last-deploy
