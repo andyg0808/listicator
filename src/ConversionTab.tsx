@@ -252,7 +252,7 @@ function ConversionValue({ target, order }: ConversionValueProps) {
             component={TextField}
             name="from"
             label="From"
-            css={{ width: "5em" }}
+            css={{ width: "4em" }}
             onBlur={() => submitForm()}
           />
           <div>
@@ -284,7 +284,7 @@ function ConversionValue({ target, order }: ConversionValueProps) {
             component={TextField}
             name="to"
             label="To"
-            css={{ width: "5em" }}
+            css={{ width: "4em" }}
             onBlur={() => submitForm()}
           />
           <div>
