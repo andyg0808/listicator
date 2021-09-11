@@ -54,9 +54,10 @@ export function ConversionTab() {
   const [recipeId, setRecipe] = React.useState(recipes[0].title);
   const [showConversions, setShowConversions] = React.useState(false);
   const recipe = recipes.find((r) => r.title === recipeId);
-  const target = "gram";
+  const [target, setTarget] = React.useState("gram");
   const conversionTable = ConversionTable.concat(densities);
   const dispatch = useDispatch();
+  const units = useUnits();
   return (
     <div css={{ maxWidth: "500px", margin: "auto", paddingTop: "30px" }}>
       <div css={{ width: "100%", display: "flex", flexDirection: "column" }}>
@@ -69,6 +70,19 @@ export function ConversionTab() {
             {recipes.map((recipe: Recipe, index: number) => (
               <MenuItem key={recipe.title} value={recipe.title}>
                 {recipe.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel>Target Unit</InputLabel>
+          <Select
+            value={target}
+            onChange={(e) => setTarget(e.target.value as string)}
+          >
+            {units.map((unit: Unit) => (
+              <MenuItem key={unit} value={unit}>
+                {unit}s
               </MenuItem>
             ))}
           </Select>
