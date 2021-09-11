@@ -6,7 +6,7 @@ help:
 	@sed '/^.PHONY/!d; s/^.PHONY: //' Makefile
 
 .PHONY: test
-test:
+test: install
 	yarn test
 
 .PHONY: docker-build
@@ -45,12 +45,16 @@ final: build
 	aws s3 sync build s3://listicator.com/
 
 .PHONY: build
-build: compile
+build: install compile
 	yarn build
 
 .PHONY: compile
-compile:
+compile: install
 	yarn compile
+
+.PHONY: install
+install:
+	yarn
 
 .PHONY: last-deploy
 last-deploy:
