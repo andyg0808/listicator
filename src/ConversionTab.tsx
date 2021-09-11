@@ -20,6 +20,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Checkbox from "@material-ui/core/Checkbox";
 //import TextField from "@material-ui/core/TextField";
 import { TextField, Select as FormikSelect } from "formik-material-ui";
 import Fraction from "fraction.js";
@@ -115,8 +120,8 @@ export function ConversionTab() {
       </div>
       {recipe && (
         <div>
-          <h2>{recipe.title}</h2>
-          <div>
+          <Typography variant="h2">{recipe.title}</Typography>
+          <List>
             {recipe.ingredients.map((order: Order, i: number) => {
               const converted = convertOrder(order, target, conversionTable);
               const o = convert ? converted : order;
@@ -126,15 +131,34 @@ export function ConversionTab() {
               // computation to generate a unique key for each
               // ingredient name
               return (
-                <div>
-                  <div>{getDescription(totalOrderFromOrder(o))}</div>
-                  {showConversions && (
-                    <ConversionValue order={order} target={target} />
-                  )}
-                </div>
+                <ListItem
+                  css={
+                    showConversions
+                      ? { paddingTop: "2em", paddingBottom: "2em" }
+                      : {}
+                  }
+                >
+                  <ListItemIcon>
+                    <Checkbox edge="start" />
+                  </ListItemIcon>
+                  <div
+                    css={{
+                      display: "flex",
+                      flexDirection: "column",
+                      width: "100%",
+                    }}
+                  >
+                    <Typography variant="h5" component="h3">
+                      {getDescription(totalOrderFromOrder(o))}
+                    </Typography>
+                    {showConversions && (
+                      <ConversionValue order={order} target={target} />
+                    )}
+                  </div>
+                </ListItem>
               );
             })}
-          </div>
+          </List>
         </div>
       )}
     </div>
@@ -180,6 +204,8 @@ function ConversionValue({ target, order }: ConversionValueProps) {
   // initial values aren't safe, because they could mismatch the from/to/from_unit/to_unit
   // We need to choose the correct initial value object based on heuristic
   const initialValue = initialValueFromCurrent(currentDensity, source, target);
+  const fromId = String(Math.random());
+  const toId = String(Math.random());
   return (
     <Formik
       initialValues={initialValue}
@@ -207,49 +233,72 @@ function ConversionValue({ target, order }: ConversionValueProps) {
       })}
     >
       {({ submitForm, isSubmitting }) => (
-        <>
-          Conversion:
+        <div
+          css={{
+            display: "flex",
+            paddingTop: "0.5em",
+            //borderBottom: "1px solid black",
+          }}
+        >
           <Field
             component={TextField}
             name="from"
             label="From"
+            css={{ width: "5em" }}
             onBlur={() => submitForm()}
           />
-          <Field
-            component={FormikSelect}
-            name="from_unit"
-            label="Unit to convert from"
-            onBlur={() => submitForm()}
+          <div>
+            <InputLabel shrink id={fromId}>
+              Unit
+            </InputLabel>
+            <Field
+              component={FormikSelect}
+              labelId={fromId}
+              name="from_unit"
+              onBlur={() => submitForm()}
+            >
+              {units.map((unit) => {
+                return (
+                  <MenuItem key={unit} value={unit}>
+                    {unit}
+                  </MenuItem>
+                );
+              })}
+            </Field>
+          </div>
+          <Typography
+            variant="body2"
+            css={{ textAlign: "center", flexGrow: 1, alignSelf: "flex-end" }}
           >
-            {units.map((unit) => {
-              return (
-                <MenuItem key={unit} value={unit}>
-                  {unit}
-                </MenuItem>
-              );
-            })}
-          </Field>
+            of {order.ingredient.name} is
+          </Typography>
           <Field
             component={TextField}
             name="to"
             label="To"
+            css={{ width: "5em" }}
             onBlur={() => submitForm()}
           />
-          <Field
-            component={FormikSelect}
-            name="to_unit"
-            label="Unit to convert to"
-            onBlur={() => submitForm()}
-          >
-            {units.map((unit) => {
-              return (
-                <MenuItem key={unit} value={unit}>
-                  {unit}
-                </MenuItem>
-              );
-            })}
-          </Field>
-        </>
+          <div>
+            <InputLabel shrink id={toId}>
+              Unit
+            </InputLabel>
+            <Field
+              component={FormikSelect}
+              name="to_unit"
+              labelId={toId}
+              onBlur={() => submitForm()}
+            >
+              {units.map((unit) => {
+                return (
+                  <MenuItem key={unit} value={unit}>
+                    {unit}
+                  </MenuItem>
+                );
+              })}
+            </Field>
+          </div>
+        </div>
       )}
     </Formik>
   );
