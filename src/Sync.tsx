@@ -66,6 +66,9 @@ export function Sync({ recipes }: SyncProps) {
   //This is the magic that allows any phone which scans the link to
   // trigger the originating peer to be connected to them.
   React.useEffect(() => {
+    if (!peer) {
+      return;
+    }
     console.log("trying to activate remote");
     const targetId = targetPeer();
     if (!targetId) {

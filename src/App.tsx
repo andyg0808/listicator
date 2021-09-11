@@ -101,7 +101,7 @@ function App() {
         {currentTab === 0 && (
           <>
             <BuildTab startEdit={() => setShowStoreEditor(true)} />
-            <SyncTools />
+            {syncActive() && <SyncTools />}
           </>
         )}
         {currentTab === 1 && <ShopTab />}
