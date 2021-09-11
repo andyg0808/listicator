@@ -1,5 +1,5 @@
 .PHONY: default
-default: test upload
+default: compile test upload
 
 .PHONY: help
 help:
@@ -32,21 +32,25 @@ docker-final:
 
 .PHONY: upload
 upload: build
+	git diff --quiet
 	git tag work-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
 	aws s3 sync build s3://listicator.work/
 
 .PHONY: final
 final: build
+	git diff --quiet
 	echo "Waiting before upload…"
 	sleep 5
 	git tag com-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
 	aws s3 sync build s3://listicator.com/
 
 .PHONY: build
-build:
-	git diff --quiet
-	yarn compile
+build: compile
 	yarn build
+
+.PHONY: compile
+compile:
+	yarn compile
 
 .PHONY: last-deploy
 last-deploy:
