@@ -39,10 +39,10 @@ upload: build
 .PHONY: final
 final: build
 	git diff --quiet
-	echo "Waiting before upload…"
+	echo "Waiting before copy…"
 	sleep 5
-	git tag com-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
-	aws s3 sync build s3://listicator.com/
+	git tag com-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'` `git tag -l --sort=-version:refname work-deploy-\* | head -n1`
+	aws s3 sync s3://listicator.work s3://listicator.com/
 
 .PHONY: build
 build: install compile
