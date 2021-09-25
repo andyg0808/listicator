@@ -42,7 +42,6 @@ const ColoredLogo = styled(Logo)(({ theme }) => {
 });
 
 function App() {
-  const [sync, setSync] = React.useState(syncActive());
   const dispatch = useDispatch();
 
   const stores = useSelector((store: RootState) => store.storeList);
