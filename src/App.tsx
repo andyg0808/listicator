@@ -42,7 +42,6 @@ const ColoredLogo = styled(Logo)(({ theme }) => {
 });
 
 function App() {
-  const [sync, setSync] = React.useState(syncActive());
   const dispatch = useDispatch();
 
   const stores = useSelector((store: RootState) => store.storeList);
@@ -108,6 +107,7 @@ function App() {
         {currentTab === 2 && <ConversionTab />}
       </Container>
       <a href="./ThirdPartyNotices.txt">Credits</a>
+      <a href="./licenses/index.html">Third-party License Texts</a>
     </>
   );
 }

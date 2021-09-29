@@ -558,7 +558,7 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
-      new LicenseCheckerWebpackPlugin({ outputFilename: "ThirdPartyNotices.txt" }),
+      new LicenseCheckerWebpackPlugin({ outputFilename: "ThirdPartyNotices.txt", emitError: true, ignore: ["rescript@9.1.4"] }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
