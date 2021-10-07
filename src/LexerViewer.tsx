@@ -26,7 +26,7 @@ export default function LexerViewer() {
     }
   } catch (e) {
     console.log(e);
-    error = e;
+    error = e as Token;
   }
 
   const lastTok = R.last(tokens);

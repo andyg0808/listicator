@@ -37,8 +37,6 @@ export function safeParse(text: string): Order[] | null {
   try {
     return parse(text.trim());
   } catch (e) {
-    const lines = text.trim().split(/\n/);
-    const line = e.token?.line || 0;
     return null;
   }
 }
@@ -54,9 +52,10 @@ export function errorParse(text: string): ParseError | null {
   try {
     console.log("parse result", parse(text.trim()));
     return null;
-  } catch (e) {
-    console.log("ERROR CAUGHT!", e.token);
-    return e.token;
+  } catch (e: any) {
+    const token = e.token;
+    console.log("ERROR CAUGHT!", token);
+    return token;
   }
 }
 
