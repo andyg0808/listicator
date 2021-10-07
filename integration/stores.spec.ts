@@ -8,7 +8,7 @@ test.describe("Stores", () => {
     tab.goto();
   });
 
-  const list = (name) => `[data-test="StoreList-${name}"]`;
+  const list = (name: string) => `[data-test="StoreList-${name}"]`;
 
   test("should allow the user to add new stores", async ({ page }) => {
     const tab = new BuildTab(page);
