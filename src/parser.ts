@@ -76,7 +76,7 @@ export function unparse(data: Order[]): string {
       const { quantity, unit } = amount;
       const check = (render: string) => {
         try {
-          return R.equals(parse(render)?.[0], order);
+          return R.equals(parse(render + "\n")?.[0], order);
         } catch (e) {
           return false;
         }
