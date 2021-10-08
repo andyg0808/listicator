@@ -7,6 +7,7 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toParseAs(expected: null | Order[]): R;
+      toRoundTrip(): R;
     }
   }
 }
@@ -45,6 +46,60 @@ expect.extend({
               `Parsed as: ${this.utils.printReceived(parsed)}`),
         pass,
       };
+    }
+  },
+  toRoundTrip(text, expected) {
+    const checkUnparse = (order: Order[], order_type: string) => {
+      const list = unparse(order);
+
+      if (list !== text) {
+        const received = this.utils.printReceived(list);
+        const expected = this.utils.printExpected(text);
+
+        return {
+          message: () =>
+            `Expected ${expected} got ${received}
+(using ${order_type} numbers)`,
+          pass: false,
+        };
+      }
+      return {
+        message: () =>
+          `${text} round-tripped unexpectedly
+(using ${order_type} numbers)`,
+        pass: true,
+      };
+    };
+
+    const order = parse(text);
+    if (order === null) {
+      return {
+        message: () => `'${text}' parsed to null`,
+        pass: false,
+      };
+    }
+    if (order?.length !== 1) {
+      return {
+        message: () =>
+          `'${text}' parsed to more than one entry\n\n` +
+          this.utils.printReceived(order),
+        pass: false,
+      };
+    }
+
+    const displayResults = checkUnparse(order, "DisplayNumber");
+    const dbified = JSON.parse(JSON.stringify(order));
+    const databaseResults = checkUnparse(dbified, "DatabaseNumber");
+    if (this.isNot) {
+      if (displayResults.pass) {
+        return displayResults;
+      }
+      return databaseResults;
+    } else {
+      if (displayResults.pass) {
+        return databaseResults;
+      }
+      return displayResults;
     }
   },
 });
