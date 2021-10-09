@@ -4,8 +4,14 @@ import { parse } from "./parser";
 import { Recipe, Order, Amount, Ingredient, DatabaseNumber } from "./types";
 import { fc_ingredient_name, fc_unit } from "./test_generators";
 import Fraction from "fraction.js";
+import { units } from "./lexer";
+import { toParseAs } from "./jest_extensions";
 
 import fs from "fs";
+
+expect.extend({
+  toParseAs,
+});
 
 interface ExamplePair {
   name: String;
@@ -89,3 +95,37 @@ test("Delimiter should disambiguate parses", () => {
     )
   );
 });
+
+// Mapping from unit to expected name
+const unitList = [
+  ["tsp", "teaspoon"],
+  ["tbsp", "tablespoon"],
+  ["cups", "cup"],
+  ["litre", "liter"],
+].concat(units.map((u) => [u[1], u[1]]));
+test.each(unitList)(
+  "%s is a valid unit",
+  (unit: string, expected_unit: string) => {
+    fc.assert(
+      fc.property(
+        fc.nat().filter((n) => n > 0),
+        (count) => {
+          const ingredient = "blueberries";
+          const line = `${count} ${unit} ${ingredient}`;
+          const expected = [
+            {
+              amount: {
+                quantity: new Fraction(count),
+                unit: expected_unit,
+              },
+              ingredient: {
+                name: ingredient,
+              },
+            },
+          ];
+          expect(line).toParseAs(expected);
+        }
+      )
+    );
+  }
+);
