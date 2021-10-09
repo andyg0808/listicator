@@ -37,7 +37,7 @@ export function toParseAs(this: jest.MatcherContext, text: any, expected: any) {
         this.utils.matcherHint("toParseAs", undefined, undefined, options) +
         "\n\n" +
         (diffString && diffString.includes("- Expect")
-          ? `Difference:\n\n${diffString}\n\nUnparse:\n'${text}'`
+          ? `Difference:\n\n${diffString}\n\nInput:\n'${text}'`
           : `Expected: ${this.utils.printExpected(expected)}\n` +
             `Passed: ${this.utils.printReceived(text)}\n` +
             `Parsed as: ${this.utils.printReceived(parsed)}`),
