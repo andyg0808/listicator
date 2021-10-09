@@ -30,11 +30,14 @@ docker-upload:
 docker-final:
 	docker run --rm -v$(HOME)/.aws/credentials:/root/.aws/credentials listicator:deploy final
 
+upload_tag=work-deploy-$(shell date --iso-8601=seconds | sed 's/\W/_/g')
+upload_bundle=builds/$(upload_tag).tar.bz2
 .PHONY: upload
 upload: build
 	git diff --quiet
-	git tag work-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
-	tar -cjf builds/work-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`.tar.bz2 build
+	git tag $(upload_tag)
+	tar -cjf $(upload_bundle) build
+	aws s3 cp $(upload_bundle) s3://listicator-deploys
 	aws s3 sync build s3://listicator.work/
 
 .PHONY: final
