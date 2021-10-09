@@ -83,7 +83,15 @@ interface RawProsemirrorProps {
   className?: string;
 }
 
-function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
+function RawProsemirror({
+  onChange,
+  value,
+  ...passthrough
+}: Omit<
+  React.ComponentPropsWithoutRef<typeof ProsemirrorContainer>,
+  "onChange"
+> &
+  RawProsemirrorProps) {
   const ref = React.useRef<HTMLDivElement | null>(null);
   React.useEffect(() => {
     const exportPlugin = new Plugin({
@@ -116,9 +124,7 @@ function RawProsemirror({ onChange, value, className }: RawProsemirrorProps) {
     };
   }, [value]);
 
-  return (
-    <ProsemirrorContainer className={className} data-test="Editor" ref={ref} />
-  );
+  return <ProsemirrorContainer data-test="Editor" ref={ref} {...passthrough} />;
 }
 
 export const Prosemirror = React.memo(RawProsemirror);
