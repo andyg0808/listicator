@@ -34,6 +34,7 @@ docker-final:
 upload: build
 	git diff --quiet
 	git tag work-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`
+	tar -cjf builds/work-deploy-`date --iso-8601=seconds | sed 's/\W/_/g'`.tar.bz2 build
 	aws s3 sync build s3://listicator.work/
 
 .PHONY: final
