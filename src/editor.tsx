@@ -74,7 +74,9 @@ export function Editor({
       />
       <label htmlFor="recipe-editor">Ingredients</label>
       <EditField onChange={textUpdate} value={text} id="recipe-editor" />
-      <Viewer onUpdate={ingredientUpdate} ingredients={ingredients} />
+      {ingredients.length > 0 && (
+        <Viewer onUpdate={ingredientUpdate} ingredients={ingredients} />
+      )}
     </Box>
   );
 }
