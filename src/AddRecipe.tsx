@@ -17,7 +17,7 @@ export function RecipeEditor({ recipe, onSave, onCancel }: RecipeEditorProps) {
   const [title, setTitle] = React.useState(recipe.title);
   const [ingredients, setIngredients] = React.useState(recipe.ingredients);
   return (
-    <Paper css={{ padding: "0 3vw" }}>
+    <Paper css={{ padding: "0 3vw", minHeight: "100vw" }}>
       <Editor
         setTitle={setTitle}
         setIngredients={setIngredients}
