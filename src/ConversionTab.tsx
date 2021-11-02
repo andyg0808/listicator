@@ -26,7 +26,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Checkbox from "@material-ui/core/Checkbox";
-//import TextField from "@material-ui/core/TextField";
+import MUITextField from "@material-ui/core/TextField";
 import { TextField, Select as FormikSelect } from "formik-material-ui";
 import Fraction from "fraction.js";
 import { setConversion, deleteConversion } from "./conversion_table";
@@ -35,6 +35,7 @@ import { units as lexerUnitTable } from "./lexer";
 import * as yup from "yup";
 import * as R from "ramda";
 import { initialValueFromCurrent } from "./ConversionTools.gen";
+import { multiplyRecipe } from "./transforms";
 
 type ConversionTable = Array<Conversion | Density>;
 
@@ -65,9 +66,14 @@ export function ConversionTab() {
   const densities = useSelector((state: RootState) => state.conversionTable);
   const [recipeId, setRecipe] = React.useState(recipes[0].title);
   const [showConversions, setShowConversions] = React.useState(false);
-  const recipe = recipes.find((r) => r.title === recipeId);
   const [target, setTarget] = React.useState("gram");
   const [convert, setConvert] = React.useState(true);
+  const [quantity, setQuantity] = React.useState(1);
+  const maybeRecipe = recipes.find((r) => r.title === recipeId);
+  const recipe =
+    maybeRecipe === undefined
+      ? undefined
+      : multiplyRecipe(quantity, maybeRecipe);
   const conversionTable = ConversionTable.concat(densities);
   const dispatch = useDispatch();
   const units = useUnits();
@@ -99,6 +105,14 @@ export function ConversionTab() {
               </MenuItem>
             ))}
           </Select>
+        </FormControl>
+        <FormControl>
+          <MUITextField
+            label="Quantity"
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+          />
         </FormControl>
         <FormControlLabel
           control={

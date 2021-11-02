@@ -1,9 +1,12 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 
 import styled from "@emotion/styled";
 import * as R from "ramda";
@@ -67,9 +70,13 @@ export function Editor({
         onBlur={(e: any) => setTitle(e.target.value)}
         label="Title"
         value={title}
+        css={{ margin: "16px 0" }}
       />
-      <EditField onChange={textUpdate} value={text} />
-      <Viewer onUpdate={ingredientUpdate} ingredients={ingredients} />
+      <label htmlFor="recipe-editor">Ingredients</label>
+      <EditField onChange={textUpdate} value={text} id="recipe-editor" />
+      {ingredients.length > 0 && (
+        <Viewer onUpdate={ingredientUpdate} ingredients={ingredients} />
+      )}
     </Box>
   );
 }
