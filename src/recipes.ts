@@ -5,6 +5,10 @@ import { recipe } from "./init_recipes";
 
 type RecipeStore = Recipe[];
 type RecipeState = (Draft<Recipe> | Recipe)[];
+type RecipeUpdate = {
+  title: string;
+  recipe: Recipe;
+};
 const recipeSlice = createSlice({
   name: "recipes",
   initialState: [recipe] as RecipeStore,
@@ -20,6 +24,18 @@ const recipeSlice = createSlice({
       }
       const idxLens = R.lensIndex<Draft<Recipe> | Recipe>(idx);
       return R.set(idxLens, recipe, state);
+    },
+    updateRecipe(
+      state: RecipeState,
+      action: PayloadAction<RecipeUpdate>
+    ): RecipeState {
+      const update = action.payload;
+      const idx = R.findIndex((r) => r.title === update.title, state);
+      if (idx === -1) {
+        return R.append(update.recipe, state);
+      }
+      const idxLens = R.lensIndex<Draft<Recipe> | Recipe>(idx);
+      return R.set(idxLens, update.recipe, state);
     },
     deleteRecipe(
       state: RecipeState,
@@ -46,5 +62,6 @@ const recipeSlice = createSlice({
 //     return list.map(recipeTransform)
 // }
 
-export const { addRecipe, setRecipe, deleteRecipe } = recipeSlice.actions;
+export const { addRecipe, setRecipe, deleteRecipe, updateRecipe } =
+  recipeSlice.actions;
 export const reducer = recipeSlice.reducer;

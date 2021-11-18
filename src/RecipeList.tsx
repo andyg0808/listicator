@@ -81,7 +81,7 @@ export default function RecipeList({ onEdit, onDelete }: RecipeListProps) {
                 value={quantities[title] || 1}
                 onChange={(value) => setQuantity(title, value)}
               />
-              <IconButton onClick={() => onEdit(recipe)}>
+              <IconButton data-test="Edit" onClick={() => onEdit(recipe)}>
                 <EditIcon />
               </IconButton>
               <IconButton onClick={() => onDelete(recipe)} edge="end">

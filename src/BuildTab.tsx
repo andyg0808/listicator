@@ -12,7 +12,7 @@ import { useSortedTrip } from "./trip";
 import { RootState } from "./store";
 
 import { Recipe, Trip } from "./types";
-import { setRecipe } from "./recipes";
+import { setRecipe, updateRecipe } from "./recipes";
 import { useDeleteRecipe } from "./undo";
 import { DragDispatcher } from "./DragDispatcher";
 import RecipeList from "./RecipeList";
@@ -33,7 +33,11 @@ export function BuildTab({ startEdit }: BuildTabProps) {
   const closeEditor = () => startEditing(null);
   const saveHandler = (a: Recipe) => {
     if (a) {
-      dispatch(setRecipe(a));
+      if (editing?.title) {
+        dispatch(updateRecipe({ title: editing.title, recipe: a }));
+      } else {
+        dispatch(setRecipe(a));
+      }
     }
     closeEditor();
   };
