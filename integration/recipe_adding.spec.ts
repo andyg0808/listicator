@@ -62,4 +62,15 @@ test.describe("Add a recipe", () => {
 
     await expect(addRecipe.errorMessage()).toBeVisible();
   });
+
+  test("should update an existing recipe when the title is changed", async ({
+    page,
+  }) => {
+    const tab = new BuildTab(page);
+    await tab.ensureRecipe("Coffee", "15 grams coffee");
+    const editRecipe = await tab.editRecipe("Coffee");
+    await editRecipe.typeTitle("Aeropress ");
+    await editRecipe.save();
+    await expect(tab.recipeExists("Aeropress Coffee")).toBeVisible();
+  });
 });

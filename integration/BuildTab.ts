@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { AddRecipe } from "./AddRecipe";
 import { ShopTab } from "./ShopTab";
 
@@ -28,6 +28,23 @@ export class BuildTab {
   async addRecipe(): Promise<AddRecipe> {
     const addRecipe = '[title="Add Recipe"]';
     await this.page.click(addRecipe);
+    return new AddRecipe(this.page);
+  }
+
+  async ensureRecipe(title: string, text: string) {
+    const addRecipe = await this.addRecipe();
+    await addRecipe.typeTitle(title);
+    await addRecipe.typeText(text);
+    await addRecipe.save();
+  }
+
+  recipeExists(title: string): Locator {
+    return this.page.locator(`li:has(:text("${title}"))`);
+  }
+
+  async editRecipe(title: string): Promise<AddRecipe> {
+    const editButton = this.recipeExists(title).locator('[data-test="Edit"]');
+    await editButton.click();
     return new AddRecipe(this.page);
   }
 

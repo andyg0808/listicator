@@ -2292,6 +2292,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jest/types@npm:^27.2.5":
+  version: 27.2.5
+  resolution: "@jest/types@npm:27.2.5"
+  dependencies:
+    "@types/istanbul-lib-coverage": ^2.0.0
+    "@types/istanbul-reports": ^3.0.0
+    "@types/node": "*"
+    "@types/yargs": ^16.0.0
+    chalk: ^4.0.0
+  checksum: 322603c24354a5333b5b7a670464422a46e0244a5a96a35552a7018eb4ac2e84c3b7657336b0ea6aa114963f9b6d0da8b8f6f963cb044fea9e7bc04d464b0ab1
+  languageName: node
+  linkType: hard
+
 "@material-ui/core@npm:^4.12.1":
   version: 4.12.3
   resolution: "@material-ui/core@npm:4.12.3"
@@ -2480,9 +2493,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.14.1":
-  version: 1.15.0
-  resolution: "@playwright/test@npm:1.15.0"
+"@playwright/test@npm:^1.16.0":
+  version: 1.16.3
+  resolution: "@playwright/test@npm:1.16.3"
   dependencies:
     "@babel/code-frame": ^7.14.5
     "@babel/core": ^7.14.8
@@ -2502,30 +2515,24 @@ __metadata:
     "@babel/plugin-transform-modules-commonjs": ^7.14.5
     "@babel/preset-typescript": ^7.14.5
     colors: ^1.4.0
-    commander: ^6.1.0
+    commander: ^8.2.0
     debug: ^4.1.1
-    expect: ^26.4.2
-    extract-zip: ^2.0.1
-    https-proxy-agent: ^5.0.0
+    expect: =27.2.5
+    jest-matcher-utils: =27.2.5
     jpeg-js: ^0.4.2
-    mime: ^2.4.6
     minimatch: ^3.0.3
     ms: ^2.1.2
-    open: ^8.2.1
+    open: ^8.3.0
     pirates: ^4.0.1
     pixelmatch: ^5.2.1
+    playwright-core: =1.16.3
     pngjs: ^5.0.0
-    progress: ^2.0.3
-    proper-lockfile: ^4.1.1
-    proxy-from-env: ^1.1.0
     rimraf: ^3.0.2
     source-map-support: ^0.4.18
     stack-utils: ^2.0.3
-    ws: ^7.4.6
-    yazl: ^2.5.1
   bin:
-    playwright: lib/cli/cli.js
-  checksum: a29ae926492bff3c5d7f0b698722301f26e9c15006f11694c78e02b7454fc4fce99ea0078f7953239a42d2840c44b0421657cce3cbff9c6c951367b32e61f56b
+    playwright: cli.js
+  checksum: 363f2f214da1aa5ad0e6f5a3affb0a4d33a43bfc5a628e3c58816ef363a0dbae2400e36334142c0d65e1bbde1f622a032e5b55e92e541b1e7e7c82ae8c7d835c
   languageName: node
   linkType: hard
 
@@ -5527,17 +5534,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^6.1.0":
-  version: 6.2.1
-  resolution: "commander@npm:6.2.1"
-  checksum: d7090410c0de6bc5c67d3ca41c41760d6d268f3c799e530aafb73b7437d1826bbf0d2a3edac33f8b57cc9887b4a986dce307fa5557e109be40eadb7c43b21742
-  languageName: node
-  linkType: hard
-
 "commander@npm:^7.2.0":
   version: 7.2.0
   resolution: "commander@npm:7.2.0"
   checksum: 53501cbeee61d5157546c0bef0fedb6cdfc763a882136284bed9a07225f09a14b82d2a84e7637edfd1a679fb35ed9502fd58ef1d091e6287f60d790147f68ddc
+  languageName: node
+  linkType: hard
+
+"commander@npm:^8.2.0":
+  version: 8.3.0
+  resolution: "commander@npm:8.3.0"
+  checksum: 0f82321821fc27b83bd409510bb9deeebcfa799ff0bf5d102128b500b7af22872c0c92cb6a0ebc5a4cf19c6b550fba9cedfa7329d18c6442a625f851377bacf0
   languageName: node
   linkType: hard
 
@@ -7547,7 +7554,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect@npm:^26.4.2, expect@npm:^26.6.0, expect@npm:^26.6.2":
+"expect@npm:=27.2.5":
+  version: 27.2.5
+  resolution: "expect@npm:27.2.5"
+  dependencies:
+    "@jest/types": ^27.2.5
+    ansi-styles: ^5.0.0
+    jest-get-type: ^27.0.6
+    jest-matcher-utils: ^27.2.5
+    jest-message-util: ^27.2.5
+    jest-regex-util: ^27.0.6
+  checksum: c9be6ec30d19f69c6b838c379e102c156b3ce231e0e3bfc7928eb7a239e5d2a8ed3a43ded4856ad6b3f2f83944561455ad3cf4dfc5322e7d962f2eddc67941c7
+  languageName: node
+  linkType: hard
+
+"expect@npm:^26.6.0, expect@npm:^26.6.2":
   version: 26.6.2
   resolution: "expect@npm:26.6.2"
   dependencies:
@@ -9835,6 +9856,18 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"jest-diff@npm:^27.2.5, jest-diff@npm:^27.3.1":
+  version: 27.3.1
+  resolution: "jest-diff@npm:27.3.1"
+  dependencies:
+    chalk: ^4.0.0
+    diff-sequences: ^27.0.6
+    jest-get-type: ^27.3.1
+    pretty-format: ^27.3.1
+  checksum: 49231a4ac4bed1cce8f5135db2a26a83673d5cbe5716bca29900a45ae0ddf237099d9091acac436b9c60ab933b0e7ca086ce8cb71f44411b572b69adbe96128d
+  languageName: node
+  linkType: hard
+
 "jest-docblock@npm:^26.0.0":
   version: 26.0.0
   resolution: "jest-docblock@npm:26.0.0"
@@ -9948,6 +9981,13 @@ fsevents@^1.2.7:
   version: 27.0.6
   resolution: "jest-get-type@npm:27.0.6"
   checksum: 2d4c1381bb5ddb212d80ad00497c7cbb3312358e10b62ac19f1fe5a28ae4af709202bfc235b77ec508970b83fd89945937652d636bcaf88614fa00028a6f3138
+  languageName: node
+  linkType: hard
+
+"jest-get-type@npm:^27.3.1":
+  version: 27.3.1
+  resolution: "jest-get-type@npm:27.3.1"
+  checksum: b0b8db1d770c6332b4189bbf4073184489acbb1095410cf53add033daf911577ee6bd1c4f8d747dd2f3d63de42f7eb15c5527fc7288a2855a046f4a8957cd902
   languageName: node
   linkType: hard
 
@@ -10072,6 +10112,18 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"jest-matcher-utils@npm:=27.2.5":
+  version: 27.2.5
+  resolution: "jest-matcher-utils@npm:27.2.5"
+  dependencies:
+    chalk: ^4.0.0
+    jest-diff: ^27.2.5
+    jest-get-type: ^27.0.6
+    pretty-format: ^27.2.5
+  checksum: 92f285c8e2a50f2b6761a1d81db98858416b6ccb6559c9ce954ef9cad6b76729ac18b8c1e98e2e81e1a55fca4dc9d8571d5dfbc2161583ed5716119e35b2a089
+  languageName: node
+  linkType: hard
+
 "jest-matcher-utils@npm:^26.6.0, jest-matcher-utils@npm:^26.6.2":
   version: 26.6.2
   resolution: "jest-matcher-utils@npm:26.6.2"
@@ -10093,6 +10145,18 @@ fsevents@^1.2.7:
     jest-get-type: ^27.0.6
     pretty-format: ^27.2.0
   checksum: ddc38773667204cf57e2b7d81fb5993ad52f3135ae75e0fcc1e9b70476106033f88dd6049216a6852704a776553c04c664a08befbe75b6ceb01b134a0a86ba4f
+  languageName: node
+  linkType: hard
+
+"jest-matcher-utils@npm:^27.2.5":
+  version: 27.3.1
+  resolution: "jest-matcher-utils@npm:27.3.1"
+  dependencies:
+    chalk: ^4.0.0
+    jest-diff: ^27.3.1
+    jest-get-type: ^27.3.1
+    pretty-format: ^27.3.1
+  checksum: 118c428b5509c767596a785697f8bedf90eb06278ffb76ecd57eb8eebc7c66a17dabb5960e100e7b1a91fb2638722bfec0152a3deb1162049eeb98ebe40f6caa
   languageName: node
   linkType: hard
 
@@ -10127,6 +10191,23 @@ fsevents@^1.2.7:
     slash: ^3.0.0
     stack-utils: ^2.0.3
   checksum: b6298e8ed0928db360ad099b3609db06401a5aa7400ad41a2afb8e5da7bab35ec894fb5e0beabbc9c68552ba50989e88c331bcd7f40b508260d0b18731024e5e
+  languageName: node
+  linkType: hard
+
+"jest-message-util@npm:^27.2.5":
+  version: 27.3.1
+  resolution: "jest-message-util@npm:27.3.1"
+  dependencies:
+    "@babel/code-frame": ^7.12.13
+    "@jest/types": ^27.2.5
+    "@types/stack-utils": ^2.0.0
+    chalk: ^4.0.0
+    graceful-fs: ^4.2.4
+    micromatch: ^4.0.4
+    pretty-format: ^27.3.1
+    slash: ^3.0.0
+    stack-utils: ^2.0.3
+  checksum: 2d10734765e3e965f92b7cf009206a702e644228114bda3e20c40f59fe603422a55aa6632b4413e030bf352a03f362d321c0d881908c1d24b05e097da3ee3c4a
   languageName: node
   linkType: hard
 
@@ -11016,7 +11097,7 @@ fsevents@^1.2.7:
     "@material-ui/icons": ^4.11.2
     "@material-ui/lab": ^4.0.0-alpha.60
     "@material-ui/styles": ^4.11.4
-    "@playwright/test": ^1.14.1
+    "@playwright/test": ^1.16.0
     "@pmmmwh/react-refresh-webpack-plugin": 0.4.3
     "@reduxjs/toolkit": ^1.6.0
     "@rescript/react": ^0.10.3
@@ -11086,7 +11167,7 @@ fsevents@^1.2.7:
     notistack: ^1.0.9
     optimize-css-assets-webpack-plugin: 5.0.4
     peerjs: ^1.3.2
-    playwright: ^1.14.1
+    playwright: ^1.16.0
     pnp-webpack-plugin: 1.6.4
     postcss-flexbugs-fixes: 4.2.1
     postcss-loader: 3.0.0
@@ -12407,14 +12488,14 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"open@npm:^8.2.1":
-  version: 8.2.1
-  resolution: "open@npm:8.2.1"
+"open@npm:^8.3.0":
+  version: 8.4.0
+  resolution: "open@npm:8.4.0"
   dependencies:
     define-lazy-prop: ^2.0.0
     is-docker: ^2.1.1
     is-wsl: ^2.2.0
-  checksum: fcde0059188dd497e080436f81c5240dad0bebd331d1c856a532d4b870808bdc5770ef7c5c4b83143fd0c0577fe2b580e54c03357d695771259aa59f64cf0f40
+  checksum: e9545bec64cdbf30a0c35c1bdc310344adf8428a117f7d8df3c0af0a0a24c513b304916a6d9b11db0190ff7225c2d578885080b761ed46a3d5f6f1eebb98b63c
   languageName: node
   linkType: hard
 
@@ -12948,11 +13029,11 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"playwright@npm:^1.14.1":
-  version: 1.15.0
-  resolution: "playwright@npm:1.15.0"
+"playwright-core@npm:=1.16.3":
+  version: 1.16.3
+  resolution: "playwright-core@npm:1.16.3"
   dependencies:
-    commander: ^6.1.0
+    commander: ^8.2.0
     debug: ^4.1.1
     extract-zip: ^2.0.1
     https-proxy-agent: ^5.0.0
@@ -12963,12 +13044,25 @@ fsevents@^1.2.7:
     proper-lockfile: ^4.1.1
     proxy-from-env: ^1.1.0
     rimraf: ^3.0.2
+    socks-proxy-agent: ^6.1.0
     stack-utils: ^2.0.3
     ws: ^7.4.6
+    yauzl: ^2.10.0
     yazl: ^2.5.1
   bin:
-    playwright: lib/cli/cli.js
-  checksum: b133b084f7192c4e2f2f6722559ed16f2502e5b0920fb4d50dc6688c4521033da98787b3b59fd60073e0556c5be785bd0c87181579ea5364f038c1b6999e0ca5
+    playwright: cli.js
+  checksum: b37e5abadb22096f84515fa9307587747a65c2b465b10b0688ae228aff5537eb5faa88ee9d1cd1225ff9270747b6c9b72a76a008cfb670b8df939b078f3d29b9
+  languageName: node
+  linkType: hard
+
+"playwright@npm:^1.16.0":
+  version: 1.16.3
+  resolution: "playwright@npm:1.16.3"
+  dependencies:
+    playwright-core: =1.16.3
+  bin:
+    playwright: cli.js
+  checksum: c1fe9255e3023195ca94c7a693b8816f9f13ce5901599806ac161df8da193f2bbb016fa452c8f750602845e7ce517129ea639feae0ea182d0ec77e4cb6fc9030
   languageName: node
   linkType: hard
 
@@ -13898,6 +13992,18 @@ fsevents@^1.2.7:
     ansi-styles: ^5.0.0
     react-is: ^17.0.1
   checksum: 182041979718b7843f4679b5b79a6bb5299b5fa96034e53d6c5e5f7b0156806bcf86648db57e3f8dfdb35539380765b2487ec4d26517b8722fd193698d12f579
+  languageName: node
+  linkType: hard
+
+"pretty-format@npm:^27.2.5, pretty-format@npm:^27.3.1":
+  version: 27.3.1
+  resolution: "pretty-format@npm:27.3.1"
+  dependencies:
+    "@jest/types": ^27.2.5
+    ansi-regex: ^5.0.1
+    ansi-styles: ^5.0.0
+    react-is: ^17.0.1
+  checksum: 2979eae85a4f7ba1c3946faa8f5c6497cc80dc64ba499ccd5fdada267f82dc664f315a4c1cdd4c0b4b97edbae399a7bf0a957cc1b87feb91cd95f1e436834fed
   languageName: node
   linkType: hard
 
@@ -15594,7 +15700,18 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"socks@npm:^2.3.3":
+"socks-proxy-agent@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "socks-proxy-agent@npm:6.1.0"
+  dependencies:
+    agent-base: ^6.0.2
+    debug: ^4.3.1
+    socks: ^2.6.1
+  checksum: 32ea0d62c848b5c246955e8d6c34832fe6cd8c5f3b66f5ace3a9bd7387bafae3e67d96474d41291723ba7135e2da46d65e008a8a35a793dfa5cb0f4ac05429df
+  languageName: node
+  linkType: hard
+
+"socks@npm:^2.3.3, socks@npm:^2.6.1":
   version: 2.6.1
   resolution: "socks@npm:2.6.1"
   dependencies:
