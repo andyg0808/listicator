@@ -18,6 +18,10 @@ export class AddRecipe {
     await this.page.type(this.recipeText, text);
   }
 
+  errorMessage(): Locator {
+    return this.page.locator("text=Error");
+  }
+
   viewerLine(lineText: string): Locator {
     return this.page.locator(
       `[data-test="Viewer"] tr:has(:text("${lineText}"))`
