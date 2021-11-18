@@ -53,4 +53,13 @@ test.describe("Add a recipe", () => {
       addRecipe.viewerLine("tomato paste").locator('text="tomato paste"')
     ).toBeVisible();
   });
+
+  test("should require a title", async ({ page }) => {
+    const tab = new BuildTab(page);
+    const addRecipe = await tab.addRecipe();
+    addRecipe.typeText("1 can organic tomato paste");
+    await addRecipe.save();
+
+    await expect(addRecipe.errorMessage()).toBeVisible();
+  });
 });

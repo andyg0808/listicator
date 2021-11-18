@@ -28,6 +28,7 @@ export interface EditorInterface {
   setTitle: (title: string) => void;
   setIngredients: (ingredients: Array<Order>) => void;
   title: string;
+  titleError: null | string;
   ingredients: Order[];
 }
 
@@ -35,6 +36,7 @@ export function Editor({
   setTitle,
   setIngredients,
   title,
+  titleError,
   ingredients,
 }: EditorInterface) {
   const [text, setText] = React.useState(unparse(ingredients));
@@ -71,6 +73,8 @@ export function Editor({
         label="Title"
         value={title}
         css={{ margin: "16px 0" }}
+        error={!!titleError}
+        helperText={titleError}
       />
       <label htmlFor="recipe-editor">Ingredients</label>
       <EditField onChange={textUpdate} value={text} id="recipe-editor" />
